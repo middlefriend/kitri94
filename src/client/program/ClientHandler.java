@@ -11,6 +11,7 @@ public class ClientHandler implements Runnable{
 	//출력 스트림
 	public static ObjectOutputStream oos;
 	
+	ClientTimer timer; 
 	Socket socket;
 
 	public ClientHandler(Socket socket) {
@@ -35,9 +36,17 @@ public class ClientHandler implements Runnable{
 					//서버로부터 msg 입력
 					int stat = inMsg.getState();
 					switch (stat) {
+					//str 전송 테스트
 					case 1:
 					{
 						Client.frame.updateLabel(inMsg.getStr());
+						break;
+					}
+					//남은 시간 설정/변경
+					case 2:
+					{
+						int remain = inMsg.getRemain();
+						timer = new ClientTimer(remain);
 					}
 					}
 				}

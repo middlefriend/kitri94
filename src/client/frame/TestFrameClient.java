@@ -119,4 +119,7 @@ public class TestFrameClient extends JFrame {
 	public void updateLabel(String str) {
 		inputLabel.setText(str);
 	}
+	public void alert10min() {
+		JOptionPane.showConfirmDialog(null, "종료 10분 전입니다.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+	}
 }
