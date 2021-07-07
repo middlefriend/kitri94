@@ -4,7 +4,6 @@ import java.io.*;
 import java.net.Socket;
 
 import client.frame.TestFrameClient;
-import message.Message;
 
 public class Client {
 	public static TestFrameClient frame;

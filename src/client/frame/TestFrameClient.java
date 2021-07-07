@@ -1,21 +1,22 @@
 package client.frame;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.io.*;
-import java.net.Socket;
 
 import client.program.ClientHandler;
 import message.Message;
 
+@SuppressWarnings("serial")
 public class TestFrameClient extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JLabel labelTest;
-
+	private JTextField statField;
+	private JTextField seatField;
+	private JTextField remainField;
+	private JTextField strField;
+	private JLabel inputLabel;
 	/**
 	 * Launch the application.
 	 */
@@ -47,37 +48,75 @@ public class TestFrameClient extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		labelTest = new JLabel("label");
-		labelTest.setBounds(53, 33, 300, 102);
-		labelTest.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(labelTest);
+		inputLabel = new JLabel("label");
+		inputLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		inputLabel.setBounds(63, 10, 300, 30);
+		contentPane.add(inputLabel);
+		
+		JLabel statLabel = new JLabel("stat");
+		statLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		statLabel.setBounds(0, 49, 73, 30);
+		contentPane.add(statLabel);
+		
+		statField = new JTextField();
+		statField.setColumns(10);
+		statField.setBounds(73, 50, 349, 30);
+		contentPane.add(statField);
+		
+		JLabel seatLabel = new JLabel("seat");
+		seatLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		seatLabel.setBounds(0, 89, 73, 30);
+		contentPane.add(seatLabel);
+		
+		seatField = new JTextField();
+		seatField.setColumns(10);
+		seatField.setBounds(73, 90, 349, 30);
+		contentPane.add(seatField);
+		
+		JLabel remainLabel = new JLabel("remain");
+		remainLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		remainLabel.setBounds(0, 129, 73, 30);
+		contentPane.add(remainLabel);
+		
+		remainField = new JTextField();
+		remainField.setColumns(10);
+		remainField.setBounds(73, 130, 349, 30);
+		contentPane.add(remainField);
+		
+		JLabel strLabel = new JLabel("str");
+		strLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		strLabel.setBounds(0, 169, 73, 30);
+		contentPane.add(strLabel);
+		
+		strField = new JTextField();
+		strField.setColumns(10);
+		strField.setBounds(73, 170, 349, 30);
+		contentPane.add(strField);
 		
 		JButton btn = new JButton("send");
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Message outMsg = new Message();
-				outMsg.setStr(textField.getText());
+				outMsg.setState(Integer.parseInt(statField.getText()));
+				outMsg.setSeat(Integer.parseInt(seatField.getText()));
+				outMsg.setStr(strField.getText());
+				outMsg.setRemain(Integer.parseInt(remainField.getText()));
 				try {
-					System.out.println(ClientHandler.oos);
-					ClientHandler.oos.writeObject(outMsg);
-					ClientHandler.oos.flush();
+					ObjectOutput oos = ClientHandler.oos;
+					System.out.println(oos);
+					oos.writeObject(outMsg);
+					oos.flush();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
 			}
 		});
-		btn.setBounds(325, 191, 97, 23);
+		btn.setBounds(325, 228, 97, 23);
 		contentPane.add(btn);
-		
-		textField = new JTextField();
-		textField.setBounds(20, 188, 300, 30);
-		contentPane.add(textField);
-		textField.setColumns(10);
 	}
 
 	public void updateLabel(String str) {
-		labelTest.setText(str);
+		inputLabel.setText(str);
 	}
 }

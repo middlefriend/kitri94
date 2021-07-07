@@ -3,7 +3,6 @@ package client.program;
 import java.io.*;
 import java.net.Socket;
 
-import client.frame.TestFrameClient;
 import message.Message;
 
 public class ClientHandler implements Runnable{
@@ -34,7 +33,13 @@ public class ClientHandler implements Runnable{
 				if(obj instanceof Message) {
 					inMsg = (Message)obj;
 					//서버로부터 msg 입력
-					Client.frame.updateLabel(inMsg.getStr());
+					int stat = inMsg.getState();
+					switch (stat) {
+					case 1:
+					{
+						Client.frame.updateLabel(inMsg.getStr());
+					}
+					}
 				}
 			}
 			

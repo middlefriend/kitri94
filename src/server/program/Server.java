@@ -4,8 +4,6 @@ import java.io.*;
 import java.net.*;
 import java.util.HashSet;
 
-import client.frame.TestFrameClient;
-import message.Message;
 import server.frame.TestFrameServer;
 
 public class Server {

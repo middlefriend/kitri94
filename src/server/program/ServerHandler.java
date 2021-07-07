@@ -1,14 +1,9 @@
 package server.program;
 
 import java.io.*;
-import java.util.Scanner;
-
-import client.frame.TestFrameClient;
-
 import java.net.Socket;
 
 import message.Message;
-import server.frame.TestFrameServer;
 
 public class ServerHandler implements Runnable{
 	//입력 스트림
@@ -38,7 +33,14 @@ public class ServerHandler implements Runnable{
 				if(obj instanceof Message) {
 					inMsg = (Message)obj;
 					//클라이언트로 부터 입력
-					Server.frame.updateLabel(inMsg.getStr());
+					System.out.println(inMsg);
+					int stat = inMsg.getState();
+					switch(stat) {
+					case 1:
+					{
+						Server.frame.updateLabel(inMsg.getStr());
+					}
+					}
 				}
 			}
 			
