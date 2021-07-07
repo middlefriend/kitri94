@@ -6,14 +6,15 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import client.program.ClientHandler;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
+import java.util.Iterator;
 
 import message.Message;
+import server.program.Server;
 import server.program.ServerHandler;
+//import client.program.ClientHandler;
 
 
 public class TestFrameServer extends JFrame {
@@ -41,9 +42,10 @@ public class TestFrameServer extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TestFrameServer(ServerHandler server) {
+	public TestFrameServer() {
 		
 		this.setVisible(true);
+		this.setTitle("server");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -64,9 +66,13 @@ public class TestFrameServer extends JFrame {
 				Message outMsg = new Message();
 				outMsg.setStr(textField.getText());
 				try {
-					System.out.println(server.oos);
-					server.oos.writeObject(outMsg);
-					server.oos.flush();
+					Iterator<ServerHandler> it = Server.serverSet.iterator();
+					while(it.hasNext()) {
+						ObjectOutput oos = it.next().oos;
+						System.out.println(oos);
+						oos.writeObject(outMsg);
+						oos.flush();
+					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -86,4 +92,6 @@ public class TestFrameServer extends JFrame {
 	public void updateLabel(String str) {
 		labelTest.setText(str);
 	}
+	
+	
 }

@@ -35,8 +35,10 @@ public class TestFrameClient extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TestFrameClient(ClientHandler client) {
+	public TestFrameClient() {
 		this.setVisible(true);
+		this.setTitle("client");
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -56,9 +58,9 @@ public class TestFrameClient extends JFrame {
 				Message outMsg = new Message();
 				outMsg.setStr(textField.getText());
 				try {
-					System.out.println(client.oos);
-					client.oos.writeObject(outMsg);
-					client.oos.flush();
+					System.out.println(ClientHandler.oos);
+					ClientHandler.oos.writeObject(outMsg);
+					ClientHandler.oos.flush();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

@@ -8,17 +8,14 @@ import message.Message;
 
 public class ClientHandler implements Runnable{
 	//입력 스트림
-	public ObjectInputStream ois;
+	public static ObjectInputStream ois;
 	//출력 스트림
-	public ObjectOutputStream oos;
+	public static ObjectOutputStream oos;
 	
-	TestFrameClient frame;
 	Socket socket;
 
 	public ClientHandler(Socket socket) {
 		this.socket = socket;
-		//로그인창 열기
-		frame= new TestFrameClient(this);
 	}
 
 	
@@ -37,7 +34,7 @@ public class ClientHandler implements Runnable{
 				if(obj instanceof Message) {
 					inMsg = (Message)obj;
 					//서버로부터 msg 입력
-					frame.updateLabel(inMsg.getStr());
+					Client.frame.updateLabel(inMsg.getStr());
 				}
 			}
 			

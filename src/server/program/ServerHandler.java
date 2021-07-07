@@ -17,11 +17,10 @@ public class ServerHandler implements Runnable{
 	public ObjectOutputStream oos;
 	
 	Socket socket;
-	TestFrameServer frame;
+	int seat;
 	
 	public ServerHandler(Socket socket) {
 		this.socket = socket;
-		frame = new TestFrameServer(this);
 	}
 	
 	public void run() {
@@ -39,7 +38,7 @@ public class ServerHandler implements Runnable{
 				if(obj instanceof Message) {
 					inMsg = (Message)obj;
 					//클라이언트로 부터 입력
-					frame.updateLabel(inMsg.getStr());
+					Server.frame.updateLabel(inMsg.getStr());
 				}
 			}
 			

@@ -7,6 +7,7 @@ import client.frame.TestFrameClient;
 import message.Message;
 
 public class Client {
+	public static TestFrameClient frame;
 	
 	public static void main(String[] args) {
 		Socket socket = null; 
@@ -14,9 +15,8 @@ public class Client {
 		final String serverIp = "localhost";
 		//서버 port
 		final int serverPort = 7777;
-
+		frame = new TestFrameClient();
 		try {
-			
 			//서버 소켓 연결
 			socket = new Socket(serverIp,serverPort);
 			System.out.println("클라이언트 시작");
