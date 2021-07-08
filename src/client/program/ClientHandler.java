@@ -22,6 +22,7 @@ public class ClientHandler implements Runnable{
 	
 	public void run() {
 		try {
+			//입출력 스트림 생성
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 			System.out.println(ois+","+oos+"스트림 생성");
@@ -29,6 +30,7 @@ public class ClientHandler implements Runnable{
 			Message inMsg = null;
 			Object obj=null;
 			
+			//서버로부터 메세지 수신
 			while((obj=ois.readObject())!=null) {
 				if(obj instanceof Message) {
 					inMsg = (Message)obj;

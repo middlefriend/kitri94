@@ -28,7 +28,6 @@ public class Server {
 				serverSet.add(serverHandler);
 				System.out.println("클라이언트 접속 완료 -("+serverSet.size()+")");
 				
-				
 				//출력 스레드 : 로그인, 회원가입, 좌석선택
 				Thread serverHandlerT = new Thread(serverHandler);
 				serverHandlerT.start();
