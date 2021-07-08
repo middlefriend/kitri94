@@ -11,7 +11,7 @@ public class ClientTimer{
 		
 	public ClientTimer(int remain,ClientFrame clientFrame) {
 		//생성 시 남은시간 저장
-		this.remain = 1000l*remain;
+		this.remain = 60l*1000*remain;
 		this.clientFrame = clientFrame;
 		//화면에서 잔여시간 갱신
 		//ClientFrame.notice2Label
@@ -40,7 +40,7 @@ public class ClientTimer{
 		//이전 타이머 해제
 		timer.cancel();
 		//남은 시간 갱신
-		this.remain += 1000l*newRemain;
+		this.remain += 60l*1000*newRemain;
 		//화면에서 잔여시간 갱신
 
 		//갱신된 타이머 시작
