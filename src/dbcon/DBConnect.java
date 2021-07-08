@@ -19,10 +19,10 @@ public class DBConnect {
 
       return DriverManager.getConnection(url, user, password);
     } catch (ClassNotFoundException e) {
-      // System.out.println("ojdbc.jar이 없습니다.(드라이버가 존재하지 않습니다.");
+      System.out.println("ojdbc.jar이 없습니다.(드라이버가 존재하지 않습니다.)");
       e.printStackTrace();
     } catch (SQLException e) {
-      // System.out.println("url,user,password 및 DB가 켜져있는지 확인하세요.");
+      System.out.println("url,user,password 및 DB가 켜져있는지 확인하세요.");
       e.printStackTrace();
     }
     return null;

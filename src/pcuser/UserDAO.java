@@ -20,25 +20,30 @@ public class UserDAO {
     return blist;
   }
 
-  public ArrayList<UserVO> checkID(String id) { // 회원가입 id중복체크 true 1 false 0
-    String sql = "SELECT * FROM PCUSER WHERE USERID='" + id + "'";
+  public int checkID(String id) { // 회원가입 id중복체크 true 1 false 0
+    String sql = "SELECT userid FROM PCUSER WHERE USERID='" + id + "'";
 
     ArrayList<UserVO> blist = new ArrayList<UserVO>();
     blist = excuteSelect(sql);
-    
-    if(blist.getClass().)
-      return 1;
 
-    
+
+    if (blist.get(0).getName() != null)
+      return 1;
+    else
+      return 0;
+
   }
 
-  public ArrayList<UserVO> getAuth(String id, String pwd) {
-    String sql = "SELECT * FROM PCUSER WHERE USERID='" + id + "' AND PWD ='" + pwd + "'";
+  public int getAuth(String id, String pwd) {
+    String sql = "SELECT userid FROM PCUSER WHERE USERID='" + id + "' AND PWD ='" + pwd + "'";
 
     ArrayList<UserVO> blist = new ArrayList<UserVO>();
     blist = excuteSelect(sql);
 
-    return blist;
+    if (blist.get(0).getName() != null)
+      return 1;
+    else
+      return 0;
   }
 
 
@@ -77,21 +82,23 @@ public class UserDAO {
 
 
   // insert
-  public int insertUser(String id, String pwd, String name) {
+  public int insertUser(String id, String pwd, String name) { // 유저 생성 성공 시 1반환, 실패 0반환
     String sql =
         "INSERT INTO PCUSER (USERID,NAME,PWD) VALUES ('" + id + "','" + pwd + "','" + name + "')";
-    int result = 0;
-    result = excuteInsert(sql);
+    // "";
 
-    return result;
+    if (excuteInsert(sql) != 0)
+      return 1;
+    else
+      return 0;
   }
+
 
   public int excuteInsert(String sql) {
     // DB connection 연결
     Connection conn = DBConnect.getConnection();
     // 실행쿼리
     PreparedStatement pstmt = null;
-    ResultSet rs = null;
     // return 값
     int result = 0;
     try {
@@ -103,7 +110,7 @@ public class UserDAO {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } finally {
-      DBConnect.checkClose(rs, pstmt, conn);
+      DBConnect.checkClose(null, pstmt, conn);
     }
 
     return result;
@@ -111,30 +118,33 @@ public class UserDAO {
   // insert end
 
   // updated
-  public int update(UserVO uvo, int chargeTime) {
+  public int chargeTime(String id, int time) {
+    String sql = "UPDATE PCUSER " + "SET REMAIN = " + time + " " + "WHERE USERID = '" + id + "'";
 
-    // DB connection 연결
+    if (excuteUpdate(sql) != 0)
+      return 1;
+    else
+      return 0;
+  }
+
+  public int excuteUpdate(String sql) {
+
     Connection conn = DBConnect.getConnection();
-    // 실행쿼리
-    String sql = "UPDATE PCUSER SET REMAIN=? WHERE USERID=? ";
-
     PreparedStatement pstmt = null;
     int result = 0;
     try {
       // preparedstatement 객체 생성
       pstmt = conn.prepareStatement(sql);
-      // ? 인자값 넣어주기
-      pstmt.setInt(1, chargeTime);
-      pstmt.setString(2, uvo.getUserID());
 
       // Resultset 결과값 담기
       result = pstmt.executeUpdate();
     } catch (SQLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+    } finally {
+      DBConnect.checkClose(null, pstmt, conn);
     }
     return result;
-
-  }
+  }// update end
 
 }
