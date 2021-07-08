@@ -44,6 +44,7 @@ public class UserDAO {
     // preparedstatement 객체 생성
     PreparedStatement pstmt = null;
     ResultSet rs = null;
+    // return 객체
     ArrayList<UserVO> blist = new ArrayList<UserVO>();
     try {
       pstmt = conn.prepareStatement(sql);
@@ -86,21 +87,21 @@ public class UserDAO {
     Connection conn = DBConnect.getConnection();
     // 실행쿼리
     PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    // return 값
     int result = 0;
     try {
       // preparedstatement 객체 생성
       pstmt = conn.prepareStatement(sql);
-      // ? 인자값 넣어주기
-      pstmt.setString(1, uvo.getUserID());
-      pstmt.setString(2, uvo.getName());
-      pstmt.setString(3, uvo.getPwd());
-
       // Resultset 결과값 담기
       result = pstmt.executeUpdate();
     } catch (SQLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+    } finally {
+      DBConnect.checkClose(rs, pstmt, conn);
     }
+
     return result;
   }
 
