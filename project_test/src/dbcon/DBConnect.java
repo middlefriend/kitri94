@@ -1,4 +1,5 @@
 package dbcon;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,26 +8,25 @@ import java.sql.SQLException;
 
 public class DBConnect {
   public static Connection getConnection() {
-//    String user = "madang";
-//    String password = "madang";
     String user = "vippc";
     String password = "1234";
 
-//    String url = "jdbc:oracle:thin:@localhost:1521:xe";
     String url = "jdbc:oracle:thin:@192.168.0.209:1521:xe";
 
     try {
       Class.forName("oracle.jdbc.driver.OracleDriver");
+
       return DriverManager.getConnection(url, user, password);
     } catch (ClassNotFoundException e) {
-      // System.out.println("ojdbc.jarì´ ì—†ìŠµë‹ˆë‹¤.(ë“œë¼ì´ë²„ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+      // System.out.println("ojdbc.jarÀÌ ¾ø½À´Ï´Ù.(µå¶óÀÌ¹ö°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
       e.printStackTrace();
     } catch (SQLException e) {
-      // System.out.println("url,user,password ë° DBê°€ ì¼œì ¸ìˆëŠ”ì§€ í™•ì¸í•˜ì„¸ìš”.");
+      // System.out.println("url,user,password ¹× DB°¡ ÄÑÁ®ÀÖ´ÂÁö È®ÀÎÇÏ¼¼¿ä.");
       e.printStackTrace();
     }
     return null;
   }
+
   public static void checkClose(ResultSet rs, PreparedStatement pstmt, Connection conn) {
     try {
       if (rs != null && rs.isClosed())
