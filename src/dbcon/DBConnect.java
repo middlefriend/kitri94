@@ -19,10 +19,10 @@ public class DBConnect {
 
       return DriverManager.getConnection(url, user, password);
     } catch (ClassNotFoundException e) {
-      System.out.println("ojdbc.jarÀÌ ¾ø½À´Ï´Ù.(µå¶óÀÌ¹ö°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.)");
+      System.out.println("ojdbc.jarì´ ì—†ìŠµë‹ˆë‹¤.(ë“œë¼ì´ë²„ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.)");
       e.printStackTrace();
     } catch (SQLException e) {
-      System.out.println("url,user,password ¹× DB°¡ ÄÑÁ®ÀÖ´ÂÁö È®ÀÎÇÏ¼¼¿ä.");
+      System.out.println("url,user,password ë° DBê°€ ì¼œì ¸ìˆëŠ”ì§€ í™•ì¸í•˜ì„¸ìš”.");
       e.printStackTrace();
     }
     return null;
