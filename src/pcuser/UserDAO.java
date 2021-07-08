@@ -10,7 +10,7 @@ import dbcon.DBConnect;
 
 public class UserDAO {
 
-  // ÀüÃ¼ select
+  // ì „ì²´ select
   public ArrayList<UserVO> getAllUser() {
     String sql = "SELECT * FROM PCUSER";
 
@@ -20,7 +20,7 @@ public class UserDAO {
     return blist;
   }
 
-  public int checkID(String id) { // È¸¿ø°¡ÀÔ idÁßº¹Ã¼Å© true 1 false 0
+  public int checkID(String id) { // íšŒì›ê°€ì… idì¤‘ë³µì²´í¬ true 1 false 0
     String sql = "SELECT userid FROM PCUSER WHERE USERID='" + id + "'";
 
     ArrayList<UserVO> blist = new ArrayList<UserVO>();
@@ -48,18 +48,18 @@ public class UserDAO {
 
 
   private ArrayList<UserVO> excuteSelect(String sql) {
-    // DB connection ¿¬°á
+    // DB connection ì—°ê²°
     Connection conn = DBConnect.getConnection();
-    // preparedstatement °´Ã¼ »ı¼º
+    // preparedstatement ê°ì²´ ìƒì„±
     PreparedStatement pstmt = null;
     ResultSet rs = null;
-    // return °´Ã¼
+    // return ê°ì²´
     ArrayList<UserVO> blist = new ArrayList<UserVO>();
     try {
       pstmt = conn.prepareStatement(sql);
-      // Resultset °á°ú°ª ´ã±â
+      // Resultset ê²°ê³¼ê°’ ë‹´ê¸°
       rs = pstmt.executeQuery();
-      // List¿¡ °á°ú°ª ´ã±â
+      // Listì— ê²°ê³¼ê°’ ë‹´ê¸°
 
       UserVO uvo = null;
       while (rs.next()) {
@@ -78,11 +78,11 @@ public class UserDAO {
     }
     return blist;
   }
-  //// select ³¡
+  //// select ë
 
 
   // insert
-  public int insertUser(String id, String pwd, String name) { // À¯Àú »ı¼º ¼º°ø ½Ã 1¹İÈ¯, ½ÇÆĞ 0¹İÈ¯
+  public int insertUser(String id, String pwd, String name) { // ìœ ì € ìƒì„± ì„±ê³µ ì‹œ 1ë°˜í™˜, ì‹¤íŒ¨ 0ë°˜í™˜
     String sql =
         "INSERT INTO PCUSER (USERID,NAME,PWD) VALUES ('" + id + "','" + pwd + "','" + name + "')";
     // "";
@@ -95,16 +95,16 @@ public class UserDAO {
 
 
   public int excuteInsert(String sql) {
-    // DB connection ¿¬°á
+    // DB connection ì—°ê²°
     Connection conn = DBConnect.getConnection();
-    // ½ÇÇàÄõ¸®
+    // ì‹¤í–‰ì¿¼ë¦¬
     PreparedStatement pstmt = null;
-    // return °ª
+    // return ê°’
     int result = 0;
     try {
-      // preparedstatement °´Ã¼ »ı¼º
+      // preparedstatement ê°ì²´ ìƒì„±
       pstmt = conn.prepareStatement(sql);
-      // Resultset °á°ú°ª ´ã±â
+      // Resultset ê²°ê³¼ê°’ ë‹´ê¸°
       result = pstmt.executeUpdate();
     } catch (SQLException e) {
       // TODO Auto-generated catch block
@@ -133,10 +133,10 @@ public class UserDAO {
     PreparedStatement pstmt = null;
     int result = 0;
     try {
-      // preparedstatement °´Ã¼ »ı¼º
+      // preparedstatement ê°ì²´ ìƒì„±
       pstmt = conn.prepareStatement(sql);
 
-      // Resultset °á°ú°ª ´ã±â
+      // Resultset ê²°ê³¼ê°’ ë‹´ê¸°
       result = pstmt.executeUpdate();
     } catch (SQLException e) {
       // TODO Auto-generated catch block
