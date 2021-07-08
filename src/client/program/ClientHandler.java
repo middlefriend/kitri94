@@ -36,10 +36,31 @@ public class ClientHandler implements Runnable{
 					inMsg = (Message)obj;
 					int stat = inMsg.getState();
 					switch (stat) {
-					case 1:
-					{
-						break;
-					}
+						//ID 중복확인
+						case 1: {
+							login.jFrame.idCheckResult(inMsg.getResult());
+							break;
+						}
+						//회원가입
+						case 2: {
+							login.jFrame.joinCheck(inMsg);
+							break;
+						}
+						//로그인
+						case 3: {
+							login.loginResult(inMsg);
+							break;
+						}
+						//좌석이동
+						case 4: {
+							login.cFrame.changeSeatResult();
+							break;
+						}
+						//시간충전
+						case 5: {
+							login.pFrame.purchaseCheckResult();
+							break;
+						}
 					}
 				}
 			}

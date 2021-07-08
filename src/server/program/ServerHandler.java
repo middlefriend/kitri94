@@ -40,10 +40,21 @@ public class ServerHandler implements Runnable{
 					System.out.println(inMsg);
 					int stat = inMsg.getState();
 					switch(stat) {
-					case 1:
-					{
-						frame.updateLabel(inMsg.getStr());
-					}
+						case 1: {
+							// ID 중복확인
+						}
+						case 2: {
+							// 회원가입
+						}
+						case 3: {
+							// 로그인
+						}
+						case 4: {
+							// 좌석이동
+						}
+						case 5: {
+							// 시간충전
+						}
 					}
 				}
 			}
