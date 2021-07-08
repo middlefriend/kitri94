@@ -104,7 +104,7 @@ public class UserDAO {
     return result;
   }
 
-  // update
+  // updated
   public int update(UserVO uvo, int chargeTime) {
 
     // DB connection ¿¬°á
