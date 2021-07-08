@@ -27,7 +27,7 @@ public class DBConnect {
     return null;
   }
 
-  static void closeCheck(ResultSet rs, PreparedStatement pstmt, Connection conn) {
+  public static void checkClose(ResultSet rs, PreparedStatement pstmt, Connection conn) {
     try {
       if (rs != null && rs.isClosed())
         rs.close();
