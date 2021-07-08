@@ -6,7 +6,6 @@ public class UserVO {
   String pwd;
   int remain = 0;
 
-
   @Override
   public String toString() {
     return userID + ", name=" + name + ", pwd=" + pwd + ", remain=" + remain;

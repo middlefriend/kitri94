@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import dbcon.DBConnect;
 
+
 public class UserDAO {
 
   // 전체 select
@@ -19,13 +20,16 @@ public class UserDAO {
     return blist;
   }
 
-  public ArrayList<UserVO> checkID(String id) {
+  public ArrayList<UserVO> checkID(String id) { // 회원가입 id중복체크 true 1 false 0
     String sql = "SELECT * FROM PCUSER WHERE USERID='" + id + "'";
 
     ArrayList<UserVO> blist = new ArrayList<UserVO>();
     blist = excuteSelect(sql);
+    
+    if(blist.getClass().)
+      return 1;
 
-    return blist;
+    
   }
 
   public ArrayList<UserVO> getAuth(String id, String pwd) {
@@ -104,6 +108,7 @@ public class UserDAO {
 
     return result;
   }
+  // insert end
 
   // updated
   public int update(UserVO uvo, int chargeTime) {
@@ -130,29 +135,6 @@ public class UserDAO {
     }
     return result;
 
-  }
-
-  // delete (bookid)
-  public int delete(int bookId) {
-    Connection conn = DBconnect.getInstance();
-    // 실행쿼리
-    String sql = "DELETE FROM BOOK WHERE BOOKID=?) ";
-
-    PreparedStatement pstmt = null;
-    int result = 0;
-    try {
-      // preparedstatement 객체 생성
-      pstmt = conn.prepareStatement(sql);
-      // ? 인자값 넣어주기
-      pstmt.setInt(1, bookId);
-
-      // Resultset 결과값 담기
-      result = pstmt.executeUpdate();
-    } catch (SQLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    return result;
   }
 
 }

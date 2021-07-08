@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class DBConnect {
   public static Connection getConnection() {
     String user = "vippc";
