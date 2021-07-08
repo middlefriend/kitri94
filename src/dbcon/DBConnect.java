@@ -11,8 +11,10 @@ public class DBConnect {
   public static Connection getConnection() {
     String user = "vippc";
     String password = "1234";
-
+    // 학원 DB
     String url = "jdbc:oracle:thin:@192.168.0.209:1521:xe";
+    // 로컬DB
+    // String url = "jdbc:oracle:thin:@localhost:xe";
 
     try {
       Class.forName("oracle.jdbc.driver.OracleDriver");
