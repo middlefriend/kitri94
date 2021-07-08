@@ -2,7 +2,7 @@ package server.program;
 
 import java.io.*;
 import java.net.*;
-import java.util.HashSet;
+import java.util.*;
 
 import server.frame.TestFrameServer;
 
@@ -10,7 +10,7 @@ public class Server {
 	
 	public static HashSet<ServerHandler> serverSet = new HashSet<ServerHandler>();
 	
-	static boolean[] seatStat = new boolean[20];
+	public static HashMap<Integer,ServerHandler> seatMap = new boolean[20];
 	
 	public static void main(String[] args) {
 		ServerSocket serverSocket = null;
