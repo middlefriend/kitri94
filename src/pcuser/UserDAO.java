@@ -14,7 +14,7 @@ public class UserDAO {
     String sql = "SELECT * FROM PCUSER";
 
     ArrayList<UserVO> blist = new ArrayList<UserVO>();
-    blist = selectExcute(sql);
+    blist = excuteSelect(sql);
 
     return blist;
   }
@@ -23,7 +23,7 @@ public class UserDAO {
     String sql = "SELECT * FROM PCUSER WHERE USERID='" + id + "'";
 
     ArrayList<UserVO> blist = new ArrayList<UserVO>();
-    blist = selectExcute(sql);
+    blist = excuteSelect(sql);
 
     return blist;
   }
@@ -32,13 +32,13 @@ public class UserDAO {
     String sql = "SELECT * FROM PCUSER WHERE USERID='" + id + "' AND PWD ='" + pwd + "'";
 
     ArrayList<UserVO> blist = new ArrayList<UserVO>();
-    blist = selectExcute(sql);
+    blist = excuteSelect(sql);
 
     return blist;
   }
 
 
-  private ArrayList<UserVO> selectExcute(String sql) {
+  private ArrayList<UserVO> excuteSelect(String sql) {
     // DB connection 연결
     Connection conn = DBConnect.getConnection();
     // preparedstatement 객체 생성
@@ -72,11 +72,19 @@ public class UserDAO {
 
 
   // insert
-  public int insert(UserVO uvo) {
+  public int insertUser(String id, String pwd, String name) {
+    String sql =
+        "INSERT INTO PCUSER (USERID,NAME,PWD) VALUES ('" + id + "','" + pwd + "','" + name + "')";
+    int result = 0;
+    result = excuteInsert(sql);
+
+    return result;
+  }
+
+  public int excuteInsert(String sql) {
     // DB connection 연결
     Connection conn = DBConnect.getConnection();
     // 실행쿼리
-    String sql = "INSERT INTO BOOK (USERID,NAME,PWD) VALUES (?,?,?)";
     PreparedStatement pstmt = null;
     int result = 0;
     try {
