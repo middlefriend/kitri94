@@ -3,25 +3,24 @@ package client.program;
 import java.io.*;
 import java.net.Socket;
 
-import client.frame.TestFrameClient;
+import client.frame.*;
 
 public class Client {
-	public static TestFrameClient frame;
 	
 	public static void main(String[] args) {
 		Socket socket = null; 
-		//¼­¹ö ip
+		//ì„œë²„ ip
 		final String serverIp = "localhost";
-		//¼­¹ö port
+		//ì„œë²„ port
 		final int serverPort = 7777;
-		frame = new TestFrameClient();
+		JoinFrame joinFrame = new JoinFrame();
 		try {
-			//¼­¹ö ¼ÒÄÏ ¿¬°á
+			//ì„œë²„ ì†Œì¼“ ì—°ê²°
 			socket = new Socket(serverIp,serverPort);
-			System.out.println("Å¬¶óÀÌ¾ğÆ® ½ÃÀÛ");
+			System.out.println("í´ë¼ì´ì–¸íŠ¸ ì‹œì‘");
 			
-			//¼ÒÄÏ Åë½Å ½º·¹µå
-			Thread clientHandler= new Thread(new ClientHandler(socket));
+			//ì†Œì¼“ í†µì‹  ìŠ¤ë ˆë“œ
+			Thread clientHandler= new Thread(new ClientHandler(socket,joinFrame));
 			clientHandler.start();
 			
 		}catch(IOException e) {

@@ -3,29 +3,28 @@ package client.program;
 import java.io.*;
 import java.net.Socket;
 
+import client.frame.JoinFrame;
 import message.Message;
 
 public class ClientHandler implements Runnable{
-	//ÀÔ·Â ½ºÆ®¸²
 	public static ObjectInputStream ois;
-	//Ãâ·Â ½ºÆ®¸²
 	public static ObjectOutputStream oos;
 	
+	public JoinFrame joinFrame;
 	ClientTimer timer; 
 	Socket socket;
 
-	public ClientHandler(Socket socket) {
+	public ClientHandler(Socket socket,JoinFrame joinFrame) {
 		this.socket = socket;
+		this.joinFrame = joinFrame;
 	}
 
 	
 	public void run() {
-		System.out.println("Å¬¶óÀÌ¾ğÆ® ÇÚµé·¯ ½ÃÀÛ");
 		try {
-			//ÀÔÃâ·Â ½ºÆ®¸² »ı¼º
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
-			System.out.println(ois+","+oos+"»ı¼º");
+			System.out.println(ois+","+oos+"ìŠ¤íŠ¸ë¦¼ ìƒì„±");
 			
 			Message inMsg = null;
 			Object obj=null;
@@ -33,27 +32,15 @@ public class ClientHandler implements Runnable{
 			while((obj=ois.readObject())!=null) {
 				if(obj instanceof Message) {
 					inMsg = (Message)obj;
-					//¼­¹ö·ÎºÎÅÍ msg ÀÔ·Â
 					int stat = inMsg.getState();
 					switch (stat) {
-					//str Àü¼Û Å×½ºÆ®
 					case 1:
 					{
-						Client.frame.updateLabel(inMsg.getStr());
 						break;
-					}
-					//³²Àº ½Ã°£ ¼³Á¤/º¯°æ
-					case 2:
-					{
-						int remain = inMsg.getRemain();
-						timer = new ClientTimer(remain);
 					}
 					}
 				}
 			}
-			
-			//³²Àº½Ã°£ Àü¼Û
-			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

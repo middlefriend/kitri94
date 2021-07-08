@@ -2,29 +2,32 @@ package client.program;
 
 import java.util.*;
 
+import client.frame.ClientFrame;
+
 public class ClientTimer{
 	Timer timer;
 	int remain;
+	ClientFrame clientFrame;
 		
-	public ClientTimer(int remain) {
-		//»ı¼º ½Ã ³²Àº½Ã°£ ÀúÀå
+	public ClientTimer(int remain,ClientFrame clientFrame) {
+		//ìƒì„± ì‹œ ë‚¨ì€ì‹œê°„ ì €ì¥
 		this.remain = remain;
+		this.clientFrame = clientFrame;
 		timer = new Timer();
-		Client.frame.updateLabel(Integer.toString(remain));
-		//1ÃÊ¸¶´Ù µ¿ÀÛ
+		//1ì´ˆë§ˆë‹¤ ë™ì‘
 		timer.scheduleAtFixedRate(task,0,1000);
 	}
 	
 	TimerTask task = new TimerTask() {
 		public void run() {
-			//ÃÊ¼ö °¨¼Ò
+			//ì´ˆìˆ˜ ê°ì†Œ
 			remain --;
-			Client.frame.updateLabel(Integer.toString(remain));
+			// frame.updateLabel(Integer.toString(remain));
 //			if(remain==10) {
-//				//10ÃÊ°¡ µÇ¸é ¾Ë¶÷
+//				//10ì´ˆê°€ ë˜ë©´ ì•ŒëŒ
 //				Client.frame.alert10min();
 //			}else if(remain<=0) {
-//				//0ÃÊ°¡ µÇ¸é Á¾·á
+//				//0ì´ˆê°€ ë˜ë©´ ì¢…ë£Œ
 			if(remain<=0) {
 				timer.cancel();
 				return;

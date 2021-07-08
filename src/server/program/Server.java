@@ -9,28 +9,27 @@ import server.frame.TestFrameServer;
 public class Server {
 	
 	public static HashSet<ServerHandler> serverSet = new HashSet<ServerHandler>();
-	public static TestFrameServer frame;
 	
 	static boolean[] seatStat = new boolean[20];
 	
 	public static void main(String[] args) {
 		ServerSocket serverSocket = null;
-		//¼­¹ö port
+		//ì„œë²„ port
 		final int serverPort = 7777;
 		
-		frame = new TestFrameServer();
+		TestFrameServer frame = new TestFrameServer();
 		try {
 			serverSocket = new ServerSocket(serverPort);
-			System.out.println("¼­¹ö ½ÃÀÛ");
+			System.out.println("ì„œë²„ ì‹œì‘");
 			while(true) {
-				//¼­¹ö ¼ÒÄÏ ¿¬°á
+				//ì„œë²„ ì†Œì¼“ ì—°ê²°
 				Socket socket = serverSocket.accept();
-				ServerHandler serverHandler= new ServerHandler(socket);
+				ServerHandler serverHandler= new ServerHandler(socket,frame);
 				serverSet.add(serverHandler);
-				System.out.println("Å¬¶óÀÌ¾ğÆ® Á¢¼Ó ¿Ï·á -("+serverSet.size()+")");
+				System.out.println("í´ë¼ì´ì–¸íŠ¸ ì ‘ì† ì™„ë£Œ -("+serverSet.size()+")");
 				
 				
-				//Ãâ·Â ½º·¹µå : ·Î±×ÀÎ, È¸¿ø°¡ÀÔ, ÁÂ¼®¼±ÅÃ
+				//ì¶œë ¥ ìŠ¤ë ˆë“œ : ë¡œê·¸ì¸, íšŒì›ê°€ì…, ì¢Œì„ì„ íƒ
 				Thread serverHandlerT = new Thread(serverHandler);
 				serverHandlerT.start();
 //				Thread serverTimer = new Thread(new ServerTimer());

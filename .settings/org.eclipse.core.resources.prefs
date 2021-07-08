@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//src/client/frame/ClientFrame.java=UTF-8
+encoding//src/client/frame/JoinFrame.java=UTF-8
+encoding//src/client/frame/LoginFrame.java=UTF-8
+encoding//src/client/program/Client.java=UTF-8
+encoding//src/client/program/ClientHandler.java=UTF-8
+encoding//src/client/program/ClientTimer.java=UTF-8
+encoding//src/message/Message.java=UTF-8
+encoding//src/server/frame/TestFrameServer.java=UTF-8
+encoding//src/server/program/Server.java=UTF-8
+encoding//src/server/program/ServerHandler.java=UTF-8
+encoding//src/server/program/ServerTimer.java=UTF-8

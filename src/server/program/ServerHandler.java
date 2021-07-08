@@ -4,27 +4,31 @@ import java.io.*;
 import java.net.Socket;
 
 import message.Message;
+import server.frame.TestFrameServer;
 
 public class ServerHandler implements Runnable{
-	//ÀÔ·Â ½ºÆ®¸²
+	//ì…ë ¥ ìŠ¤íŠ¸ë¦¼
 	public ObjectInputStream ois;
-	//Ãâ·Â ½ºÆ®¸²
+	//ì¶œë ¥ ìŠ¤íŠ¸ë¦¼
 	public ObjectOutputStream oos;
+
+	public TestFrameServer frame;
 	
 	Socket socket;
 	int seat;
 	
-	public ServerHandler(Socket socket) {
+	public ServerHandler(Socket socket,TestFrameServer frame) {
 		this.socket = socket;
+		this.frame = frame;
 	}
 	
 	public void run() {
-		System.out.println("¼­¹ö ÇÚµé·¯ ½ÃÀÛ-"+socket);
+		System.out.println("ì„œë²„ í•¸ë“¤ëŸ¬ ì‹œì‘-"+socket);
 		try {
-			//ÀÔ·Â ½ºÆ®¸² »ı¼º
+			//ì…ë ¥ ìŠ¤íŠ¸ë¦¼ ìƒì„±
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
-			System.out.println(ois+","+oos+"»ı¼º");
+			System.out.println(ois+","+oos+"ìƒì„±");
 			
 			Message inMsg = null;
 			Object obj=null;
@@ -32,13 +36,13 @@ public class ServerHandler implements Runnable{
 			while((obj=ois.readObject())!=null) {
 				if(obj instanceof Message) {
 					inMsg = (Message)obj;
-					//Å¬¶óÀÌ¾ğÆ®·Î ºÎÅÍ ÀÔ·Â
+					//í´ë¼ì´ì–¸íŠ¸ë¡œ ë¶€í„° ì…ë ¥
 					System.out.println(inMsg);
 					int stat = inMsg.getState();
 					switch(stat) {
 					case 1:
 					{
-						Server.frame.updateLabel(inMsg.getStr());
+						frame.updateLabel(inMsg.getStr());
 					}
 					}
 				}
