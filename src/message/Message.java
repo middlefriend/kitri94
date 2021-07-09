@@ -4,7 +4,7 @@ import java.io.Serializable;
 import pcuser.UserVO;
 
 public class Message implements Serializable{
-private int state;						//상태
+	private int state;					//상태
 	private int result;					//결과
 	private String userID;				//사용자 아이디
 	private String name;				//사용자 이름
