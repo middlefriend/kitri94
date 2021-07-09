@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 package pcuser;
 
@@ -9,6 +10,15 @@ public class UserVO implements Serializable{
   String pwd;
   int remain = 0;
 
+=======
+package pcuser;
+
+public class UserVO {
+  String userID;
+  String name;
+  String pwd;
+  int remain = 0;
+>>>>>>> refs/remotes/origin/경하
 
   @Override
   public String toString() {

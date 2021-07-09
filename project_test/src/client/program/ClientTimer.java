@@ -47,4 +47,8 @@ public class ClientTimer{
 		timer.scheduleAtFixedRate(task,1000l,1000l);
 	}
 	
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> refs/remotes/origin/경하
