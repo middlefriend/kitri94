@@ -4,10 +4,15 @@ import java.io.Serializable;
 import pcuser.UserVO;
 
 public class Message implements Serializable{
-	private int state;
-	private int result;
-	private String str;
-	private UserVO uvo;
+	private int state;	//상태
+	private int result;	//결과
+	private int remain;	//남은 시간
+	private String userID;	//사용자 아이디
+	private String name;	//사용자 이름
+	private String pwd;	//사용자 암호
+	private UserVO uvo;	//유저 데이터
+	private ArrayList<UserVO> ulist;	//유저 데이터 목록
+	private String str;	//채팅 전송 문자열
 
 	public int getState() {
 		return state;
@@ -21,11 +26,29 @@ public class Message implements Serializable{
 	public void setResult(int result) {
 		this.result = result;
 	}
-	public String getStr() {
-		return str;
+	public int getRemain() {
+		return remain;
 	}
-	public void setStr(String str) {
-		this.str = str;
+	public void setRemain(int result) {
+		this.remain = remain;
+	}
+	public String getUserID() {
+		return userID;
+	}
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+	public String getName {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPwd {
+		return pwd;
+	}
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 	public UserVO getUvo() {
 		return uvo;
@@ -33,5 +56,16 @@ public class Message implements Serializable{
 	public void setUvo(UserVO uvo) {
 		this.uvo = uvo;
 	}
-
+	public ArrayList<UserVO> getUlist() {
+		return ulist;
+	}
+	public void setUlist(ArrayList<UserVO> ulist) {
+		this.ulist = ulist;
+	}
+	public String getStr() {
+		return str;
+	}
+	public void setStr(String str) {
+		this.str = str;
+	}
 }

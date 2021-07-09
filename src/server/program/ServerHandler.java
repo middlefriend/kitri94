@@ -40,8 +40,7 @@ public class ServerHandler implements Runnable{
 					int state = inMsg.getState();
 					switch(state) {
 						case 1: {	// ID 중복확인
-							String id = inMSg.getUserID();
-							int result = dao.checkID(id);
+							int result = dao.checkID(inMSg.getUserID());
 							Message outMsg = new Message();
 							outMsg.setState(1);
 							outMsg.setResult(result);
@@ -49,8 +48,7 @@ public class ServerHandler implements Runnable{
 							break;
 						}
 						case 2: {	// 회원가입
-							UserVO uvo = inMsg.getUserVO();
-							int result = dao.insertUser(uvo);
+							int result = dao.insertUser(inMsg.getUserID(),inMsg.getPwd(),inMsg.getName());
 							Message outMsg = new Message();
 							outMsg.setState(2);
 							outMsg.setResult(result);
@@ -58,12 +56,15 @@ public class ServerHandler implements Runnable{
 							break;
 						}
 						case 3: {	// 로그인
-							UserVO uvo = inMsg.getUserVO();
-							int result = dao.getAuth(uvo);
-							Message outMsg = new Message();
-							outMsg.setState(3);
-							outMsg.setResult(result);
-							oos.writeObject(outMsg);
+							int result = dao.getAuth(inMsg.getUserID().inMsg.getPwd());
+							// if(result == 1){
+								Message outMsg = new Message();
+								outMsg.setState(3);
+								outMsg.setResult(result);
+								oos.writeObject(outMsg);
+							// }else{
+
+							// }
 							break;
 						}
 						case 4: {	// 좌석 배정 / 이동
