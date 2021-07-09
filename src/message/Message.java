@@ -38,13 +38,13 @@ public class Message implements Serializable{
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
-	public String getName {
+	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPwd {
+	public String getPwd() {
 		return pwd;
 	}
 	public void setPwd(String pwd) {
