@@ -14,7 +14,7 @@ public class ServerHandler implements Runnable{
 	public UserDAO dao = new UserDAO();
 	
 	Socket socket;
-	int seatNum = 0;	//배정 받은 좌석 번호(신규일 때 0)
+	int seat = 0;	//배정 받은 좌석 번호(신규일 때 0)
 	
 	public ServerHandler(Socket socket,TestFrameServer frame) {
 		this.socket = socket;
@@ -44,53 +44,48 @@ public class ServerHandler implements Runnable{
 							int result = dao.checkID(inMSg.getUserID());
 							outMsg.setState(1);
 							outMsg.setResult(result);
-							oos.writeObject(outMsg);
 							break;
 						}
 						case 2: {	// 회원가입
 							int result = dao.insertUser(inMsg.getUserID(),inMsg.getPwd(),inMsg.getName());
 							outMsg.setState(2);
 							outMsg.setResult(result);
-							oos.writeObject(outMsg);
 							break;
 						}
 						case 3: {	// 로그인
 							int result = dao.getAuth(inMsg.getUserID(),inMsg.getPwd());
 							outMsg.setState(3);
 							outMsg.setResult(result);
+							//로그인 실패 시
+							if(result==0) break;
 							//로그인 성공 시 좌석 배정
-							if(result == 1){
-								seatNum = inMsg.getSeatNum();
-								Server.seatMap.put(seatNum,this.oos);
-								//남은 시간 전송
-								int remain = 0;	//select remain
-								outMsg.setRemain(remain);
-								//로그
-								HistDAO hdao = new HistDAO();
-								hdao.insertHistory(id,seat,"로그인");
-							}
-							oos.writeObject(outMsg);
+							seat = inMsg.getSeatNum();
+							Server.seatMap.put(seat,this.oos);
+							//남은 시간 전송
+							int remain = 0;	//select remain where userid=inMsg.userID
+							outMsg.setRemain(remain);
+							//로그
+							HistDAO hdao = new HistDAO();
+							hdao.insertHistory(id,seat,"로그인");
 							break;
 						}
 						case 4: {	// 좌석 이동
 							//배정 받으려는 좌석 번호
-							int newSeatNum = inMsg.getSeatNum();
+							int newSeat = inMsg.getSeatNum();
 							outMsg.setState(4);
-							if(Server.seatMap.containsKey(newSeatNum)){
-								//해당 좌석 사용 중
+							//해당 좌석 사용 중
+							if(Server.seatMap.containsKey(newSeat)){
 								//배정 실패 응답
 								outMsg.setResult(0);
-								oos.writeObject(outMsg);
 								break;
 							}
 							//좌석 배정
-							Server.seatMap.put(newSeatNum,this.oos);
-							this.seatNum = newSeatNum;
+							Server.seatMap.put(newSeat,this.oos);
+							this.seat = newSeat;
 							//기존 좌석 회수
-							Server.seatMap.remove(seatNum);	
+							Server.seatMap.remove(seat);	
 							//배정 성공 응답
 							outMsg.setResult(1);
-							oos.writeObject(outMsg);
 							//로그
 							HistDAO hdao = new HistDAO();
 							hdao.insertHistory(id,seat,"자리이동");
@@ -107,10 +102,23 @@ public class ServerHandler implements Runnable{
 								HistDAO hdao = new HistDAO();
 								hdao.insertChargeTime(id,time,"충전");
 							}
-							oos.writeObject(outMsg);
+							break;
+						}
+						case 6: {	// 로그아웃
+							int remain = inMsg.getRemain();
+							int result = dvo.chargeTime(inMsg.getUserID(),remain);
+							outMsg.setState(6);
+							outMsg.setResult(result);
+							//남은 시간 갱신 완료
+							if(result == 1){
+								//로그
+								HistDAO hdao = new HistDAO();
+								hdao.insertHistory(id,seat,"로그아웃");
+							}
 							break;
 						}
 					}
+					oos.writeObject(outMsg);
 					oos.flush();
 				}
 			}
