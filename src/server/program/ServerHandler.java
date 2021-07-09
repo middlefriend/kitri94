@@ -2,9 +2,8 @@ package server.program;
 
 import java.io.*;
 import java.net.Socket;
-
 import message.Message;
-import server.frame.TestFrameServer;
+import server.frame.*;
 import pcuser.*;
 
 public class ServerHandler implements Runnable{
