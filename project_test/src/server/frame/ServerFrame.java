@@ -1,124 +1,116 @@
 package server.frame;
 
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-import client.program.ClientHandler;
-
-import java.io.*;
-import java.util.Iterator;
-
-import message.Message;
-import pcuser.UserVO;
-import server.program.*;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class ServerFrame extends JFrame implements ActionListener {
 
 	JPanel serverPanel;
 	JPanel seatPanel;
 	JTextArea chat;
-	
+
 	JButton chatBt;
 
-	JButton num1,num2,num3,num4,num5,num6,num7,num8,num9,num10;
-	JButton num11,num12,num13,num14,num15,num16,num17,num18,num19,num20;
-	
-	JButton[] btn = {num1, num2,num3,num4,num5,num6,num7,num8,num9,num10,
-			num11,num12,num13,num14,num15,num16,num17,num18,num19,num20};
-	
+	JButton num1, num2, num3, num4, num5, num6, num7, num8, num9, num10;
+	JButton num11, num12, num13, num14, num15, num16, num17, num18, num19, num20;
+
+	JButton[] btn = { num1, num2, num3, num4, num5, num6, num7, num8, num9, num10, num11, num12, num13, num14, num15,
+			num16, num17, num18, num19, num20 };
+
 	JLabel vipL;
 	JLabel seatL;
 	JTextField chatF;
 	JLabel chatL;
-	
+
 	private JScrollPane scrollPane = new JScrollPane(chat);
-	
+
 	public ServerFrame() {
-		this.setTitle("vip pc room");
-		this.setBounds(100, 100, 650, 500);
+		this.setTitle("VIP PC ROOM");
+		this.setBounds(100, 400, 650, 500);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(null);
 		setComponent();
 		this.setVisible(true);
 	}
-	
-	
+
 	public void setComponent() {
 		serverPanel = new JPanel();
 		serverPanel.setBounds(0, 0, 650, 500);
 		serverPanel.setLayout(null);
 		serverPanel.setBackground(Color.white);
-		
-		chat.setFocusable(false);
-		
+
+//		chat.setFocusable(false);
+
 		vipL = new JLabel("VIP PC ROOM");
-		vipL.setFont(new Font("Cambria", Font.BOLD,24));
+		vipL.setFont(new Font("Cambria", Font.BOLD, 24));
 		vipL.setBounds(10, 10, 500, 50);
-		
+
 		seatL = new JLabel("좌석현황");
 		seatL.setBounds(10, 70, 500, 30);
-		
+
 		seatPanel = new JPanel();
 		seatPanel.setBounds(10, 110, 300, 330);
-		seatPanel.setBackground(new Color(224,224,224));
+		seatPanel.setBackground(new Color(224, 224, 224));
 		seatPanel.setLayout(null);
-		
+
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(320, 110, 300, 330);
-		scrollPane.setBackground(new Color(224,224,224));
+		scrollPane.setBackground(new Color(224, 224, 224));
 		scrollPane.setLayout(null);
-		
-		for(int i = 0; i < btn.length; i++) {
-			btn[i] = new JButton();	
+
+		for (int i = 0; i < btn.length; i++) {
+			btn[i] = new JButton();
 		}
-		
+
 		buttonSetting();
-		
+
 		chatL = new JLabel();
 		chatL.setBounds(0, 0, 300, 300);
-		
+
 		chatF = new JTextField();
 		chatF.setBounds(0, 300, 230, 30);
-		
+
 		chatBt = new JButton("send");
 		chatBt.setBounds(230, 300, 68, 28);
 		chatBt.setBackground(Color.lightGray);
 		chatBt.setBorderPainted(true);
 		chatBt.setFocusPainted(false);
-		
-		for(int i = 0; i < btn.length; i++) {
+
+		for (int i = 0; i < btn.length; i++) {
 			seatPanel.add(btn[i]);
 		}
-		
+
 		scrollPane.add(chatL);
 		scrollPane.add(chatBt);
 		scrollPane.add(chatF);
-		
+
 		serverPanel.add(vipL);
 		serverPanel.add(seatL);
 		serverPanel.add(seatPanel);
 		serverPanel.add(scrollPane, BorderLayout.CENTER);
-		
+
 		this.setContentPane(serverPanel);
 		eventList();
-		
+
 	}
-	
+
 	public void eventList() {
 
-		for(int i = 0; i < btn.length; i++) {
+		for (int i = 0; i < btn.length; i++) {
 			btn[i].addActionListener(this);
 		}
-		
+
 	}
 
 	public void buttonSetting() {
@@ -162,7 +154,7 @@ public class ServerFrame extends JFrame implements ActionListener {
 		btn[7].setBackground(Color.lightGray);
 		btn[7].setBorderPainted(false);
 		btn[7].setFocusPainted(false);
-		btn[8] .setText("9");
+		btn[8].setText("9");
 		btn[8].setBounds(170, 110, 50, 50);
 		btn[8].setBackground(Color.lightGray);
 		btn[8].setBorderPainted(false);
@@ -226,16 +218,17 @@ public class ServerFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for(int i = 0; i < btn.length; i ++) {
-			if(btn[i] == e.getSource()) {
+		for (int i = 0; i < btn.length; i++) {
+			if (btn[i] == e.getSource()) {
 				System.out.println(btn[i].getText());
 			}
 		}
 
 	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new ServerFrame();
-		
+
 	}
 }

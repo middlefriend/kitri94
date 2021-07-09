@@ -60,7 +60,7 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 
 	public JoinFrame() {
 		this.setTitle("회원 가입");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setBounds(100, 100, 400, 400);
 		this.setLayout(null);
 		setComponent();

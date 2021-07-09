@@ -60,7 +60,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 
 	public LoginFrame() {
 		this.setTitle("VIP LOGIN");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setBounds(100, 100, 300, 300);
 		this.setLayout(null);
 		setComponent();
