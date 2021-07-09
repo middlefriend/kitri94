@@ -41,7 +41,7 @@ public class ServerHandler implements Runnable{
 					int state = inMsg.getState();
 					switch(state) {
 						case 1: {	// ID 중복확인
-							String id = inMSg.getUserId();
+							String id = inMSg.getUserID();
 							int result = dao.checkID(id);
 							Message outMsg = new Message();
 							outMsg.setState(1);

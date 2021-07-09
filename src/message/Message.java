@@ -1,31 +1,25 @@
 package message;
 
 import java.io.Serializable;
+import pcuser.UserVO;
 
 public class Message implements Serializable{
 	private int state;
-	private int seat;
+	private int result;
 	private String str;
-	private int remain;
-//	private UserVO uvo;
-	
+	private UserVO uvo;
+
 	public int getState() {
 		return state;
 	}
 	public void setState(int state) {
 		this.state = state;
 	}
-	public int getRemain() {
-		return remain;
+	public int getResult() {
+		return result;
 	}
-	public void setRemain(int remain) {
-		this.remain = remain;
-	}
-	public int getSeat() {
-		return seat;
-	}
-	public void setSeat(int seat) {
-		this.seat = seat;
+	public void setResult(int result) {
+		this.result = result;
 	}
 	public String getStr() {
 		return str;
@@ -33,12 +27,11 @@ public class Message implements Serializable{
 	public void setStr(String str) {
 		this.str = str;
 	}
-	
-//	public UserVO getUvo() {
-//		return uvo;
-//	}
-//	public void setUvo(UserVO uvo) {
-//		this.uvo = uvo;
-//	}
+	public UserVO getUvo() {
+		return uvo;
+	}
+	public void setUvo(UserVO uvo) {
+		this.uvo = uvo;
+	}
 
 }

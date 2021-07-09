@@ -3,20 +3,21 @@ package client.program;
 import java.io.*;
 import java.net.Socket;
 
-import client.frame.JoinFrame;
+import client.frame.*;
 import message.Message;
 
 public class ClientHandler implements Runnable{
 	public static ObjectInputStream ois;
 	public static ObjectOutputStream oos;
 	
-	public JoinFrame joinFrame;
+	LoginFrame login;
+
 	ClientTimer timer; 
 	Socket socket;
 
-	public ClientHandler(Socket socket,JoinFrame joinFrame) {
+	public ClientHandler(Socket socket,LoginFrame login) {
 		this.socket = socket;
-		this.joinFrame = joinFrame;
+		this.login = login;
 	}
 
 	
