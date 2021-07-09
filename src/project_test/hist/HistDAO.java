@@ -1,4 +1,4 @@
-package hist;
+package project_test.hist;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import dbcon.DBConnect;
+import project_test.dbcon.DBConnect;
 
 public class HistDAO {
   // 전체 select
@@ -78,8 +78,8 @@ public class HistDAO {
     String sql = "INSERT INTO HISTORY " + "VALUES ( (select COUNT(HISID) from history) + 1 " + ",'"
         + id + "' " + ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + time + status
         + "' " + "," + null + ")";
-
-
+    
+    
     if (excuteInsert(sql) != 0)
       return 1;
     else
