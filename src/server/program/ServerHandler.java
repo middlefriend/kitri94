@@ -56,14 +56,16 @@ public class ServerHandler implements Runnable{
 							break;
 						}
 						case 3: {	// 로그인
-							int result = dao.getAuth(inMsg.getUserID().inMsg.getPwd());
+							int result = dao.getAuth(inMsg.getUserID(),inMsg.getPwd());
+							Message outMsg = new Message();
 							// if(result == 1){
-								Message outMsg = new Message();
+								//로그인 성공 시 응답
+								//남은 시간 전송
 								outMsg.setState(3);
 								outMsg.setResult(result);
 								oos.writeObject(outMsg);
 							// }else{
-
+								//로그인 실패 시 응답
 							// }
 							break;
 						}
@@ -71,10 +73,10 @@ public class ServerHandler implements Runnable{
 							//배정 받으려는 좌석 번호
 							int newSeatNum = inMsg.getSeatNum();
 							Message outMsg = new outMsg();
-							outMsg.setState(4);
 							if(Server.seatMap.containsKey(newSeatNum)){
 								//해당 좌석 사용 중
 								//배정 실패 응답
+								outMsg.setState(4);
 								outMsg.setResult(0);
 								oos.writeObject(outMsg);
 								break;
@@ -92,13 +94,18 @@ public class ServerHandler implements Runnable{
 							break;
 						}
 						case 5: {	// 시간충전
-							UserVO uvo = inMsg.getUserVO();
-							int remain = inMsg.getRemain();
-							int result = dvo.updateRemain(uvo,remain);	//remain 만큼 기존 시간에 추가
+							int time = inMsg.getRemain();
+							int result = dvo.chargeTime(inMsg.getUserID(),time);	//time 만큼 기존 시간에 추가
 							Message outMsg = new outMsg();
-							outMsg.setState(5);
-							outMsg.setResult(result);
-							oos.writeObject(outMsg);
+							// if(result == 1){		//시간 충전 성공
+								//남은 시간 전송
+								outMsg.setState(5);
+								outMsg.setResult(result);
+								outMsg.setRemain(time);
+								oos.writeObject(outMsg);
+							// }else{
+								//시간 충전 실패
+							// }
 							break;
 						}
 					}
