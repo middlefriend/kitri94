@@ -65,6 +65,9 @@ public class ServerHandler implements Runnable{
 								//남은 시간 전송
 								int remain = 0;	//select remain
 								outMsg.setRemain(remain);
+								//로그
+								HistDAO hdao = new HistDAO();
+								hdao.insertHistory(id,seat,"로그인");
 							}
 							oos.writeObject(outMsg);
 							break;
@@ -88,6 +91,9 @@ public class ServerHandler implements Runnable{
 							//배정 성공 응답
 							outMsg.setResult(1);
 							oos.writeObject(outMsg);
+							//로그
+							HistDAO hdao = new HistDAO();
+							hdao.insertHistory(id,seat,"자리이동");
 							break;
 						}
 						case 5: {	// 시간충전
@@ -96,9 +102,11 @@ public class ServerHandler implements Runnable{
 							int result = dvo.chargeTime(inMsg.getUserID(),time);
 							outMsg.setState(5);
 							outMsg.setResult(result);
-							// if(result == 1){
-								//남은 시간 갱신 요청?
-							// }
+							if(result == 1){
+								//로그
+								HistDAO hdao = new HistDAO();
+								hdao.insertChargeTime(id,time,"충전");
+							}
 							oos.writeObject(outMsg);
 							break;
 						}
