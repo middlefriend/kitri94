@@ -72,6 +72,20 @@ public class HistDAO {
       return 0;
   }
 
+  public int insertChargeTime(String id, int time, String status) {
+    LocalDateTime ldt = LocalDateTime.now();
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    String sql = "INSERT INTO HISTORY " + "VALUES ( (select COUNT(HISID) from history) + 1 " + ",'"
+        + id + "' " + ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + time + status
+        + "' " + "," + null + ")";
+
+    if (excuteInsert(sql) != 0)
+      return 1;
+    else
+      return 0;
+  }
+
 
   public int excuteInsert(String sql) {
     // DB connection 연결
