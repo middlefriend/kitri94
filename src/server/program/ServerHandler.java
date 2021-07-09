@@ -14,7 +14,7 @@ public class ServerHandler implements Runnable{
 	public UserDAO dao = new UserDAO();
 	
 	Socket socket;
-	int seat = 0;	//배정 받은 좌석 번호(신규일 때 0)
+	int seatNum = 0;	//배정 받은 좌석 번호(신규일 때 0)
 	
 	public ServerHandler(Socket socket,TestFrameServer frame) {
 		this.socket = socket;
@@ -59,36 +59,36 @@ public class ServerHandler implements Runnable{
 							//로그인 실패 시
 							if(result==0) break;
 							//로그인 성공 시 좌석 배정
-							seat = inMsg.getSeatNum();
-							Server.seatMap.put(seat,this.oos);
+							seatNum = inMsg.getSeatNum();
+							Server.seatMap.put(seatNum,this.oos);
 							//남은 시간 전송
 							int remain = 0;	//select remain where userid=inMsg.userID
 							outMsg.setRemain(remain);
 							//로그
 							HistDAO hdao = new HistDAO();
-							hdao.insertHistory(id,seat,"로그인");
+							hdao.insertHistory(id,seatNum,"로그인");
 							break;
 						}
 						case 4: {	// 좌석 이동
 							//배정 받으려는 좌석 번호
-							int newSeat = inMsg.getSeatNum();
+							int newSeatNum = inMsg.getSeatNum();
 							outMsg.setState(4);
 							//해당 좌석 사용 중
-							if(Server.seatMap.containsKey(newSeat)){
+							if(Server.seatMap.containsKey(newSeatNum)){
 								//배정 실패 응답
 								outMsg.setResult(0);
 								break;
 							}
 							//좌석 배정
-							Server.seatMap.put(newSeat,this.oos);
-							this.seat = newSeat;
+							Server.seatMap.put(newSeatNum,this.oos);
+							this.seatNum = newSeatNum;
 							//기존 좌석 회수
-							Server.seatMap.remove(seat);	
+							Server.seatMap.remove(seatNum);	
 							//배정 성공 응답
 							outMsg.setResult(1);
 							//로그
 							HistDAO hdao = new HistDAO();
-							hdao.insertHistory(id,seat,"자리이동");
+							hdao.insertHistory(id,seatNum,"자리이동");
 							break;
 						}
 						case 5: {	// 시간충전
@@ -113,7 +113,7 @@ public class ServerHandler implements Runnable{
 							if(result == 1){
 								//로그
 								HistDAO hdao = new HistDAO();
-								hdao.insertHistory(id,seat,"로그아웃");
+								hdao.insertHistory(id,seatNum,"로그아웃");
 							}
 							break;
 						}
