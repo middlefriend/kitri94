@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import client.program.ClientHandler;
 import message.Message;
+import pcuser.UserVO;
 
 public class LoginFrame extends JFrame implements ActionListener {
 
@@ -20,7 +21,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 	JTextField idField;
 
 	JLabel pwdL;
-	JTextField pwdField;
+	JPasswordField pwdField;
 
 	JLabel seatL;
 	JComboBox seatCB;
@@ -37,7 +38,8 @@ public class LoginFrame extends JFrame implements ActionListener {
 	public ClientFrame cFrame;
 	
 	String id;
-
+	int seat;
+	
 	Font fTitleLabel = new Font("굴림", Font.BOLD, 25);
 	Font fLabel = new Font("굴림", Font.PLAIN, 12);
 	Font fBt = new Font("굴림", Font.PLAIN, 12);
@@ -84,7 +86,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		pwdL.setHorizontalAlignment(SwingConstants.RIGHT);
 		pwdL.setBounds(12, 102, 100, 15);
 
-		pwdField = new JTextField();
+		pwdField = new JPasswordField();
 		pwdL.setLabelFor(pwdField);
 		pwdField.setColumns(10);
 		pwdField.setBounds(128, 99, 116, 21);
@@ -162,9 +164,10 @@ public class LoginFrame extends JFrame implements ActionListener {
 		if (joinBt == e.getSource()) {
 			jFrame = new JoinFrame();
 		}
-
+				
 		// 로그인
 		if (loginBt == e.getSource()) {
+			seat = Integer.parseInt(seatCB.getSelectedItem().toString());
 			String userId = idField.getText();
 			String password = pwdField.getText();
 
@@ -175,9 +178,13 @@ public class LoginFrame extends JFrame implements ActionListener {
 			}
 
 			Message outMsg = new Message();
-			outMsg.setUserId(userId);
-			outMsg.setPwd(password);
-			outMsg.setState(3);
+			UserVO uvo = new UserVO();
+			uvo.setUserID(userId);
+			uvo.setPwd(password);
+			outMsg.setSeat(seat);
+			outMsg.setState(3); //login
+			outMsg.setUvo(uvo);
+
 			id = idField.getText();
 			try {
 				ClientHandler.oos.writeObject(outMsg);
@@ -189,12 +196,12 @@ public class LoginFrame extends JFrame implements ActionListener {
 		}
 	}
 
-	public void loginResult(Message msg) {
+	public void loginResult(int result) {
 
-		if (msg.getResult() != 0) {
+		if (result != 0) {
 			cFrame = null;
 			JOptionPane.showMessageDialog(null, "LOGIN 성공!");
-			cFrame = new ClientFrame(this, id);
+			cFrame = new ClientFrame();
 			dispose();
 
 		} else {
@@ -206,11 +213,6 @@ public class LoginFrame extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		new LoginFrame();
-	}
-
-	public void updateLabel(String string) {
-		inputLabel.setText(string);
-		
 	}
 	
 }

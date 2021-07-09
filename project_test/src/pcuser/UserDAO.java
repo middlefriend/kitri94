@@ -34,7 +34,7 @@ public class UserDAO {
 
   }
 
-  public int getAuth(String id, String pwd) { // login 성공 1, 실패0
+  public int getAuth(String id, String pwd) {
     String sql = "SELECT userid FROM PCUSER WHERE USERID='" + id + "' AND PWD ='" + pwd + "'";
 
     ArrayList<UserVO> blist = new ArrayList<UserVO>();

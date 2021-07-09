@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import client.program.ClientHandler;
 import message.Message;
+import pcuser.UserVO;
 
 public class PurchaseFrame extends JFrame implements ActionListener {
 
@@ -169,8 +170,10 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 			}
 			// ID 값 받아서 비교
 			Message outMsg = new Message();
-			outMsg.setUserId(idField.getText());
-			outMsg.setState(1);
+			UserVO uvo = new UserVO();
+			uvo.setUserID(idField.getText());
+			outMsg.setState(1); //id확인
+			outMsg.setUvo(uvo);
 
 			try {
 				ObjectOutput oos = ClientHandler.oos;
@@ -188,8 +191,11 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		// 충전
 		if(purchaseBt == e.getSource()) {	
 			Message outMsg = new Message();
-			outMsg.setRemain(time);
-			outMsg.setState(5);
+			UserVO uvo = new UserVO();
+			uvo.setUserID(idField.getText());
+			uvo.setRemain(time);
+			outMsg.setState(5); //purchase
+			outMsg.setUvo(uvo);
 			
 			try {
 				ObjectOutput oos = ClientHandler.oos;
@@ -280,11 +286,12 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 	public void idCheckResult(int result) {
 		if(idCheck == 0) {
 			JOptionPane.showConfirmDialog(null, "존재하지 않는 아이디입니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-		}else {
-			JOptionPane.showMessageDialog(null, "아이디가 확인되었습니다. 시간을 선택해 주세요.");
 			idField.setText("");
 			idField.requestFocus();
 			idCheck = 0;
+		}else {
+			JOptionPane.showMessageDialog(null, "아이디가 확인되었습니다. 시간을 선택해 주세요.");
+			idField.setEditable(false);
 		}
 	}
 	
@@ -293,9 +300,8 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		
 	}
 	
-//	public static void main(String[] args) {
-//		new PurchaseFrame();
-//	}
+	public static void main(String[] args) {
+		new PurchaseFrame();
+	}
 	
 }
-

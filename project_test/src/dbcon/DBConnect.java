@@ -6,22 +6,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class DBConnect {
   public static Connection getConnection() {
     String user = "vippc";
     String password = "1234";
-
+    // í•™ì› DB
     String url = "jdbc:oracle:thin:@192.168.0.209:1521:xe";
+    // ë¡œì»¬DB
+    // String url = "jdbc:oracle:thin:@localhost:xe";
 
     try {
       Class.forName("oracle.jdbc.driver.OracleDriver");
 
       return DriverManager.getConnection(url, user, password);
     } catch (ClassNotFoundException e) {
-      // System.out.println("ojdbc.jarÀÌ ¾ø½À´Ï´Ù.(µå¶óÀÌ¹ö°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+      System.out.println("ojdbc.jarì´ ì—†ìŠµë‹ˆë‹¤.(ë“œë¼ì´ë²„ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.)");
       e.printStackTrace();
     } catch (SQLException e) {
-      // System.out.println("url,user,password ¹× DB°¡ ÄÑÁ®ÀÖ´ÂÁö È®ÀÎÇÏ¼¼¿ä.");
+      System.out.println("url,user,password ë° DBê°€ ì¼œì ¸ìˆëŠ”ì§€ í™•ì¸í•˜ì„¸ìš”.");
       e.printStackTrace();
     }
     return null;

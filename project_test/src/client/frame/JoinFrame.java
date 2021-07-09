@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import client.program.ClientHandler;
 import message.Message;
+import pcuser.UserVO;
 
 public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 
@@ -185,13 +186,14 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 			}
 			// ID 값 받아서 비교
 			Message outMsg = new Message();
-			outMsg.setUserId(idF.getText());
+			UserVO uvo = new UserVO();
+			uvo.setUserID(idF.getText());
+			outMsg.setUvo(uvo);
 			outMsg.setState(1);
 			
+			ObjectOutput oos = ClientHandler.oos;
 			try {
-				ObjectOutput oos = ClientHandler.oos;
 				oos.writeObject(outMsg);
-				oos.flush();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -226,11 +228,13 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 		
 		//받은 정보 보내기
 		Message outMsg = new Message();
-		outMsg.setUserId(idF.getText());
-		outMsg.setPwd(pwdF.getText());
-		outMsg.setName(nameF.getText());
+		UserVO uvo = new UserVO();
+		uvo.setUserID(idF.getText());
+		uvo.setPwd(pwdF.getText());
+		uvo.setName(nameF.getText());
 		
-		outMsg.setState(2); //회원 정보 저장
+		outMsg.setState(2); //회원 정보 저장, join
+		outMsg.setUvo(uvo);
 		try {
 			ClientHandler.oos.writeObject(outMsg);
 		} catch (IOException e1) {
@@ -292,8 +296,8 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 		}
 	}
 	
-//	public static void main(String[] args) {
-//		new JoinFrame();
-//	}
+	public static void main(String[] args) {
+		new JoinFrame();
+	}
 
 }

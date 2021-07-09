@@ -1,3 +1,4 @@
+
 package pcuser;
 
 public class UserVO {
@@ -5,6 +6,7 @@ public class UserVO {
   String name;
   String pwd;
   int remain = 0;
+
 
   @Override
   public String toString() {

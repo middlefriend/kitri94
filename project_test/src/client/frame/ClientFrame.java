@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import message.Message;
+
 public class ClientFrame extends JFrame implements ActionListener {
 
 	JPanel clientPanel;
@@ -36,14 +38,7 @@ public class ClientFrame extends JFrame implements ActionListener {
     public LoginFrame lFrame;
     public PurchaseFrame pFrame;
 	
-	public ClientFrame(LoginFrame loginFrame, String id) {
-		this.setTitle("VIP PC");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 500, 600);
-		this.setLayout(null);
-		setComponent();
-		this.setVisible(true);
-	}
+    int seat;
 
 	public ClientFrame() {
 		this.setTitle("VIP PC");
@@ -145,8 +140,11 @@ public class ClientFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		//자리이동
 		if(changeBt == e.getSource()) {
-		String seat = seatCB.getSelectedItem().toString();
-			
+			seat = Integer.parseInt(seatCB.getSelectedItem().toString());	
+			//자리 중복 확인
+			Message outMsg = new Message();
+			outMsg.setSeat(seat);
+			outMsg.setState(4);
 		}
 		
 		//로그아웃
@@ -166,8 +164,8 @@ public class ClientFrame extends JFrame implements ActionListener {
 		
 	}
 	
-//	public static void main(String[] args) {
-//		new ClientFrame();
-//	}
+	public static void main(String[] args) {
+		new ClientFrame();
+	}
 
 }
