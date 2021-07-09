@@ -71,8 +71,7 @@ public class UserDAO {
         blist.add(uvo);
       }
     } catch (SQLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      // e.printStackTrace();
     } finally {
       DBConnect.checkClose(rs, pstmt, conn);
     }
@@ -107,8 +106,7 @@ public class UserDAO {
       // Resultset 결과값 담기
       result = pstmt.executeUpdate();
     } catch (SQLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      // e.printStackTrace();
     } finally {
       DBConnect.checkClose(null, pstmt, conn);
     }
@@ -139,8 +137,7 @@ public class UserDAO {
       // Resultset 결과값 담기
       result = pstmt.executeUpdate();
     } catch (SQLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      // e.printStackTrace();
     } finally {
       DBConnect.checkClose(null, pstmt, conn);
     }

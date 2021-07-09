@@ -47,8 +47,7 @@ public class HistDAO {
         blist.add(hvo);
       }
     } catch (SQLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      // e.printStackTrace();
     } finally {
       DBConnect.checkClose(rs, pstmt, conn);
     }
@@ -100,8 +99,7 @@ public class HistDAO {
       // Resultset 결과값 담기
       result = pstmt.executeUpdate();
     } catch (SQLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      // e.printStackTrace();
     } finally {
       DBConnect.checkClose(null, pstmt, conn);
     }
