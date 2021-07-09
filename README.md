@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # kitri94 - 미니프로젝트
 
 지현, 재영, 경하, 연우, 동주 : 각각의 브런치에 작성한 코드 업로드
@@ -21,3 +22,9 @@ Issue 탭에는 진행중에 발생한 문제들 기록!
 >update
 - chargeTime(String id, int time) : 시간충전
   - 리턴값 : 1 / 0
+=======
+# kitri94
+
+cbcon - db conn, close
+pcuser - pcdav, pcuservo
+>>>>>>> refs/remotes/origin/재영
