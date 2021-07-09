@@ -1,7 +1,9 @@
 
 package pcuser;
 
-public class UserVO {
+import java.io.Serializable;
+
+public class UserVO implements Serializable{
   String userID;
   String name;
   String pwd;

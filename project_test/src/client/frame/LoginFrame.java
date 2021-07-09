@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -12,7 +13,7 @@ import message.Message;
 import pcuser.UserVO;
 
 public class LoginFrame extends JFrame implements ActionListener {
-
+	
 	JPanel loginPanel;
 
 	JLabel loginL;
@@ -186,6 +187,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 			outMsg.setUvo(uvo);
 
 			id = idField.getText();
+			
 			try {
 				ClientHandler.oos.writeObject(outMsg);
 			} catch (IOException e1) {

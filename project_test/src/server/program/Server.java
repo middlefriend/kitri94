@@ -2,6 +2,7 @@ package server.program;
 
 import java.io.*;
 import java.net.*;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import client.frame.LoginFrame;
@@ -12,7 +13,7 @@ public class Server {
 	
 	public static HashSet<ServerHandler> serverSet = new HashSet<ServerHandler>();
 	public static LoginFrame lframe;
-	static boolean[] seatStat = new boolean[20];
+	static HashMap<Integer, ObjectOutputStream> seatMap = new HashMap<Integer, ObjectOutputStream>();
 	
 	public static void main(String[] args) {
 		ServerSocket serverSocket = null;

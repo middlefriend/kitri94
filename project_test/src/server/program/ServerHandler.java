@@ -60,41 +60,41 @@ public class ServerHandler implements Runnable{
 						case 3: {	// 로그인
 							int result = dao.getAuth(inMsg.getUserID(),inMsg.getPwd());
 							Message outMsg = new Message();
-							// if(result == 1){
+							 if(result == 1){
 								//로그인 성공 시 응답
 								//남은 시간 전송
 								outMsg.setState(3);
 								outMsg.setResult(result);
 								oos.writeObject(outMsg);
-							// }else{
+							 }else{
 								//로그인 실패 시 응답
-							// }
+							 }
 							break;
 						}
-//						case 4: {	// 좌석 배정 / 이동
-//							//배정 받으려는 좌석 번호
-//							int newSeatNum = inMsg.getSeatNum();
-//							Message outMsg = new Message();
-//							if(Server.seatMap.containsKey(newSeatNum)){
-//								//해당 좌석 사용 중
-//								//배정 실패 응답
-//								outMsg.setState(4);
-//								outMsg.setResult(0);
-//								oos.writeObject(outMsg);
-//								break;
-//							}
-//							//좌석 배정
-//							Server.seatMap.put(newSeatNum,this);
-//							//기존 좌석이 있을 때 회수
-//							if(Server.seatMap.containsKey(seatNum)){
-//								Server.seatMap.remove(seatNum);	
-//							}
-//							seatNum = newSeatNum;
-//							//배정 성공 응답
-//							outMsg.setResult(1);
-//							oos.writeObject(outMsg);
-//							break;
-//						}
+						case 4: {	// 좌석 배정 / 이동
+							//배정 받으려는 좌석 번호
+							int newSeatNum = inMsg.getSeatNum();
+							Message outMsg = new Message();
+							if(Server.seatMap.containsKey(newSeatNum)){
+								//해당 좌석 사용 중
+								//배정 실패 응답
+								outMsg.setState(4);
+								outMsg.setResult(0);
+								oos.writeObject(outMsg);
+								break;
+							}
+							//좌석 배정
+							Server.seatMap.put(newSeatNum, oos);
+							//기존 좌석이 있을 때 회수
+							if(Server.seatMap.containsKey(seatNum)){
+								Server.seatMap.remove(seatNum);	
+							}
+							seatNum = newSeatNum;
+							//배정 성공 응답
+							outMsg.setResult(1);
+							oos.writeObject(outMsg);
+							break;
+						}
 						case 5: {	// 시간충전
 							int time = inMsg.getRemain();
 							int result = dao.chargeTime(inMsg.getUserID(),time);	//time 만큼 기존 시간에 추가
