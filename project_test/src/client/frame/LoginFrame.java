@@ -181,7 +181,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 			UserVO uvo = new UserVO();
 			uvo.setUserID(userId);
 			uvo.setPwd(password);
-			outMsg.setSeat(seat);
+			outMsg.setSeatNum(seat);
 			outMsg.setState(3); //login
 			outMsg.setUvo(uvo);
 

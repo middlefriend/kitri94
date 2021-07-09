@@ -143,7 +143,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 			seat = Integer.parseInt(seatCB.getSelectedItem().toString());	
 			//자리 중복 확인
 			Message outMsg = new Message();
-			outMsg.setSeat(seat);
+			outMsg.setSeatNum(seat);
 			outMsg.setState(4);
 		}
 		
