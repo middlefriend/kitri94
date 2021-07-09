@@ -1,9 +1,9 @@
 package pcuser;
 
 public class UserVO {
-  String userID;
-  String name;
-  String pwd;
+  String userID = null;
+  String name = null;
+  String pwd = null;
   int remain = 0;
 
   @Override
