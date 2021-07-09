@@ -1,6 +1,6 @@
 package server.program;
 
-<<<<<<< HEAD
+
 import java.io.*;
 import java.net.*;
 import java.util.HashMap;
@@ -55,6 +55,7 @@ public class Server {
 	static boolean[] seatStat = new boolean[20];
 
 	public static void main(String[] args) {
+		
 		ServerSocket serverSocket = null;
 		// 서버 port
 		final int serverPort = 7777;
@@ -77,7 +78,6 @@ public class Server {
 //				serverTimer.start();
 			}
 		} catch (IOException e) {
->>>>>>> refs/remotes/origin/경하
 			e.printStackTrace();
 		}
 	}

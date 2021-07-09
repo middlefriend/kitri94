@@ -1,6 +1,5 @@
 package server.frame;
 
-<<<<<<< HEAD
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -469,6 +468,5 @@ public class ServerFrame extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		new ServerFrame();
 
->>>>>>> refs/remotes/origin/경하
 	}
 }
