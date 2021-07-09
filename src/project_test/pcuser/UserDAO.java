@@ -1,11 +1,11 @@
-package pcuser;
+package project_test.pcuser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import dbcon.DBConnect;
+import project_test.dbcon.DBConnect;
 
 
 public class UserDAO {

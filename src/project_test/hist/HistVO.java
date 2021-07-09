@@ -1,4 +1,4 @@
-package hist;
+package project_test.hist;
 
 public class HistVO {
   String histId = null;
