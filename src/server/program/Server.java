@@ -10,7 +10,7 @@ public class Server {
 	
 	public static HashSet<ServerHandler> serverSet = new HashSet<ServerHandler>();
 	
-	public static HashMap<Integer,ServerHandler> seatMap = new boolean[20];
+	public static HashMap<Integer,ObjectOutputStream> seatMap = new HashMap<Integer,ObjectOutputStream>();
 	
 	public static void main(String[] args) {
 		ServerSocket serverSocket = null;
