@@ -4,12 +4,13 @@ import java.io.*;
 import java.net.*;
 import java.util.HashSet;
 
-import server.frame.TestFrameServer;
+import server.frame.ServerFrame;
+
 
 public class Server {
 	
 	public static HashSet<ServerHandler> serverSet = new HashSet<ServerHandler>();
-	public static TestFrameServer frame;
+	public static ServerFrame frame;
 	
 	static boolean[] seatStat = new boolean[20];
 	
@@ -18,7 +19,7 @@ public class Server {
 		//서버 port
 		final int serverPort = 7777;
 		
-		frame = new TestFrameServer();
+		frame = new ServerFrame();
 		try {
 			serverSocket = new ServerSocket(serverPort);
 			System.out.println("서버 시작");
