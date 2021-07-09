@@ -70,11 +70,15 @@ public class ServerHandler implements Runnable {
 						oos.flush();
 					}
 					case 4: {// 좌석이동
-						outMsg = new Message();
 
 					}
-					case 5: {
-						// 시간충전
+					case 5: {// 시간충전
+						outMsg = new Message();
+						int result = udao.chargeTime(inMsg.getUvo().getUserID(), inMsg.getTime());
+						outMsg.setState(5);
+						outMsg.setResult(result);
+						oos.writeObject(outMsg);
+						oos.flush();
 					}
 					}
 				}
