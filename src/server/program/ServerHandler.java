@@ -62,7 +62,7 @@ public class ServerHandler implements Runnable{
 							seatNum = inMsg.getSeatNum();
 							Server.seatMap.put(seatNum,this.oos);
 							//남은 시간 전송
-							int remain = 0;	//select remain where userid=inMsg.userID
+							int remain = 0;	//selectID.(inMsg.getUserID()).getRemain()
 							outMsg.setRemain(remain);
 							//로그
 							HistDAO hdao = new HistDAO();
