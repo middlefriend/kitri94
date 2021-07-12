@@ -193,16 +193,16 @@ public class LoginFrame extends JFrame implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			//history 남기기
+			
 		}
 	}
 
-	public void loginResult(int result, int remain, String name) {
+	public void loginResult(int result, int remain, String name, String id) {
 
 		if (result != 0) {
 			cFrame = null;
 			JOptionPane.showMessageDialog(null, "LOGIN 성공!");
-			cFrame = new ClientFrame(remain, name);
+			cFrame = new ClientFrame(remain, name, id);
 			dispose();
 
 		} else {

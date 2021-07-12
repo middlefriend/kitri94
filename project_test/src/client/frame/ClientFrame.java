@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
 
+import client.program.ClientHandler;
 import client.program.ClientTimer;
 import message.Message;
 
@@ -47,13 +49,14 @@ public class ClientFrame extends JFrame implements ActionListener {
 	
     int seat;
 
-	public ClientFrame(int remain, String name) {
+	public ClientFrame(int remain, String name, String id) {
 		this.setTitle("VIP PC");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 500, 600);
 		this.setLayout(null);
 		this.name = name;
 		this.remain = remain;
+		this.id = id;
 		System.out.println(remain);
 		setComponent();
 		this.setVisible(true);
@@ -88,7 +91,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		notice2Label.setFont(fLabel);
 		notice2Label.setBounds(308, 39, 61, 15);
 
-		noticeTimeL = new JLabel(String.valueOf(remain));
+		noticeTimeL = new JLabel(String.valueOf(remain/60)+"시간"+String.valueOf(remain%60)+"분");
 		noticeTimeL.setFont(fLabel);
 		noticeTimeL.setBounds(381, 39, 91, 15);
 
@@ -159,18 +162,39 @@ public class ClientFrame extends JFrame implements ActionListener {
 			seat = Integer.parseInt(seatCB.getSelectedItem().toString());	
 			//자리 중복 확인
 			Message outMsg = new Message();
+			outMsg.setUserID(id);
 			outMsg.setSeatNum(seat);
 			outMsg.setState(4);
+			
+			try {
+				ClientHandler.oos.writeObject(outMsg);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 		//로그아웃
 		if(logoutBt == e.getSource()) {
 			dispose();
+			
 			lFrame = new LoginFrame();
+			
+			Message outMsg = new Message();
+			outMsg.setUserID(id);
+			outMsg.setState(6);
+			
+			try {
+				ClientHandler.oos.writeObject(outMsg);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			//history남기기
 		}
 		//시간구매
 		if(purchaseBt == e.getSource()) {
+			
 			pFrame = new PurchaseFrame();
 		}
 		
@@ -187,6 +211,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 			JOptionPane.showConfirmDialog(null, "좌석이동에 실패하였습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 		}
 	}
+	
 	
 //	public static void main(String[] args) {
 //		new ClientFrame();

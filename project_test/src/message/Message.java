@@ -33,7 +33,7 @@ public class Message implements Serializable{
 	public int getRemain() {
 		return remain;
 	}
-	public void setRemain(int result) {
+	public void setRemain(int remain) {
 		this.remain = remain;
 	}
 	public String getUserID() {

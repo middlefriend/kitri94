@@ -66,12 +66,13 @@ public class ServerHandler implements Runnable{
 							outMsg.setName(uvo.getName());
 							//남은 시간 전송
 							outMsg.setRemain(uvo.getRemain());
+							outMsg.setUserID(uvo.getUserID());
 							//로그인 성공 시 좌석 배정
 							seatNum = inMsg.getSeatNum();
 							Server.seatMap.put(seatNum,this.oos);
 							//로그
 							HistDAO hdao = new HistDAO();
-							hdao.insertHistory(inMsg.getUserID(),seatNum,"로그인");
+							hdao.insertHistory(inMsg.getUserID(),inMsg.getSeatNum(),"로그인");
 							System.out.println(outMsg.getRemain());
 							break;
 						}
@@ -126,9 +127,17 @@ public class ServerHandler implements Runnable{
 							}
 							break;
 						}
+						case 7: {	// ID 중복확인
+							int result = dao.checkID(inMsg.getUserID());
+							outMsg.setState(7);
+							outMsg.setResult(result);
+							break;
+						}
 					}
 					oos.writeObject(outMsg);
 					oos.flush();
+					//좌석 정보 새로고침
+					
 				}
 			}
 			
