@@ -155,6 +155,7 @@ public class ServerHandler implements Runnable{
 							break;
 						}
 					}
+					//회신이 필요없는 동작이면 스킵
 					if(noNeedReply) continue;
 					oos.writeObject(outMsg);
 					oos.flush();

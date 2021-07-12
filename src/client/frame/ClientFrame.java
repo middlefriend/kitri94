@@ -11,7 +11,7 @@ import java.util.Timer;
 import javax.swing.*;
 
 import client.program.ClientHandler;
-import client.program.ClientTimer;
+// import client.program.ClientTimer;
 import message.Message;
 
 public class ClientFrame extends JFrame implements ActionListener {
@@ -46,7 +46,7 @@ public class ClientFrame extends JFrame implements ActionListener {
     
     public LoginFrame lFrame;
     public PurchaseFrame pFrame;
-    public ClientTimer cTimer;
+    // public ClientTimer cTimer;
     
     int remain;
     String id;
@@ -203,6 +203,30 @@ public class ClientFrame extends JFrame implements ActionListener {
 			
 			pFrame = new PurchaseFrame();
 		}
+
+		// if(chatBt == e.getSource()){
+		// 	String chat = chatF.getText();
+		// 	//chatF 필드에 아무것도 입력하지 않았을때 동작하지 않음
+		// 	if(chat == "") return;
+		// 	int seat = Integer.parseInt(chat);
+		// 	//배정되지 않은 좌석일때 알림
+		// 	if(!Server.seatMap.containsKey(seat)){
+		// 		JOptionPane.showMessageDialog(null, "미사용 좌석입니다.");
+		// 		return;
+		// 	}
+		// 	Message outMsg = new Message();
+		// 	outMsg.setChat(chat);
+		// 	outMsg.setState(8);
+		// 	try {
+		// 		//채팅 해당 좌석 사용자에게 전송
+		// 		Server.seatMap.get(seat).writeObject(outMsg);
+		// 		//서버프레임에 전송한 내용 표시
+		// 		echoChat(seat,chat);
+		// 	} catch (IOException e1) {
+		// 		// TODO Auto-generated catch block
+		// 		e1.printStackTrace();
+		// 	}
+		// }
 		
 	}
 	
@@ -256,6 +280,11 @@ public class ClientFrame extends JFrame implements ActionListener {
 		textArea.append("[관리자]: "+chat);
 		textArea.setCaretPosition(chat.length());
 	}
+
+	// public void echoChat(int seat,String chat){
+	// 	textArea.append("["+name+"]: "+chat+"\n");
+	// 	textArea.setCaretPosition(chat.length());
+	// }
 
 
 //	public static void main(String[] args) {
