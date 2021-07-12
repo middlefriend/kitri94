@@ -172,10 +172,8 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 			}
 			// ID 값 받아서 비교
 			Message outMsg = new Message();
-			UserVO uvo = new UserVO();
-			uvo.setUserID(idField.getText());
-			outMsg.setState(1); //id확인
-			outMsg.setUvo(uvo);
+			outMsg.setUserID(id);
+			outMsg.setState(6); //id확인
 
 			try {
 				ObjectOutput oos = ClientHandler.oos;
@@ -300,15 +298,15 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 	public void purchaseCheckResult(int result) {
 		if(result == 1) {
 			JOptionPane.showMessageDialog(null, "시간 충전이 완료되었습니다.");
-			cFrame = new ClientFrame();
+			dispose();
 		}else {
 			JOptionPane.showConfirmDialog(null, "충전에 실패하였습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 		}
 		
 	}
 	
-	public static void main(String[] args) {
-		new PurchaseFrame();
-	}
+//	public static void main(String[] args) {
+//		new PurchaseFrame();
+//	}
 	
 }

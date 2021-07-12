@@ -73,6 +73,45 @@ public class UserDAO {
 	return result;
 }
 
+  public UserVO getUser(String id) { //로그인
+//	    String sql = "SELECT userid FROM PCUSER WHERE USERID='" + id + "'";
+//	    ArrayList<UserVO> blist = new ArrayList<UserVO>();
+//	    blist = excuteSelect(sql);
+//
+//	    if(blist.size() == 0){
+//	      return null;
+//	    }
+//	    return blist.get(0);
+//	  }
+	  String sql = "SELECT USERID, NAME, REMAIN FROM PCUSER WHERE USERID = ?";
+
+	    PreparedStatement pstmt = null;
+	    ArrayList<UserVO> blist = new ArrayList<UserVO>();
+		ResultSet rs = null;
+		Connection conn = null;
+		int result = 0;
+		try {
+			conn = DBConnect.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+			UserVO uvo = null;
+			while (rs.next()) {
+				uvo = new UserVO();
+				uvo.setUserID(rs.getString(1));
+				uvo.setName(rs.getString(2));
+				uvo.setRemain(rs.getInt(3));
+				blist.add(uvo);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnect.checkClose(rs, pstmt, conn);
+		}
+		return blist.get(0);
+	}
 
   private ArrayList<UserVO> excuteSelect(String sql) {
     // DB connection 연결

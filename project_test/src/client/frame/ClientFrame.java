@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import client.program.ClientTimer;
 import message.Message;
 
 public class ClientFrame extends JFrame implements ActionListener {
@@ -23,7 +24,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 	JLabel noticeNameL;
 	JLabel notice2Label;
 	JLabel noticeTimeL;
-	JComboBox seatCB;
+	JComboBox<String> seatCB;
 
 	JButton changeBt;
 	JButton logoutBt;
@@ -38,14 +39,22 @@ public class ClientFrame extends JFrame implements ActionListener {
     
     public LoginFrame lFrame;
     public PurchaseFrame pFrame;
+    public ClientTimer cTimer;
+    
+    int remain;
+    String id;
+    String name;
 	
     int seat;
 
-	public ClientFrame() {
+	public ClientFrame(int remain, String name) {
 		this.setTitle("VIP PC");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 500, 600);
 		this.setLayout(null);
+		this.name = name;
+		this.remain = remain;
+		System.out.println(remain);
 		setComponent();
 		this.setVisible(true);
 	}
@@ -61,9 +70,10 @@ public class ClientFrame extends JFrame implements ActionListener {
 		pcroomNameL.setBounds(30, 20, 266, 35);
 		
 		userIdL = new JLabel();
+		userIdL.setText(name);
 		userIdL.setFont(fLabel);
 		userIdL.setHorizontalAlignment(SwingConstants.RIGHT);
-		userIdL.setBounds(250, 20, 50, 15);
+		userIdL.setBounds(250, 20, 100, 15);
 
 		notice1Label = new JLabel("님 환영합니다!");
 		notice1Label.setFont(fLabel);
@@ -78,13 +88,13 @@ public class ClientFrame extends JFrame implements ActionListener {
 		notice2Label.setFont(fLabel);
 		notice2Label.setBounds(308, 39, 61, 15);
 
-		noticeTimeL = new JLabel("");
+		noticeTimeL = new JLabel(String.valueOf(remain));
 		noticeTimeL.setFont(fLabel);
 		noticeTimeL.setBounds(381, 39, 91, 15);
 
 		seatCB = new JComboBox();
 		seatCB.setMaximumRowCount(5);
-		seatCB.setModel(new DefaultComboBoxModel(seatNum));
+		seatCB.setModel(new DefaultComboBoxModel<String>(seatNum));
 		seatCB.setBackground(new Color(224, 224, 224));
 		seatCB.setBounds(30, 88, 80, 25);
 
@@ -119,6 +129,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		textField.setColumns(10);
 		
 		clientPanel.add(pcroomNameL);
+		clientPanel.add(userIdL);
 		clientPanel.add(notice1Label);
 		clientPanel.add(notice2Label);
 		clientPanel.add(noticeTimeL);
@@ -165,6 +176,10 @@ public class ClientFrame extends JFrame implements ActionListener {
 		
 	}
 	
+//	public void updateTime() {
+//		cTimer = new ClientTimer(remain, this);
+//	}
+	
 	public void changeSeatResult(int result) {
 		if(result == 1) {
 			JOptionPane.showMessageDialog(null, "좌석 이동에 성공하였습니다.");
@@ -173,8 +188,8 @@ public class ClientFrame extends JFrame implements ActionListener {
 		}
 	}
 	
-	public static void main(String[] args) {
-		new ClientFrame();
-	}
+//	public static void main(String[] args) {
+//		new ClientFrame();
+//	}
 
 }

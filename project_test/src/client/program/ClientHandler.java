@@ -49,7 +49,7 @@ public class ClientHandler implements Runnable{
 						}
 						//로그인
 						case 3: {
-							login.loginResult(inMsg.getResult(), inMsg.getRemain());
+							login.loginResult(inMsg.getResult(), inMsg.getRemain(), inMsg.getName());
 							break;
 						}
 						//좌석이동
@@ -60,6 +60,10 @@ public class ClientHandler implements Runnable{
 						//시간충전
 						case 5: {
 							login.pFrame.purchaseCheckResult(inMsg.getResult());
+							break;
+						}
+						case 6 :{
+							login.pFrame.idCheckResult(inMsg.getResult());
 							break;
 						}
 					}
