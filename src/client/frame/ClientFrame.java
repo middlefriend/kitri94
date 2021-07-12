@@ -4,10 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.TimerTask;
+import java.util.Timer;
 
 import javax.swing.*;
 
-import client.program.ClientTimer;
 import message.Message;
 
 public class ClientFrame extends JFrame implements ActionListener {
@@ -39,7 +40,9 @@ public class ClientFrame extends JFrame implements ActionListener {
     
     public LoginFrame lFrame;
     public PurchaseFrame pFrame;
-    public ClientTimer cTimer;
+    
+	Timer timer;
+	TimerTask task;
     
     int remain;
     String id;
@@ -54,9 +57,9 @@ public class ClientFrame extends JFrame implements ActionListener {
 		this.setLayout(null);
 		this.name = name;
 		this.remain = remain;
-		System.out.println(remain);
 		setComponent();
 		this.setVisible(true);
+		setTimer();
 	}
 
 	public void setComponent() {
@@ -92,7 +95,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		noticeTimeL.setFont(fLabel);
 		noticeTimeL.setBounds(381, 39, 91, 15);
 
-		seatCB = new JComboBox();
+		seatCB = new JComboBox<String>();
 		seatCB.setMaximumRowCount(5);
 		seatCB.setModel(new DefaultComboBoxModel<String>(seatNum));
 		seatCB.setBackground(new Color(224, 224, 224));
@@ -176,10 +179,6 @@ public class ClientFrame extends JFrame implements ActionListener {
 		
 	}
 	
-//	public void updateTime() {
-//		cTimer = new ClientTimer(remain, this);
-//	}
-	
 	public void changeSeatResult(int result) {
 		if(result == 1) {
 			JOptionPane.showMessageDialog(null, "좌석 이동에 성공하였습니다.");
@@ -188,8 +187,43 @@ public class ClientFrame extends JFrame implements ActionListener {
 		}
 	}
 	
-//	public static void main(String[] args) {
-//		new ClientFrame();
-//	}
+	void setTimer(){
+		updateTime();
+		timer = new Timer();
+		task = new TimerTask() {
+			public void run() {
+				//분수 감소
+				remain --;
+				//화면에서 잔여시간 갱신
+				updateTime();
+			}
+		};
+		// timer.scheduleAtFixedRate(task,60l*1000,60l*1000);
+		timer.scheduleAtFixedRate(task,1l*1000,1l*1000); //초로 테스트
+	}
+
+	void updateTime() {
+		// System.out.println(remain);
+		noticeTimeL.setText(String.valueOf(remain));
+		if(remain==10){
+			//잔여시간 10이 되면 경고
+			JOptionPane.showConfirmDialog(null, "종료시간 10분 전입니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+		}else if(remain<=0) {
+			//잔여시간이 0이 되면 종료
+			JOptionPane.showConfirmDialog(null, "자동 종료되었습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+			task.cancel();
+			//종료알림
+			dispose();
+		}
+	}
+
+	void resetTimer(int remain){
+		this.remain +=remain;
+		updateTime();
+	}
+	
+	public static void main(String[] args) {
+		new ClientFrame(11,"kdj");
+	}
 
 }
