@@ -58,15 +58,17 @@ public class ServerHandler implements Runnable{
 							outMsg.setResult(result);
 							//로그인 실패 시
 							if(result==0) break;
+							UserVO uvo = dvo.getUser(inMsg.getUserID());
+							//사용자 이름 전송
+							outMsg.setName(uvo.getName());
+							//남은 시간 전송
+							outMsg.setRemain(uvo.getRemain());
 							//로그인 성공 시 좌석 배정
 							seatNum = inMsg.getSeatNum();
 							Server.seatMap.put(seatNum,this.oos);
-							//남은 시간 전송
-							int remain = 0;	//selectID.(inMsg.getUserID()).getRemain()
-							outMsg.setRemain(remain);
 							//로그
 							HistDAO hdao = new HistDAO();
-							hdao.insertHistory(id,seatNum,"로그인");
+							hdao.insertHistory(inMsg.getUserID(),seatNum,"로그인");
 							break;
 						}
 						case 4: {	// 좌석 이동
