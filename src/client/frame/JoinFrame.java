@@ -200,7 +200,10 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 
 		//회원가입 버튼
 		if(joinBt == e.getSource()) {
-			if(idCheck==1) {
+			String id = idF.getText();
+			String pwd = pwdF.getText();
+			String name = nameF.getText();
+			if(idCheck != 0) {
 				JOptionPane.showConfirmDialog(null, "사용 가능한 ID를 입력해 주세요.", "경고", JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
 				return;
 			}
@@ -225,13 +228,11 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 			
 			//받은 정보 보내기
 			Message outMsg = new Message();
-			UserVO uvo = new UserVO();
-			uvo.setUserID(idF.getText());
-			uvo.setPwd(pwdF.getText());
-			uvo.setName(nameF.getText());
-			
+			outMsg.setUserID(id);
+			outMsg.setPwd(pwd);
+			outMsg.setName(name);
 			outMsg.setState(2); //회원 정보 저장, join
-			outMsg.setUvo(uvo);
+
 			try {
 				ClientHandler.oos.writeObject(outMsg);
 			} catch (IOException e1) {

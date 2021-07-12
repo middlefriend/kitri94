@@ -171,14 +171,15 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 				return;
 			}
 			// ID 값 받아서 비교
+			System.out.println("pframe oos 실행1 "+id);
 			Message outMsg = new Message();
 			outMsg.setUserID(id);
-			outMsg.setState(6); //id확인
+			outMsg.setState(7); //id확인
 
+			ObjectOutput oos = ClientHandler.oos;
 			try {
-				ObjectOutput oos = ClientHandler.oos;
 				oos.writeObject(outMsg);
-				oos.flush();
+				System.out.println("pframe oos 실행2");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -186,35 +187,6 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		}
 
 		// 시간
-		timeNmoney(e);
-
-		// 충전
-		if(purchaseBt == e.getSource()) {	
-			String id = idField.getText();
-			Message outMsg = new Message();
-			outMsg.setUserID(id);
-			outMsg.setRemain(time);
-			
-			outMsg.setState(5); //purchase
-			
-			try {
-				ObjectOutput oos = ClientHandler.oos;
-				oos.writeObject(outMsg);
-				oos.flush();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-		
-		//취소
-		if(cancelBt == e.getSource()) {
-			dispose();
-		}
-		
-	}
-
-	public void timeNmoney(EventObject e) {
 		if(thirtyBt == e.getSource()) {
 			time += 30;
 			totalMoney += 400;
@@ -281,17 +253,42 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 				totlaL.setText("<HTML><pre> ₩ " + String.valueOf(totalMoney) + "</pre></HTML>");	
 			}
 		}
+
+		// 충전
+		if(purchaseBt == e.getSource()) {	
+			String id = idField.getText();
+			Message outMsg = new Message();
+			outMsg.setUserID(id);
+			outMsg.setRemain(time);
+			
+			outMsg.setState(5); //purchase
+			
+			try {
+				ObjectOutput oos = ClientHandler.oos;
+				oos.writeObject(outMsg);
+				oos.flush();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		//취소
+		if(cancelBt == e.getSource()) {
+			dispose();
+		}
+		
 	}
-	
-	public void idCheckResult(int idCheck) {
-		if(idCheck == 0) {
+
+	public void idCheckResultp(int idCheck) {
+		if(idCheck != 0) {
+			JOptionPane.showMessageDialog(null, "아이디가 확인되었습니다. 시간을 선택해 주세요.");
+			idField.setEditable(false);
+		}else {
 			JOptionPane.showConfirmDialog(null, "존재하지 않는 아이디입니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 			idField.setText("");
 			idField.requestFocus();
 			idCheck = 0;
-		}else {
-			JOptionPane.showMessageDialog(null, "아이디가 확인되었습니다. 시간을 선택해 주세요.");
-			idField.setEditable(false);
 		}
 	}
 	
@@ -299,11 +296,13 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		if(result == 1) {
 			JOptionPane.showMessageDialog(null, "시간 충전이 완료되었습니다.");
 			dispose();
+
 		}else {
 			JOptionPane.showConfirmDialog(null, "충전에 실패하였습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 		}
 		
 	}
+
 	
 //	public static void main(String[] args) {
 //		new PurchaseFrame();

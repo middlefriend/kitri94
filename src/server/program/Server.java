@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import client.frame.LoginFrame;
 import server.frame.ServerFrame;
 
 
@@ -12,7 +13,7 @@ public class Server {
 	
 	public static HashSet<ServerHandler> serverSet = new HashSet<ServerHandler>();
 	public static ServerFrame sframe;
-	static HashMap<Integer, ObjectOutputStream> seatMap = new HashMap<Integer, ObjectOutputStream>();
+	public static HashMap<Integer, ObjectOutputStream> seatMap = new HashMap<Integer, ObjectOutputStream>();
 	
 	public static void main(String[] args) {
 		

@@ -1,8 +1,25 @@
 package server.frame;
 
 import java.awt.event.*;
-import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+import client.program.ClientHandler;
+
+import java.io.*;
+import java.util.Iterator;
+
+import message.Message;
+import pcuser.UserVO;
+import server.program.*;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class ServerFrame extends JFrame implements ActionListener {
 
@@ -23,6 +40,8 @@ public class ServerFrame extends JFrame implements ActionListener {
 	JTextField chatF;
 	JLabel chatL;
 	
+	String name;
+	
 	private JScrollPane scrollPane = new JScrollPane(chat);
 	
 	public ServerFrame() {
@@ -30,6 +49,7 @@ public class ServerFrame extends JFrame implements ActionListener {
 		this.setBounds(100, 100, 650, 500);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(null);
+//		this.name = name;
 		setComponent();
 		this.setVisible(true);
 	}
@@ -214,6 +234,12 @@ public class ServerFrame extends JFrame implements ActionListener {
 		}
 
 	}
+	public void seatInfoRefresh(String userID) {
+		for (int i = 0, n = Server.seatMap.size(); i < n; i++) {
+			btn[i].setText("<HTML><center>" + String.valueOf(i) + "</center><br>" + userID + "</HTML>");
+		}
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new ServerFrame();

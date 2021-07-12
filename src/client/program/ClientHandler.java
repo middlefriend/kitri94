@@ -11,13 +11,24 @@ public class ClientHandler implements Runnable{
 	public static ObjectOutputStream oos;
 	
 	LoginFrame login;
+	ClientFrame client;
+	PurchaseFrame purchase;
+	JoinFrame join;
 
-	ClientTimer timer; 
 	Socket socket;
 
 	public ClientHandler(Socket socket,LoginFrame login) {
 		this.socket = socket;
 		this.login = login;
+
+	}
+
+	public ClientHandler(Socket socket,LoginFrame login, ClientFrame client, JoinFrame join, PurchaseFrame purchase) {
+		this.socket = socket;
+		this.login = login;
+		this.client = client;
+		this.join = join;
+		this.purchase = purchase;
 	}
 
 	
@@ -44,26 +55,30 @@ public class ClientHandler implements Runnable{
 						}
 						//회원가입
 						case 2: {
-							login.jFrame.joinCheck(inMsg.getResult());
+							join.joinCheck(inMsg.getResult());
 							break;
 						}
 						//로그인
 						case 3: {
-							login.loginResult(inMsg.getResult(), inMsg.getRemain(), inMsg.getName());
+							login.loginResult(inMsg.getResult(), inMsg.getRemain(), inMsg.getName(), inMsg.getUserID());
 							break;
 						}
 						//좌석이동
 						case 4: {
-							login.cFrame.changeSeatResult(inMsg.getResult());
+							client.changeSeatResult(inMsg.getResult());
 							break;
 						}
 						//시간충전
 						case 5: {
-							login.pFrame.purchaseCheckResult(inMsg.getResult());
+							purchase.purchaseCheckResult(inMsg.getResult());
+							client.resetTimer(inMsg.getRemain());
 							break;
 						}
-						case 6 :{
-							login.pFrame.idCheckResult(inMsg.getResult());
+						case 6:{
+							client.resetTimer(inMsg.getRemain());
+						}
+						case 7: {
+							purchase.idCheckResultp(inMsg.getResult());
 							break;
 						}
 					}

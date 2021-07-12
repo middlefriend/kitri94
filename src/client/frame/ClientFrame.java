@@ -4,11 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.TimerTask;
+import java.io.IOException;
+import java.util.*;
 import java.util.Timer;
 
 import javax.swing.*;
 
+import client.program.ClientHandler;
+import client.program.ClientTimer;
 import message.Message;
 
 public class ClientFrame extends JFrame implements ActionListener {
@@ -30,6 +33,9 @@ public class ClientFrame extends JFrame implements ActionListener {
 	JButton changeBt;
 	JButton logoutBt;
 	JButton purchaseBt;
+	
+	Timer timer;
+	TimerTask task;
 
 	String[] seatNum = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
 			"15","16","17","18","19","20"};
@@ -40,9 +46,7 @@ public class ClientFrame extends JFrame implements ActionListener {
     
     public LoginFrame lFrame;
     public PurchaseFrame pFrame;
-    
-	Timer timer;
-	TimerTask task;
+    public ClientTimer cTimer;
     
     int remain;
     String id;
@@ -50,16 +54,18 @@ public class ClientFrame extends JFrame implements ActionListener {
 	
     int seat;
 
-	public ClientFrame(int remain, String name) {
+	public ClientFrame(int remain, String name, String id) {
 		this.setTitle("VIP PC");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 500, 600);
 		this.setLayout(null);
 		this.name = name;
 		this.remain = remain;
+		this.id = id;
+		System.out.println(remain);
 		setComponent();
-		this.setVisible(true);
 		setTimer();
+		this.setVisible(true);
 	}
 
 	public void setComponent() {
@@ -91,11 +97,11 @@ public class ClientFrame extends JFrame implements ActionListener {
 		notice2Label.setFont(fLabel);
 		notice2Label.setBounds(308, 39, 61, 15);
 
-		noticeTimeL = new JLabel(String.valueOf(remain));
+		noticeTimeL = new JLabel(String.valueOf(remain/60)+"시간"+String.valueOf(remain%60)+"분");
 		noticeTimeL.setFont(fLabel);
 		noticeTimeL.setBounds(381, 39, 91, 15);
 
-		seatCB = new JComboBox<String>();
+		seatCB = new JComboBox();
 		seatCB.setMaximumRowCount(5);
 		seatCB.setModel(new DefaultComboBoxModel<String>(seatNum));
 		seatCB.setBackground(new Color(224, 224, 224));
@@ -162,28 +168,50 @@ public class ClientFrame extends JFrame implements ActionListener {
 			seat = Integer.parseInt(seatCB.getSelectedItem().toString());	
 			//자리 중복 확인
 			Message outMsg = new Message();
+			outMsg.setUserID(id);
 			outMsg.setSeatNum(seat);
 			outMsg.setState(4);
+			
+			try {
+				ClientHandler.oos.writeObject(outMsg);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 		//로그아웃
 		if(logoutBt == e.getSource()) {
 			dispose();
+			
 			lFrame = new LoginFrame();
+			
+			Message outMsg = new Message();
+			outMsg.setUserID(id);
+			outMsg.setState(6);
+			
+			try {
+				ClientHandler.oos.writeObject(outMsg);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			//history남기기
 		}
 		//시간구매
 		if(purchaseBt == e.getSource()) {
+			
 			pFrame = new PurchaseFrame();
 		}
 		
 	}
 	
 	public void changeSeatResult(int result) {
-		if(result == 1) {
+		if (result == 1) {
 			JOptionPane.showMessageDialog(null, "좌석 이동에 성공하였습니다.");
-		}else {
-			JOptionPane.showConfirmDialog(null, "좌석이동에 실패하였습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+		} else {
+			JOptionPane.showConfirmDialog(null, "좌석이동에 실패하였습니다.", "경고", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
@@ -198,32 +226,35 @@ public class ClientFrame extends JFrame implements ActionListener {
 				updateTime();
 			}
 		};
-		// timer.scheduleAtFixedRate(task,60l*1000,60l*1000);
-		timer.scheduleAtFixedRate(task,1l*1000,1l*1000); //초로 테스트
+		 timer.scheduleAtFixedRate(task,60l*1000,60l*1000);
+//		timer.scheduleAtFixedRate(task,1l*1000,1l*1000); //초로 테스트
 	}
-
+	
 	void updateTime() {
 		// System.out.println(remain);
-		noticeTimeL.setText(String.valueOf(remain));
-		if(remain==10){
-			//잔여시간 10이 되면 경고
-			JOptionPane.showConfirmDialog(null, "종료시간 10분 전입니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-		}else if(remain<=0) {
-			//잔여시간이 0이 되면 종료
-			JOptionPane.showConfirmDialog(null, "자동 종료되었습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+		noticeTimeL.setText(String.valueOf((remain/60) + "시간" + (remain%60) +"분"));
+		if (remain == 10) {
+			// 잔여시간 10이 되면 경고
+			JOptionPane.showConfirmDialog(null, "종료시간 10분 전입니다.", "경고", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+		} else if (remain == 0) {
+			// 잔여시간이 0이 되면 종료
+			JOptionPane.showConfirmDialog(null, "자동 종료되었습니다.", "경고", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 			task.cancel();
-			//종료알림
+			// 종료알림
 			dispose();
 		}
 	}
 
-	void resetTimer(int remain){
-		this.remain +=remain;
+	public void resetTimer(int remain) {
+		this.remain = remain;
 		updateTime();
 	}
-	
-	public static void main(String[] args) {
-		new ClientFrame(11,"kdj");
-	}
+
+
+//	public static void main(String[] args) {
+//		new ClientFrame();
+//	}
 
 }
