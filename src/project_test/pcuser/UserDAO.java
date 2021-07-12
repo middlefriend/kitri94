@@ -117,7 +117,8 @@ public class UserDAO {
 
   // updated
   public int chargeTime(String id, int time) {
-    String sql = "UPDATE PCUSER " + "SET REMAIN = " + time + " " + "WHERE USERID = '" + id + "'";
+    String sql =
+        "UPDATE PCUSER " + "SET REMAIN = REMAIN + " + time + " WHERE USERID = '" + id + "'";
 
     if (excuteUpdate(sql) != 0)
       return 1;
