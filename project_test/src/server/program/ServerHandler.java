@@ -2,6 +2,7 @@ package server.program;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import hist.HistDAO;
 import message.Message;
