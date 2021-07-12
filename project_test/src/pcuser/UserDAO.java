@@ -9,7 +9,7 @@ import dbcon.DBConnect;
 
 
 public class UserDAO {
-
+	
   // 전체 select
   public ArrayList<UserVO> getAllUser() {
     String sql = "SELECT * FROM PCUSER";
@@ -21,32 +21,42 @@ public class UserDAO {
   }
 
   public int checkID(String id) { // 회원가입 id중복체크 true 1 false 0
-    String sql = "SELECT userid FROM PCUSER WHERE USERID='" + id + "'";
+ 
+    String sql = "SELECT count(*) FROM PCUSER WHERE USERID = ?";
+    PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	Connection conn = null;
+	int result = 0;
+	try {
+		conn = DBConnect.getConnection();
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, id);
 
-    ArrayList<UserVO> blist = new ArrayList<UserVO>();
-    blist = excuteSelect(sql);
+		rs = pstmt.executeQuery();
+		while (rs.next()) { 
+			result = rs.getInt(1);
+		}
 
-
-    if (blist.get(0).getName() != null)
-      return 1;
-    else
-      return 0;
-
-  }
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		DBConnect.checkClose(rs, pstmt, conn);
+	}
+	return result;
+}
 
   public int getAuth(String id, String pwd) { //로그인
     String sql = "SELECT userid FROM PCUSER WHERE USERID='" + id + "' AND PWD ='" + pwd + "'";
 
-    int result = 1;
     ArrayList<UserVO> blist = new ArrayList<UserVO>();
     blist = excuteSelect(sql);
+    int result = 0;
 
     if(blist.size() != 0) {
     	if (blist.get(0).getName() != null)
     		result = 1;
-    	else
-    		result = 0;	
     }
+    System.out.println(result);
     return result;
   }
 
@@ -90,7 +100,7 @@ public class UserDAO {
     String sql =
         "INSERT INTO PCUSER (USERID,NAME,PWD) VALUES ('" + id + "','" + pwd + "','" + name + "')";
     // "";
-
+   
     if (excuteInsert(sql) != 0)
       return 1;
     else

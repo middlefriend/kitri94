@@ -186,9 +186,7 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 			}
 			// ID 값 받아서 비교
 			Message outMsg = new Message();
-			UserVO uvo = new UserVO();
-			uvo.setUserID(idF.getText());
-			outMsg.setUvo(uvo);
+			outMsg.setUserID(id);
 			outMsg.setState(1);
 			
 			ObjectOutput oos = ClientHandler.oos;

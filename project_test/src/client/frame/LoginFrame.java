@@ -179,12 +179,11 @@ public class LoginFrame extends JFrame implements ActionListener {
 			}
 
 			Message outMsg = new Message();
-			UserVO uvo = new UserVO();
-			uvo.setUserID(userId);
-			uvo.setPwd(password);
+			outMsg.setUserID(userId);
+			outMsg.setPwd(password);
 			outMsg.setSeatNum(seat);
 			outMsg.setState(3); //login
-			outMsg.setUvo(uvo);
+
 
 			id = idField.getText();
 			
