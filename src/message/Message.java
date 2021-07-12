@@ -1,6 +1,8 @@
 package message;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
 import pcuser.UserVO;
 
 public class Message implements Serializable{
@@ -28,6 +30,12 @@ public class Message implements Serializable{
 	public void setResult(int result) {
 		this.result = result;
 	}
+	public int getRemain() {
+		return remain;
+	}
+	public void setRemain(int result) {
+		this.remain = remain;
+	}
 	public String getUserID() {
 		return userID;
 	}
@@ -45,12 +53,6 @@ public class Message implements Serializable{
 	}
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
-	}
-	public int getRemain(){
-		return remain;
-	}
-	public void setRemain(int remain){
-		this.remain = remain;
 	}
 	public int getSeatNum(){
 		return seatNum;

@@ -44,22 +44,26 @@ public class ClientHandler implements Runnable{
 						}
 						//회원가입
 						case 2: {
-							login.jFrame.joinCheck(inMsg);
+							login.jFrame.joinCheck(inMsg.getResult());
 							break;
 						}
 						//로그인
 						case 3: {
-							login.loginResult(inMsg);
+							login.loginResult(inMsg.getResult(), inMsg.getRemain(), inMsg.getName());
 							break;
 						}
 						//좌석이동
 						case 4: {
-							login.cFrame.changeSeatResult();
+							login.cFrame.changeSeatResult(inMsg.getResult());
 							break;
 						}
 						//시간충전
 						case 5: {
-							login.pFrame.purchaseCheckResult();
+							login.pFrame.purchaseCheckResult(inMsg.getResult());
+							break;
+						}
+						case 6 :{
+							login.pFrame.idCheckResult(inMsg.getResult());
 							break;
 						}
 					}

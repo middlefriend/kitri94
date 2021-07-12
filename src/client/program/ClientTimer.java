@@ -9,7 +9,7 @@ public class ClientTimer{
 	long remain;
 	ClientFrame clientFrame;
 		
-	public ClientTimer(int remain,ClientFrame clientFrame) {
+	public ClientTimer(int remain, ClientFrame clientFrame) {
 		//생성 시 남은시간 저장
 		this.remain = 60l*1000*remain;
 		this.clientFrame = clientFrame;
