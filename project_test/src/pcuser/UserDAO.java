@@ -46,19 +46,32 @@ public class UserDAO {
 }
 
   public int getAuth(String id, String pwd) { //로그인
-    String sql = "SELECT userid FROM PCUSER WHERE USERID='" + id + "' AND PWD ='" + pwd + "'";
+//    String sql = "SELECT userid FROM PCUSER WHERE USERID='" + id + "' AND PWD ='" + pwd + "'";
+	  
+	  String sql = "SELECT COUNT(*) FROM PCUSER WHERE USERID = ? and PWD =?";
 
-    ArrayList<UserVO> blist = new ArrayList<UserVO>();
-    blist = excuteSelect(sql);
-    int result = 0;
+    PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	Connection conn = null;
+	int result = 0;
+	try {
+		conn = DBConnect.getConnection();
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, id);
+		pstmt.setString(2, pwd);
 
-    if(blist.size() != 0) {
-    	if (blist.get(0).getName() != null)
-    		result = 1;
-    }
-    System.out.println(result);
-    return result;
-  }
+		rs = pstmt.executeQuery();
+		while (rs.next()) { 
+			result = rs.getInt(1);
+		}
+
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		DBConnect.checkClose(rs, pstmt, conn);
+	}
+	return result;
+}
 
 
   private ArrayList<UserVO> excuteSelect(String sql) {
@@ -134,11 +147,14 @@ public class UserDAO {
   // updated
   public int chargeTime(String id, int time) {
     String sql = "UPDATE PCUSER " + "SET REMAIN = " + time + " " + "WHERE USERID = '" + id + "'";
-
+    int result = 0;
+    
     if (excuteUpdate(sql) != 0)
-      return 1;
+      result = 1;
     else
-      return 0;
+      result =  0;
+    
+    return result;
   }
 
   public int excuteUpdate(String sql) {
