@@ -252,6 +252,11 @@ public class ClientFrame extends JFrame implements ActionListener {
 		updateTime();
 	}
 
+	public void updateChat(String chat){
+		textArea.append("[관리자]: "+chat);
+		textArea.setCaretPosition(chat.length());
+	}
+
 
 //	public static void main(String[] args) {
 //		new ClientFrame();

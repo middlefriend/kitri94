@@ -240,6 +240,11 @@ public class ServerFrame extends JFrame implements ActionListener {
 		}
 	}
 
+	public void updateChat(int seat,String chat){
+		this.chat.append("["+seat+"번 좌석]: "+chat+"\n");
+		this.chat.setCaretPosition(chat.length());
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new ServerFrame();

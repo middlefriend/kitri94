@@ -42,6 +42,7 @@ public class ServerHandler implements Runnable{
 					System.out.println(inMsg);
 					int state = inMsg.getState();
 					Message outMsg = new Message();
+					boolean noNeedReply = false;
 					switch(state) {
 						case 1: {	// ID 중복확인
 							int result = dao.checkID(inMsg.getUserID());
@@ -148,14 +149,16 @@ public class ServerHandler implements Runnable{
 							//로그인 안하고 충전하면 에러
 						}
 						case 8:{	// 채팅
-							String str = inMsg.getStr();
-							
+							String str = inMsg.getChat();
+							frame.updateChat(seatNum,str);
+							noNeedReply = true;
+							break;
 						}
 					}
+					if(noNeedReply) continue;
 					oos.writeObject(outMsg);
 					oos.flush();
 					//좌석 정보 새로고침
-					
 				}
 			}
 			

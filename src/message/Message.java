@@ -15,7 +15,7 @@ public class Message implements Serializable{
 	private int seatNum;				//좌석 번호
 	private UserVO uvo;					//유저 데이터
 	private ArrayList<UserVO> ulist;	//유저 데이터 목록
-	private String str;					//채팅 전송 문자열
+	private String chat;					//채팅 전송 문자열
 
 	//Getter & Setter
 	public int getState() {
@@ -72,10 +72,10 @@ public class Message implements Serializable{
 	public void setUlist(ArrayList<UserVO> ulist) {
 		this.ulist = ulist;
 	}
-	public String getStr() {
-		return str;
+	public String getChat() {
+		return chat;
 	}
-	public void setStr(String str) {
-		this.str = str;
+	public void setChat(String chat) {
+		this.chat = chat;
 	}
 }

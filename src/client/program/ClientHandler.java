@@ -81,6 +81,10 @@ public class ClientHandler implements Runnable{
 							purchase.idCheckResultp(inMsg.getResult());
 							break;
 						}
+						case 8: {
+							client.updateChat(inMsg.getChat());
+							break;
+						}
 					}
 				}
 			}
