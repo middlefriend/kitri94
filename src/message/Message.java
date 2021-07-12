@@ -28,12 +28,6 @@ public class Message implements Serializable{
 	public void setResult(int result) {
 		this.result = result;
 	}
-	public int getRemain() {
-		return remain;
-	}
-	public void setRemain(int result) {
-		this.remain = remain;
-	}
 	public String getUserID() {
 		return userID;
 	}
