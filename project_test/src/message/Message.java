@@ -75,7 +75,7 @@ public class Message implements Serializable{
 	public String getChat() {
 		return chat;
 	}
-	public void setStr(String chat) {
+	public void setChat(String chat) {
 		this.chat = chat;
 	}
 }

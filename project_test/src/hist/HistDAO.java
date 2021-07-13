@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+// import java.time.LocalDateTime;
 import java.util.ArrayList;
 import dbcon.DBConnect;
 
@@ -59,7 +59,7 @@ public class HistDAO {
 
   // insert (로그인, 로그아웃, 자리이동)
   public int insertHistory(String id, int seat, String status) { // 성공 시 1반환, 실패 0반환
-    LocalDateTime ldt = LocalDateTime.now();
+    // LocalDateTime ldt = LocalDateTime.now();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     int result = 0;
     String sql = "INSERT INTO HISTORY " + "VALUES ( (select COUNT(HISID) from history) + 1 " + ",'"
@@ -76,7 +76,7 @@ public class HistDAO {
 
 
 	public int insertChargeTime(String id, int time, String status) { //시간충전로그
-		LocalDateTime ldt = LocalDateTime.now();
+		// LocalDateTime ldt = LocalDateTime.now();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		int result = 0;
 		String sql = "INSERT INTO HISTORY " + "VALUES ( (select COUNT(HISID) from history) + 1 " + ",'" + id + "' "

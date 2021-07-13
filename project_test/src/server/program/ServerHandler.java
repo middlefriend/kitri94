@@ -2,7 +2,6 @@ package server.program;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import hist.HistDAO;
 import message.Message;
@@ -87,7 +86,6 @@ public class ServerHandler implements Runnable{
 							if(Server.seatMap.containsKey(newSeatNum)){
 								//배정 실패 응답
 								outMsg.setResult(0);
-								
 								break;
 							}
 							//좌석 배정
@@ -145,6 +143,7 @@ public class ServerHandler implements Runnable{
 							outMsg.setResult(result);
 							
 							UserVO uvo = dao.getUser(inMsg.getUserID());
+							outMsg.setUvo(uvo);
 							break;
 							//로그인 안하고 충전하면 에러
 						}
@@ -157,9 +156,9 @@ public class ServerHandler implements Runnable{
 					}
 					//회신이 필요없는 동작이면 스킵
 					if(noNeedReply) continue;
-						oos.writeObject(outMsg);
-						oos.flush();
-						//좌석 정보 새로고침
+					oos.writeObject(outMsg);
+					oos.flush();
+					//좌석 정보 새로고침
 						
 				}
 			}
