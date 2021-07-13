@@ -61,6 +61,12 @@ public class ServerHandler implements Runnable{
 							outMsg.setResult(result);
 							//로그인 실패 시
 							if(result==0) break;
+							int newSeatNum = inMsg.getSeatNum();
+							//만약 이미 배정된 좌석 요청시 return;
+							if(Server.seatMap.containsKey(newSeatNum)){
+								outMsg.setResult(-1);
+								break;
+							}
 							UserVO uvo = dao.getUser(inMsg.getUserID());
 							//사용자 이름 전송
 							outMsg.setName(uvo.getName());
@@ -68,7 +74,7 @@ public class ServerHandler implements Runnable{
 							outMsg.setRemain(uvo.getRemain());
 							outMsg.setUserID(uvo.getUserID());
 							//로그인 성공 시 좌석 배정
-							seatNum = inMsg.getSeatNum();
+							seatNum = newSeatNum;
 							if(!Server.seatMap.containsKey(seatNum)) {
 								new Exception();
 							}

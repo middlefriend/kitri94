@@ -221,7 +221,11 @@ public class LoginFrame extends JFrame implements ActionListener {
 	}
 		
 	public void loginResult(int result, int remain, String name, String id) {
-		if (result != 0) {
+		if(result == (-1)) {
+			JOptionPane.showConfirmDialog(null, "이미 선택된 좌석입니다.", "경고", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+		}
+		else if (result != 0) {
 			if (remain == 0) {
 				JOptionPane.showConfirmDialog(null, "시간을 충전해 주세요.", "경고", JOptionPane.DEFAULT_OPTION,
 						JOptionPane.WARNING_MESSAGE);
