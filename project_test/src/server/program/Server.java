@@ -36,8 +36,6 @@ public class Server {
 				//출력 스레드 : 로그인, 회원가입, 좌석선택
 				Thread serverHandlerT = new Thread(serverHandler);
 				serverHandlerT.start();
-//				Thread serverTimer = new Thread(new ServerTimer());
-//				serverTimer.start();
 			}
 		}catch(IOException e) {
 			e.printStackTrace();

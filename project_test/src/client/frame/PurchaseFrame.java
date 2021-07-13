@@ -36,7 +36,7 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 	JButton purchaseBt;
 	JButton cancelBt;
 	
-	int idCheck;
+	int idCheck=0;
 	
 	public ClientFrame cFrame;
 	
@@ -253,7 +253,10 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		}
 
 		// 충전
-		if(purchaseBt == e.getSource()) {	
+		if(purchaseBt == e.getSource()) {
+			if(idCheck==0){
+				JOptionPane.showConfirmDialog(null, "ID를 확인해 주세요.", "경고", JOptionPane.DEFAULT_OPTION);
+			}
 			String id = idField.getText();
 			Message outMsg = new Message();
 			outMsg.setUserID(id);
@@ -279,7 +282,8 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 	}
 
 	public void idCheckResultp(int idCheck) {
-		if(idCheck != 0) {
+		if(idCheck ==1 ) {
+			idCheck = 1;
 			JOptionPane.showMessageDialog(null, "아이디가 확인되었습니다. 시간을 선택해 주세요.");
 			idField.setEditable(false);
 		}else {

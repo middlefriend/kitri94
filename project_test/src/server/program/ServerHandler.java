@@ -138,12 +138,8 @@ public class ServerHandler implements Runnable{
 						}
 						case 7: {	// ID 중복확인
 							int result = dao.checkID(inMsg.getUserID());
-							
 							outMsg.setState(7);
 							outMsg.setResult(result);
-							
-							UserVO uvo = dao.getUser(inMsg.getUserID());
-							outMsg.setUvo(uvo);
 							break;
 							//로그인 안하고 충전하면 에러
 						}

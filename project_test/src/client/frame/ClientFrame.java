@@ -42,7 +42,7 @@ public class ClientFrame extends JFrame implements ActionListener {
     Font fBt = new Font("굴림", Font.PLAIN, 12);
     
     public LoginFrame lFrame;
-    public PurchaseFrame pFrame;
+    // public PurchaseFrame pFrame;
     
     int remain;
     String id;
@@ -50,7 +50,8 @@ public class ClientFrame extends JFrame implements ActionListener {
 	
     int seat;
 
-	public ClientFrame(int remain, String name, String id) {
+	public ClientFrame(LoginFrame lFrame,int remain, String name, String id) {
+		this.lFrame=lFrame;
 		this.setTitle("VIP PC");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 500, 600);
@@ -196,7 +197,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		}
 		//시간구매
 		if(purchaseBt == e.getSource()) {
-			pFrame = new PurchaseFrame();
+			lFrame.pFrame = new PurchaseFrame();
 		}
 		
 	}
@@ -221,8 +222,8 @@ public class ClientFrame extends JFrame implements ActionListener {
 				updateTime();
 			}
 		};
-		 timer.scheduleAtFixedRate(task,60l*1000,60l*1000);
-//		timer.scheduleAtFixedRate(task,1l*1000,1l*1000); //초로 테스트
+		// timer.scheduleAtFixedRate(task,60l*1000,60l*1000);
+		timer.scheduleAtFixedRate(task,1l*1000,1l*1000); //초로 테스트
 	}
 	
 	void updateTime() {

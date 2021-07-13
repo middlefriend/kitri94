@@ -202,7 +202,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 			if (result != 0) {
 				cFrame = null;
 				JOptionPane.showMessageDialog(null, "LOGIN 성공!");
-				cFrame = new ClientFrame(remain, name, id);
+				cFrame = new ClientFrame(this,remain, name, id);
 				dispose();
 			} else {
 				JOptionPane.showConfirmDialog(null, "존재하지 않는 계정입니다.", "경고", JOptionPane.DEFAULT_OPTION,
