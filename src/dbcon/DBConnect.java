@@ -1,4 +1,4 @@
-package project_test.dbcon;
+package src.dbcon;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

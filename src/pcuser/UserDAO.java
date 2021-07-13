@@ -1,11 +1,11 @@
-package project_test.pcuser;
+package src.pcuser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import project_test.dbcon.DBConnect;
+import src.dbcon.DBConnect;
 
 
 public class UserDAO {
@@ -124,6 +124,18 @@ public class UserDAO {
       return 1;
     else
       return 0;
+  }
+
+  public int changeRemain(String id, int time) {
+    String sql = "UPDATE PCUSER SET REMAIN = " + time + " WHERE USERID = '" + id + "'";
+    int result = 0;
+
+    if (excuteUpdate(sql) != 0)
+      result = 1;
+    else
+      result = 0;
+
+    return result;
   }
 
   public int excuteUpdate(String sql) {

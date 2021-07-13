@@ -1,4 +1,4 @@
-package project_test.pcuser;
+package src.pcuser;
 
 public class UserVO {
   String userID = null;

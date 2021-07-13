@@ -1,4 +1,4 @@
-package project_test.hist;
+package src.hist;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import project_test.dbcon.DBConnect;
+import src.dbcon.DBConnect;
 
 public class HistDAO {
   // 전체 select
