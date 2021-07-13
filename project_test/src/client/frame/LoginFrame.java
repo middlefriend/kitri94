@@ -164,6 +164,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		}
 		if (joinBt == e.getSource()) {
 			jFrame = new JoinFrame();
+			dispose();
 		}
 				
 		// 로그인
@@ -179,12 +180,11 @@ public class LoginFrame extends JFrame implements ActionListener {
 			}
 
 			Message outMsg = new Message();
-			UserVO uvo = new UserVO();
-			uvo.setUserID(userId);
-			uvo.setPwd(password);
+			outMsg.setUserID(userId);
+			outMsg.setPwd(password);
 			outMsg.setSeatNum(seat);
 			outMsg.setState(3); //login
-			outMsg.setUvo(uvo);
+
 
 			id = idField.getText();
 			
@@ -194,27 +194,30 @@ public class LoginFrame extends JFrame implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			//history 남기기
+			
 		}
 	}
 
-	public void loginResult(int result, int remain) {
-
+	public void loginResult(int result, int remain, String name, String id) {
 		if (result != 0) {
-			cFrame = null;
-			JOptionPane.showMessageDialog(null, "LOGIN 성공!");
-			cFrame = new ClientFrame();
-			dispose();
+			if (remain == 0) {
+				JOptionPane.showConfirmDialog(null, "시간을 충전해 주세요.", "경고", JOptionPane.DEFAULT_OPTION,
+						JOptionPane.WARNING_MESSAGE);
+				cFrame = null;
+				pFrame = new PurchaseFrame();
+			} else {
+				JOptionPane.showMessageDialog(null, "LOGIN 성공!");
+				dispose();
+				cFrame = new ClientFrame(remain, name, id);
 
+			}
 		} else {
 			JOptionPane.showConfirmDialog(null, "존재하지 않는 계정입니다.", "경고", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.WARNING_MESSAGE);
-
 		}
 	}
 
 	public static void main(String[] args) {
 		new LoginFrame();
 	}
-	
 }

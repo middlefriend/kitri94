@@ -1,18 +1,8 @@
 package server.frame;
 
-import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-import client.program.ClientHandler;
-
-import java.io.*;
-import java.util.Iterator;
-
-import message.Message;
-import pcuser.UserVO;
 import server.program.*;
-
+import java.io.IOException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -20,6 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+// import java.awt.event.MouseEvent;
+// import java.awt.event.MouseListener;
+import message.Message;
+import server.program.*;
+
 
 public class ServerFrame extends JFrame implements ActionListener {
 
@@ -40,13 +35,17 @@ public class ServerFrame extends JFrame implements ActionListener {
 	JTextField chatF;
 	JLabel chatL;
 	
+	String name;
+	int seat;
+	
 	private JScrollPane scrollPane = new JScrollPane(chat);
 	
 	public ServerFrame() {
 		this.setTitle("vip pc room");
 		this.setBounds(100, 100, 650, 500);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(null);
+//		this.name = name;
 		setComponent();
 		this.setVisible(true);
 	}
@@ -80,7 +79,7 @@ public class ServerFrame extends JFrame implements ActionListener {
 		}
 		
 		buttonSetting();
-		
+
 		chatL = new JLabel();
 		chatL.setBounds(0, 0, 300, 300);
 		
@@ -227,10 +226,57 @@ public class ServerFrame extends JFrame implements ActionListener {
 		for(int i = 0; i < btn.length; i ++) {
 			if(btn[i] == e.getSource()) {
 				System.out.println(btn[i].getText());
+				seat = i;
+			}
+		}
+		if(chatBt == e.getSource()){
+			String chat = chatF.getText();
+			//chatF 필드에 아무것도 입력하지 않았을때 동작하지 않음
+			if(chat == "") return;
+			//배정되지 않은 좌석일때 알림
+			if(!Server.seatMap.containsKey(seat)){
+				JOptionPane.showMessageDialog(null, "미사용 좌석입니다.");
+				return;
+			}
+			Message outMsg = new Message();
+			outMsg.setChat(chat);
+			outMsg.setState(8);
+			try {
+				//채팅 해당 좌석 사용자에게 전송
+				Server.seatMap.get(seat).writeObject(outMsg);
+				//서버프레임에 전송한 내용 표시
+				echoChat(seat,chat);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 
 	}
+	
+	public void seatInfoRefresh(String userID, int seat) {
+		for (int i = 0; i < 20; i++) {
+			if(seat == i+1) {
+				btn[i].setText("<HTML><center>" + String.valueOf(i+1) + "</center><br>" + userID + "</HTML>");				
+			}else {
+				btn[i].setText("<HTML><center>" + String.valueOf(i+1) + "</center></HTML>");
+			}
+				
+		}
+	}
+
+	public void updateChat(int seat,String chat){
+		System.out.println("["+seat+"번 좌석]: "+chat+"\n");
+		this.chat.append("["+seat+"번 좌석]: "+chat+"\n");
+		this.chat.setCaretPosition(chat.length());
+	}
+
+	public void echoChat(int seat,String chat){
+		System.out.println("[관리자]>["+seat+"번 좌석]: "+chat+"\n");
+		this.chat.append("[관리자]>["+seat+"번 좌석]: "+chat+"\n");
+		this.chat.setCaretPosition(chat.length());
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new ServerFrame();

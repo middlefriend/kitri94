@@ -11,16 +11,15 @@ public class ClientHandler implements Runnable{
 	public static ObjectOutputStream oos;
 	
 	LoginFrame login;
-
-	ClientTimer timer; 
+	
 	Socket socket;
 
 	public ClientHandler(Socket socket,LoginFrame login) {
 		this.socket = socket;
 		this.login = login;
+
 	}
 
-	
 	public void run() {
 		try {
 			//입출력 스트림 생성
@@ -49,7 +48,7 @@ public class ClientHandler implements Runnable{
 						}
 						//로그인
 						case 3: {
-							login.loginResult(inMsg.getResult(), inMsg.getRemain());
+							login.loginResult(inMsg.getResult(), inMsg.getRemain(), inMsg.getName(), inMsg.getUserID());
 							break;
 						}
 						//좌석이동
@@ -59,7 +58,28 @@ public class ClientHandler implements Runnable{
 						}
 						//시간충전
 						case 5: {
-							login.pFrame.purchaseCheckResult(inMsg.getResult());
+							if(login.cFrame == null) {
+								login.pFrame.purchaseCheckResult(inMsg.getResult());
+							}else {								
+								login.cFrame.pFrame.purchaseCheckResult(inMsg.getResult());
+								if(login.cFrame!=null)login.cFrame.resetTimer(inMsg.getRemain());
+							}
+							break;
+						}
+						case 6:{
+							login.cFrame.resetTimer(inMsg.getRemain());
+							break;
+						}
+						case 7: {
+							if(login.cFrame == null) {
+								login.pFrame.idCheckResult(inMsg.getResult());
+							}else {								
+								login.cFrame.pFrame.idCheckResult(inMsg.getResult());
+							}
+							break;
+						}
+						case 8: {
+							login.cFrame.updateChat(inMsg.getChat());
 							break;
 						}
 					}

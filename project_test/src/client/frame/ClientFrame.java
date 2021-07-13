@@ -4,9 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.*;
+import java.util.Timer;
 
 import javax.swing.*;
 
+import client.program.ClientHandler;
+import client.program.ClientTimer;
 import message.Message;
 
 public class ClientFrame extends JFrame implements ActionListener {
@@ -15,19 +20,23 @@ public class ClientFrame extends JFrame implements ActionListener {
 	
 	JTextField textField;
 
-	JTextArea textArea = new JTextArea();
-	JScrollPane scrollPane = new JScrollPane(textArea);
+	JTextArea chatF = new JTextArea();
+	JScrollPane scrollPane = new JScrollPane(chatF);
 	JLabel pcroomNameL;
 	JLabel userIdL;
 	JLabel notice1Label; 
 	JLabel noticeNameL;
 	JLabel notice2Label;
 	JLabel noticeTimeL;
-	JComboBox seatCB;
+	JButton sendBt;
+	JComboBox<String> seatCB;
 
 	JButton changeBt;
 	JButton logoutBt;
 	JButton purchaseBt;
+	
+	Timer timer;
+	TimerTask task;
 
 	String[] seatNum = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
 			"15","16","17","18","19","20"};
@@ -38,15 +47,24 @@ public class ClientFrame extends JFrame implements ActionListener {
     
     public LoginFrame lFrame;
     public PurchaseFrame pFrame;
+    // public ClientTimer cTimer;
+    
+    int remain;
+    String id;
+    String name;
 	
     int seat;
 
-	public ClientFrame() {
+	public ClientFrame(int remain, String name, String id) {
 		this.setTitle("VIP PC");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 500, 600);
 		this.setLayout(null);
+		this.name = name;
+		this.remain = remain;
+		this.id = id;
 		setComponent();
+		setTimer();
 		this.setVisible(true);
 	}
 
@@ -61,9 +79,10 @@ public class ClientFrame extends JFrame implements ActionListener {
 		pcroomNameL.setBounds(30, 20, 266, 35);
 		
 		userIdL = new JLabel();
+		userIdL.setText(name);
 		userIdL.setFont(fLabel);
 		userIdL.setHorizontalAlignment(SwingConstants.RIGHT);
-		userIdL.setBounds(250, 20, 50, 15);
+		userIdL.setBounds(250, 20, 100, 15);
 
 		notice1Label = new JLabel("님 환영합니다!");
 		notice1Label.setFont(fLabel);
@@ -78,13 +97,13 @@ public class ClientFrame extends JFrame implements ActionListener {
 		notice2Label.setFont(fLabel);
 		notice2Label.setBounds(308, 39, 61, 15);
 
-		noticeTimeL = new JLabel("");
+		noticeTimeL = new JLabel(String.valueOf(remain/60)+"시간"+String.valueOf(remain%60)+"분");
 		noticeTimeL.setFont(fLabel);
 		noticeTimeL.setBounds(381, 39, 91, 15);
 
 		seatCB = new JComboBox();
 		seatCB.setMaximumRowCount(5);
-		seatCB.setModel(new DefaultComboBoxModel(seatNum));
+		seatCB.setModel(new DefaultComboBoxModel<String>(seatNum));
 		seatCB.setBackground(new Color(224, 224, 224));
 		seatCB.setBounds(30, 88, 80, 25);
 
@@ -109,16 +128,23 @@ public class ClientFrame extends JFrame implements ActionListener {
 		purchaseBt.setBorderPainted(false);
 		purchaseBt.setFocusPainted(false);
 
-		textArea.setLineWrap(true);
+		chatF.setLineWrap(true);
 		scrollPane.setBounds(30, 140, 430, 370);
 
 		textField = new JTextField();
 		textField.setBackground(new Color(224, 224, 224));
 		textField.setForeground(Color.BLACK);
-		textField.setBounds(30, 509, 430, 30);
+		textField.setBounds(30, 509, 360, 30);
 		textField.setColumns(10);
 		
+		sendBt = new JButton("send");
+		sendBt.setFont(fBt);
+		sendBt.setBounds(390, 509, 69, 29);
+		sendBt.setBackground(new Color(224, 224, 224));
+		sendBt.setFocusPainted(false);
+		
 		clientPanel.add(pcroomNameL);
+		clientPanel.add(userIdL);
 		clientPanel.add(notice1Label);
 		clientPanel.add(notice2Label);
 		clientPanel.add(noticeTimeL);
@@ -127,9 +153,10 @@ public class ClientFrame extends JFrame implements ActionListener {
 		clientPanel.add(logoutBt);
 		clientPanel.add(purchaseBt);
 		clientPanel.add(seatCB);
-		clientPanel.add(textArea);
+		clientPanel.add(chatF);
 		clientPanel.add(scrollPane);
 		clientPanel.add(textField);
+		clientPanel.add(sendBt);
 
 		this.setContentPane(clientPanel);
 		eventList();
@@ -139,6 +166,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		changeBt.addActionListener(this);
 		logoutBt.addActionListener(this);
 		purchaseBt.addActionListener(this);
+		sendBt.addActionListener(this);
 	}
 
 	@Override
@@ -148,33 +176,128 @@ public class ClientFrame extends JFrame implements ActionListener {
 			seat = Integer.parseInt(seatCB.getSelectedItem().toString());	
 			//자리 중복 확인
 			Message outMsg = new Message();
+			outMsg.setUserID(id);
 			outMsg.setSeatNum(seat);
 			outMsg.setState(4);
+			
+			try {
+				ClientHandler.oos.writeObject(outMsg);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 		//로그아웃
 		if(logoutBt == e.getSource()) {
 			dispose();
+			
 			lFrame = new LoginFrame();
+			
+			Message outMsg = new Message();
+			outMsg.setUserID(id);
+			outMsg.setRemain(remain);
+			outMsg.setState(6);
+			
+			try {
+				ClientHandler.oos.writeObject(outMsg);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			//history남기기
 		}
 		//시간구매
 		if(purchaseBt == e.getSource()) {
+			
 			pFrame = new PurchaseFrame();
 		}
+
+//		 if(sendBt == e.getSource()){
+//		 	String chat = chatF.getText();
+//		 	//chatF 필드에 아무것도 입력하지 않았을때 동작하지 않음
+//		 	if(chat == "") return;
+//		 	int seat = Integer.parseInt(chat);
+//		 	//배정되지 않은 좌석일때 알림
+//		 	if(!Server.seatMap.containsKey(seat)){
+//		 		JOptionPane.showMessageDialog(null, "미사용 좌석입니다.");
+//		 		return;
+//		 	}
+//		 	Message outMsg = new Message();
+//		 	outMsg.setChat(chat);
+//		 	outMsg.setState(8);
+//		 	try {
+//		 		//채팅 해당 좌석 사용자에게 전송
+//		 		Server.seatMap.get(seat).writeObject(outMsg);
+//		 		//서버프레임에 전송한 내용 표시
+//		 		echoChat(seat,chat);
+//		 	} catch (IOException e1) {
+//		 		// TODO Auto-generated catch block
+//		 		e1.printStackTrace();
+//		 	}
+//		 }
 		
 	}
 	
 	public void changeSeatResult(int result) {
-		if(result == 1) {
+		if (result == 1) {
 			JOptionPane.showMessageDialog(null, "좌석 이동에 성공하였습니다.");
-		}else {
-			JOptionPane.showConfirmDialog(null, "좌석이동에 실패하였습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+		} else {
+			JOptionPane.showConfirmDialog(null, "좌석이동에 실패하였습니다.", "경고", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
-	public static void main(String[] args) {
-		new ClientFrame();
+	void setTimer(){
+		updateTime();
+		timer = new Timer();
+		task = new TimerTask() {
+			public void run() {
+				//분수 감소
+				remain --;
+				//화면에서 잔여시간 갱신
+				updateTime();
+			}
+		};
+		 timer.scheduleAtFixedRate(task,60l*1000,60l*1000);
+//		timer.scheduleAtFixedRate(task,1l*1000,1l*1000); //초로 테스트
 	}
+	
+	void updateTime() {
+		// System.out.println(remain);
+		noticeTimeL.setText(String.valueOf((remain/60) + "시간" + (remain%60) +"분"));
+		if (remain == 10) {
+			// 잔여시간 10이 되면 경고
+			JOptionPane.showConfirmDialog(null, "종료시간 10분 전입니다.", "경고", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+		} else if (remain == 0) {
+			// 잔여시간이 0이 되면 종료
+			JOptionPane.showConfirmDialog(null, "종료되었습니다.", "경고", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+			task.cancel();
+			// 종료알림
+			dispose();
+		}
+	}
+
+	public void resetTimer(int remain) {
+		this.remain = remain;
+		updateTime();
+	}
+
+	public void updateChat(String chat){
+		chatF.append("[관리자]: "+chat);
+		chatF.setCaretPosition(chat.length());
+	}
+
+	// public void echoChat(int seat,String chat){
+	// 	chatF.append("["+name+"]: "+chat+"\n");
+	// 	chatF.setCaretPosition(chat.length());
+	// }
+
+
+//	public static void main(String[] args) {
+//		new ClientFrame();
+//	}
 
 }

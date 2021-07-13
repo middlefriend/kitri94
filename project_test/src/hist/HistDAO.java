@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import dbcon.DBConnect;
 
+
 public class HistDAO {
   // 전체 select
   public ArrayList<HistVO> getAllHist() {
@@ -61,29 +62,34 @@ public class HistDAO {
   public int insertHistory(String id, int seat, String status) { // 성공 시 1반환, 실패 0반환
     LocalDateTime ldt = LocalDateTime.now();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    String sql = "INSERT INTO HISTORY " + "VALUES ( (select COUNT(HISID) from history) + 1 " + ",'"
+    int result = 0;
+    String sql = "INSERT INTO HISTORY(HISID, USERID, TIME, STATUS, SEAT) " + "VALUES((select COUNT(HISID) from history) + 1 " + ",'"
         + id + "' " + ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + status + "' "
         + "," + seat + ")";
 
     if (excuteInsert(sql) != 0)
-      return 1;
+      result = 1;
     else
-      return 0;
+      result = 0;
+    
+    return result;
   }
 
 
 	public int insertChargeTime(String id, int time, String status) { //시간충전로그
 		LocalDateTime ldt = LocalDateTime.now();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		int result = 0;
+		String sql = "INSERT INTO HISTORY(HISID, USERID, TIME, STATUS, SEAT) " + "VALUES((select COUNT(HISID) from history) + 1 " + ",'" + id + "' "
+				+ ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + time +status + "' " + "," + null + ")";
 
-		String sql = "INSERT INTO HISTORY " + "VALUES ( (select COUNT(HISID) from history) + 1 " + ",'" + id + "' "
-				+ ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + time + status + "' " + "," + null + ")";
-
+		
 		if (excuteInsert(sql) != 0)
-			return 1;
+			result = 1;
 		else
-			return 0;
+			result = 0;
+		
+		return result;
 	}
 
 	public int excuteInsert(String sql) {

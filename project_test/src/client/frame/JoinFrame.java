@@ -47,7 +47,7 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
     int idCheck;
     int pwdCheck;
     
-    public ClientFrame clientFrame;
+    public LoginFrame lFrame;
     
 	public JoinFrame() {
 		this.setTitle("회원 가입");
@@ -186,9 +186,7 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 			}
 			// ID 값 받아서 비교
 			Message outMsg = new Message();
-			UserVO uvo = new UserVO();
-			uvo.setUserID(idF.getText());
-			outMsg.setUvo(uvo);
+			outMsg.setUserID(id);
 			outMsg.setState(1);
 			
 			ObjectOutput oos = ClientHandler.oos;
@@ -202,7 +200,10 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 
 		//회원가입 버튼
 		if(joinBt == e.getSource()) {
-			if(idCheck==0) {
+			String id = idF.getText();
+			String pwd = pwdF.getText();
+			String name = nameF.getText();
+			if(idCheck != 0) {
 				JOptionPane.showConfirmDialog(null, "사용 가능한 ID를 입력해 주세요.", "경고", JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
 				return;
 			}
@@ -223,17 +224,15 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 			if(nameF.getText().equals("")) {
 				JOptionPane.showConfirmDialog(null, "이름을 입력해 주세요", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 			}
-			clientFrame = new ClientFrame();
+			lFrame = new LoginFrame();
 			
 			//받은 정보 보내기
 			Message outMsg = new Message();
-			UserVO uvo = new UserVO();
-			uvo.setUserID(idF.getText());
-			uvo.setPwd(pwdF.getText());
-			uvo.setName(nameF.getText());
-			
+			outMsg.setUserID(id);
+			outMsg.setPwd(pwd);
+			outMsg.setName(name);
 			outMsg.setState(2); //회원 정보 저장, join
-			outMsg.setUvo(uvo);
+
 			try {
 				ClientHandler.oos.writeObject(outMsg);
 			} catch (IOException e1) {
