@@ -171,6 +171,7 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 				return;
 			}
 			// ID 값 받아서 비교
+			System.out.println("pframe oos 실행1 "+id);
 			Message outMsg = new Message();
 			outMsg.setUserID(id);
 			outMsg.setState(7); //id확인
@@ -178,6 +179,7 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 			ObjectOutput oos = ClientHandler.oos;
 			try {
 				oos.writeObject(outMsg);
+				System.out.println("pframe oos 실행2");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -294,16 +296,13 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		if(result == 1) {
 			JOptionPane.showMessageDialog(null, "시간 충전이 완료되었습니다.");
 			dispose();
-			
+
 		}else {
 			JOptionPane.showConfirmDialog(null, "충전에 실패하였습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 		}
 		
 	}
-	
-	public void refresh(int remain) {
-		//클라이언트 화면 남은 시간 새로고침
-	}
+
 	
 //	public static void main(String[] args) {
 //		new PurchaseFrame();

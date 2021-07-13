@@ -26,6 +26,7 @@ public class ClientTimer{
 			//초수 감소
 			remain -=1000l;
 			//화면에서 잔여시간 갱신
+			
 
 			if(remain==10l*60*1000) {
 				//잔여시간이 10분 되면 알람

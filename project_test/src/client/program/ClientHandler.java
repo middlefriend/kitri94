@@ -11,16 +11,15 @@ public class ClientHandler implements Runnable{
 	public static ObjectOutputStream oos;
 	
 	LoginFrame login;
-
-	ClientTimer timer; 
+	
 	Socket socket;
 
 	public ClientHandler(Socket socket,LoginFrame login) {
 		this.socket = socket;
 		this.login = login;
+
 	}
 
-	
 	public void run() {
 		try {
 			//입출력 스트림 생성
@@ -59,11 +58,19 @@ public class ClientHandler implements Runnable{
 						}
 						//시간충전
 						case 5: {
-							login.cFrame.pFrame.purchaseCheckResult(inMsg.getResult());
+							login.pFrame.purchaseCheckResult(inMsg.getResult());
+							login.cFrame.resetTimer(inMsg.getRemain());
 							break;
 						}
+						case 6:{
+							login.cFrame.resetTimer(inMsg.getRemain());
+						}
 						case 7: {
-							login.cFrame.pFrame.idCheckResultp(inMsg.getResult());
+							login.pFrame.idCheckResultp(inMsg.getResult());
+							break;
+						}
+						case 8: {
+							login.cFrame.updateChat(inMsg.getChat());
 							break;
 						}
 					}

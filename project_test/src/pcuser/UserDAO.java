@@ -149,15 +149,13 @@ public class UserDAO {
 
   // insert
   public int insertUser(String id, String pwd, String name) { // 유저 생성 성공 시 1반환, 실패 0반환
-    String sql =
-        "INSERT INTO PCUSER (USERID,NAME,PWD) VALUES ('" + id + "','" + pwd + "','" + name + "')";
-    // "";
-   
-    if (excuteInsert(sql) != 0)
-      return 1;
-    else
-      return 0;
-  }
+	    String sql =
+	        "INSERT INTO PCUSER (USERID,PWD,NAME,REMAIN) VALUES ('" + id + "','" + pwd + "','" + name + "',0)";
+	    if (excuteInsert(sql) != 0)
+	      return 1;
+	    else
+	      return 0;
+	  }
 
 
   public int excuteInsert(String sql) {
@@ -184,17 +182,30 @@ public class UserDAO {
   // insert end
 
   // updated
-  public int chargeTime(String id, int time) {
-    String sql = "UPDATE PCUSER " + "SET REMAIN = remain +" + time + " " + "WHERE USERID = '" + id + "'";
-    int result = 0;
-    
-    if (excuteUpdate(sql) != 0)
-      result = 1;
-    else
-      result =  0;
-    
-    return result;
-  }
+	public int chargeTime(String id, int time) {
+		String sql = "UPDATE PCUSER " + "SET REMAIN = remain +" + time + " " + "WHERE USERID = '" + id + "'";
+		int result = 0;
+
+		if (excuteUpdate(sql) != 0)
+			result = 1;
+		else
+			result = 0;
+
+		return result;
+	}
+  
+  public int changeRemain(String id, int time) {
+	    String sql = "UPDATE PCUSER SET REMAIN = " + time + " WHERE USERID = '" + id + "'";
+	    int result = 0;
+
+	    if (excuteUpdate(sql) != 0)
+	      result = 1;
+	    else
+	      result = 0;
+
+	    return result;
+	  }
+
 
   public int excuteUpdate(String sql) {
 

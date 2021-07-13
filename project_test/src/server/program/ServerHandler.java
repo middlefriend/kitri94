@@ -2,7 +2,6 @@ package server.program;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import hist.HistDAO;
 import message.Message;
@@ -39,9 +38,10 @@ public class ServerHandler implements Runnable{
 				if(obj instanceof Message) {
 					//클라이언트로 부터 입력받은 메세지
 					inMsg = (Message)obj;
-					System.out.println(inMsg);
+					// System.out.println(inMsg);
 					int state = inMsg.getState();
 					Message outMsg = new Message();
+					boolean noNeedReply = false;
 					switch(state) {
 						case 1: {	// ID 중복확인
 							int result = dao.checkID(inMsg.getUserID());
@@ -74,6 +74,7 @@ public class ServerHandler implements Runnable{
 							HistDAO hdao = new HistDAO();
 							hdao.insertHistory(inMsg.getUserID(),inMsg.getSeatNum(),"로그인");
 							System.out.println(outMsg.getRemain());
+							frame.seatInfoRefresh(inMsg.getUserID(), inMsg.getSeatNum()); 
 							break;
 						}
 						case 4: {	// 좌석 이동
@@ -97,6 +98,7 @@ public class ServerHandler implements Runnable{
 							//로그
 							HistDAO hdao = new HistDAO();
 							hdao.insertHistory(id, seatNum,"자리이동");
+							frame.seatInfoRefresh(inMsg.getUserID(),inMsg.getSeatNum()); 
 							break;
 						}
 						case 5: {	// 시간충전
@@ -106,6 +108,8 @@ public class ServerHandler implements Runnable{
 							int result = dao.chargeTime(inMsg.getUserID(),time);
 							outMsg.setState(5);
 							outMsg.setResult(result);
+							UserVO uvo = dao.getUser(id);
+							outMsg.setRemain(uvo.getRemain());
 							if(result == 1){
 								//로그
 								HistDAO hdao = new HistDAO();
@@ -123,24 +127,41 @@ public class ServerHandler implements Runnable{
 							if(result == 1){
 								//로그
 								HistDAO hdao = new HistDAO();
-								hdao.insertHistory(id, seatNum,"로그아웃");
+								hdao.insertHistory(id, seatNum, "로그아웃");
+								UserDAO udao = new UserDAO();
+								udao.changeRemain(id, remain);
 							}
+							UserVO uvo = dao.getUser(id);
+							outMsg.setRemain(uvo.getRemain());
+							frame.seatInfoRefresh(inMsg.getUserID(), inMsg.getSeatNum()); 
 							break;
 						}
 						case 7: {	// ID 중복확인
 							int result = dao.checkID(inMsg.getUserID());
+							
 							outMsg.setState(7);
 							outMsg.setResult(result);
+							
+							UserVO uvo = dao.getUser(inMsg.getUserID());
+							outMsg.setUvo(uvo);
+							break;
+							//로그인 안하고 충전하면 에러
+						}
+						case 8:{	// 채팅
+							String str = inMsg.getChat();
+							frame.updateChat(seatNum,str);
+							noNeedReply = true;
 							break;
 						}
 					}
+					//회신이 필요없는 동작이면 스킵
+					if(noNeedReply) continue;
 					oos.writeObject(outMsg);
 					oos.flush();
 					//좌석 정보 새로고침
-					
+						
 				}
 			}
-			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

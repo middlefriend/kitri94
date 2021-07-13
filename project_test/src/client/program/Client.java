@@ -14,6 +14,7 @@ public class Client {
 		//서버 port
 		final int serverPort = 7777;
 		LoginFrame login = new LoginFrame();
+
 		try {
 			//서버 소켓 연결
 			socket = new Socket(serverIp,serverPort);

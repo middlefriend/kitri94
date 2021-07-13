@@ -62,7 +62,7 @@ public class HistDAO {
     LocalDateTime ldt = LocalDateTime.now();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     int result = 0;
-    String sql = "INSERT INTO HISTORY " + "VALUES ( (select COUNT(HISID) from history) + 1 " + ",'"
+    String sql = "INSERT INTO HISTORY(HISID, USERID, TIME, STATUS, SEAT) " + "VALUES((select COUNT(HISID) from history) + 1 " + ",'"
         + id + "' " + ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + status + "' "
         + "," + seat + ")";
 
@@ -79,9 +79,10 @@ public class HistDAO {
 		LocalDateTime ldt = LocalDateTime.now();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		int result = 0;
-		String sql = "INSERT INTO HISTORY " + "VALUES ( (select COUNT(HISID) from history) + 1 " + ",'" + id + "' "
+		String sql = "INSERT INTO HISTORY(HISID, USERID, TIME, STATUS, SEAT) " + "VALUES((select COUNT(HISID) from history) + 1 " + ",'" + id + "' "
 				+ ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + time +status + "' " + "," + null + ")";
 
+		
 		if (excuteInsert(sql) != 0)
 			result = 1;
 		else
