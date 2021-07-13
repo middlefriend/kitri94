@@ -282,8 +282,8 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		
 	}
 
-	public void idCheckResultp(int idCheck) {
-		if(idCheck ==1 ) {
+	public void idCheckResultp(int result) {
+		if(result == 1 ) {
 			idCheck = 1;
 			JOptionPane.showMessageDialog(null, "아이디가 확인되었습니다. 시간을 선택해 주세요.");
 			idField.setEditable(false);
