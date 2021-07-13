@@ -255,10 +255,13 @@ public class ServerFrame extends JFrame implements ActionListener {
 	}
 	
 	public void seatInfoRefresh(String userID, int seat) {
-		for (int i = 0, n = Server.seatMap.size(); i < n; i++) {
+		for (int i = 0; i < 20; i++) {
 			if(seat == i+1) {
 				btn[i].setText("<HTML><center>" + String.valueOf(i+1) + "</center><br>" + userID + "</HTML>");				
+			}else {
+				btn[i].setText("<HTML><center>" + String.valueOf(i+1) + "</center></HTML>");
 			}
+				
 		}
 	}
 

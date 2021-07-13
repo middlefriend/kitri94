@@ -120,17 +120,17 @@ public class ServerHandler implements Runnable{
 						case 6: {	// 로그아웃
 							int remain = inMsg.getRemain();
 							String id = inMsg.getUserID();
-							int result = dao.chargeTime(inMsg.getUserID(),remain);
+//							int result = dao.chargeTime(inMsg.getUserID(),remain);
 							outMsg.setState(6);
-							outMsg.setResult(result);
+//							outMsg.setResult(result);
 							//남은 시간 갱신 완료
-							if(result == 1){
+//							if(result == 1){
 								//로그
 								HistDAO hdao = new HistDAO();
 								hdao.insertHistory(id, seatNum, "로그아웃");
 								UserDAO udao = new UserDAO();
 								udao.changeRemain(id, remain);
-							}
+//							}
 							UserVO uvo = dao.getUser(id);
 							outMsg.setRemain(uvo.getRemain());
 							frame.seatInfoRefresh(inMsg.getUserID(), inMsg.getSeatNum()); 

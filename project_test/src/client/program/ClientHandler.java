@@ -58,15 +58,24 @@ public class ClientHandler implements Runnable{
 						}
 						//시간충전
 						case 5: {
-							login.pFrame.purchaseCheckResult(inMsg.getResult());
-							login.cFrame.resetTimer(inMsg.getRemain());
+							if(login.cFrame == null) {
+								login.pFrame.purchaseCheckResult(inMsg.getResult());
+							}else {								
+								login.cFrame.pFrame.purchaseCheckResult(inMsg.getResult());
+								if(login.cFrame!=null)login.cFrame.resetTimer(inMsg.getRemain());
+							}
 							break;
 						}
 						case 6:{
 							login.cFrame.resetTimer(inMsg.getRemain());
+							break;
 						}
 						case 7: {
-							login.pFrame.idCheckResultp(inMsg.getResult());
+							if(login.cFrame == null) {
+								login.pFrame.idCheckResult(inMsg.getResult());
+							}else {								
+								login.cFrame.pFrame.idCheckResult(inMsg.getResult());
+							}
 							break;
 						}
 						case 8: {

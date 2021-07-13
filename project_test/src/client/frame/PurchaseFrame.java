@@ -171,7 +171,6 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 				return;
 			}
 			// ID 값 받아서 비교
-			System.out.println("pframe oos 실행1 "+id);
 			Message outMsg = new Message();
 			outMsg.setUserID(id);
 			outMsg.setState(7); //id확인
@@ -179,8 +178,7 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 			ObjectOutput oos = ClientHandler.oos;
 			try {
 				oos.writeObject(outMsg);
-				System.out.println("pframe oos 실행2");
-			} catch (IOException e1) {
+				} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -280,7 +278,7 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		
 	}
 
-	public void idCheckResultp(int idCheck) {
+	public void idCheckResult(int idCheck) {
 		if(idCheck != 0) {
 			JOptionPane.showMessageDialog(null, "아이디가 확인되었습니다. 시간을 선택해 주세요.");
 			idField.setEditable(false);

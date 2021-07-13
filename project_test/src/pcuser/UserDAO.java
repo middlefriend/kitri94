@@ -48,11 +48,12 @@ public class UserDAO {
   public int getAuth(String id, String pwd) { //로그인
 //    String sql = "SELECT userid FROM PCUSER WHERE USERID='" + id + "' AND PWD ='" + pwd + "'";
 	  
-	  String sql = "SELECT COUNT(*) FROM PCUSER WHERE USERID = ? and PWD =?";
+	  String sql = "SELECT USERID FROM PCUSER WHERE USERID = ? and PWD =?";
 
     PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	Connection conn = null;
+	
 	int result = 0;
 	try {
 		conn = DBConnect.getConnection();
@@ -62,7 +63,9 @@ public class UserDAO {
 
 		rs = pstmt.executeQuery();
 		while (rs.next()) { 
-			result = rs.getInt(1);
+			if(rs.getString(1) != null) {			
+				result = 1;
+			}
 		}
 
 	} catch (SQLException e) {
@@ -99,9 +102,9 @@ public class UserDAO {
 			UserVO uvo = null;
 			while (rs.next()) {
 				uvo = new UserVO();
-				uvo.setUserID(rs.getString(1));
-				uvo.setName(rs.getString(2));
-				uvo.setRemain(rs.getInt(3));
+				uvo.setUserID(rs.getString("USERID"));
+				uvo.setName(rs.getString("NAME"));
+				uvo.setRemain(rs.getInt("REMAIN"));
 				blist.add(uvo);
 			}
 

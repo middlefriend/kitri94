@@ -20,8 +20,8 @@ public class ClientFrame extends JFrame implements ActionListener {
 	
 	JTextField textField;
 
-	JTextArea textArea = new JTextArea();
-	JScrollPane scrollPane = new JScrollPane(textArea);
+	JTextArea chatF = new JTextArea();
+	JScrollPane scrollPane = new JScrollPane(chatF);
 	JLabel pcroomNameL;
 	JLabel userIdL;
 	JLabel notice1Label; 
@@ -63,7 +63,6 @@ public class ClientFrame extends JFrame implements ActionListener {
 		this.name = name;
 		this.remain = remain;
 		this.id = id;
-		System.out.println(remain);
 		setComponent();
 		setTimer();
 		this.setVisible(true);
@@ -129,7 +128,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		purchaseBt.setBorderPainted(false);
 		purchaseBt.setFocusPainted(false);
 
-		textArea.setLineWrap(true);
+		chatF.setLineWrap(true);
 		scrollPane.setBounds(30, 140, 430, 370);
 
 		textField = new JTextField();
@@ -154,7 +153,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		clientPanel.add(logoutBt);
 		clientPanel.add(purchaseBt);
 		clientPanel.add(seatCB);
-		clientPanel.add(textArea);
+		clientPanel.add(chatF);
 		clientPanel.add(scrollPane);
 		clientPanel.add(textField);
 		clientPanel.add(sendBt);
@@ -197,6 +196,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 			
 			Message outMsg = new Message();
 			outMsg.setUserID(id);
+			outMsg.setRemain(remain);
 			outMsg.setState(6);
 			
 			try {
@@ -213,29 +213,29 @@ public class ClientFrame extends JFrame implements ActionListener {
 			pFrame = new PurchaseFrame();
 		}
 
-		// if(chatBt == e.getSource()){
-		// 	String chat = chatF.getText();
-		// 	//chatF 필드에 아무것도 입력하지 않았을때 동작하지 않음
-		// 	if(chat == "") return;
-		// 	int seat = Integer.parseInt(chat);
-		// 	//배정되지 않은 좌석일때 알림
-		// 	if(!Server.seatMap.containsKey(seat)){
-		// 		JOptionPane.showMessageDialog(null, "미사용 좌석입니다.");
-		// 		return;
-		// 	}
-		// 	Message outMsg = new Message();
-		// 	outMsg.setChat(chat);
-		// 	outMsg.setState(8);
-		// 	try {
-		// 		//채팅 해당 좌석 사용자에게 전송
-		// 		Server.seatMap.get(seat).writeObject(outMsg);
-		// 		//서버프레임에 전송한 내용 표시
-		// 		echoChat(seat,chat);
-		// 	} catch (IOException e1) {
-		// 		// TODO Auto-generated catch block
-		// 		e1.printStackTrace();
-		// 	}
-		// }
+//		 if(sendBt == e.getSource()){
+//		 	String chat = chatF.getText();
+//		 	//chatF 필드에 아무것도 입력하지 않았을때 동작하지 않음
+//		 	if(chat == "") return;
+//		 	int seat = Integer.parseInt(chat);
+//		 	//배정되지 않은 좌석일때 알림
+//		 	if(!Server.seatMap.containsKey(seat)){
+//		 		JOptionPane.showMessageDialog(null, "미사용 좌석입니다.");
+//		 		return;
+//		 	}
+//		 	Message outMsg = new Message();
+//		 	outMsg.setChat(chat);
+//		 	outMsg.setState(8);
+//		 	try {
+//		 		//채팅 해당 좌석 사용자에게 전송
+//		 		Server.seatMap.get(seat).writeObject(outMsg);
+//		 		//서버프레임에 전송한 내용 표시
+//		 		echoChat(seat,chat);
+//		 	} catch (IOException e1) {
+//		 		// TODO Auto-generated catch block
+//		 		e1.printStackTrace();
+//		 	}
+//		 }
 		
 	}
 	
@@ -272,7 +272,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 					JOptionPane.WARNING_MESSAGE);
 		} else if (remain == 0) {
 			// 잔여시간이 0이 되면 종료
-			JOptionPane.showConfirmDialog(null, "자동 종료되었습니다.", "경고", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "종료되었습니다.", "경고", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.WARNING_MESSAGE);
 			task.cancel();
 			// 종료알림
@@ -286,13 +286,13 @@ public class ClientFrame extends JFrame implements ActionListener {
 	}
 
 	public void updateChat(String chat){
-		textArea.append("[관리자]: "+chat);
-		textArea.setCaretPosition(chat.length());
+		chatF.append("[관리자]: "+chat);
+		chatF.setCaretPosition(chat.length());
 	}
 
 	// public void echoChat(int seat,String chat){
-	// 	textArea.append("["+name+"]: "+chat+"\n");
-	// 	textArea.setCaretPosition(chat.length());
+	// 	chatF.append("["+name+"]: "+chat+"\n");
+	// 	chatF.setCaretPosition(chat.length());
 	// }
 
 

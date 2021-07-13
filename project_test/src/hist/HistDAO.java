@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import dbcon.DBConnect;
 
+
 public class HistDAO {
   // 전체 select
   public ArrayList<HistVO> getAllHist() {
