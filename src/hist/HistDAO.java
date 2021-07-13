@@ -1,4 +1,4 @@
-package src.hist;
+package hist;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,17 +7,15 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import src.dbcon.DBConnect;
+import dbcon.DBConnect;
+
 
 public class HistDAO {
   // 전체 select
   public ArrayList<HistVO> getAllHist() {
     String sql = "SELECT * FROM HISTORY ROWNUM <= 100";
 
-    ArrayList<HistVO> blist = new ArrayList<HistVO>();
-    blist = excuteSelect(sql);
-
-    return blist;
+    return  excuteSelect(sql);
   }
 
 
@@ -30,9 +28,9 @@ public class HistDAO {
     // return 객체
     ArrayList<HistVO> blist = new ArrayList<HistVO>();
     try {
-      pstmt = conn.prepareStatement(sql);
+      pstmt = conn != null ? conn.prepareStatement(sql) : null;
       // Resultset 결과값 담기
-      rs = pstmt.executeQuery();
+      rs = pstmt != null ? pstmt.executeQuery() : null;
       // List에 결과값 담기
 
       HistVO hvo = null;
@@ -47,7 +45,8 @@ public class HistDAO {
         blist.add(hvo);
       }
     } catch (SQLException e) {
-      // e.printStackTrace();
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     } finally {
       DBConnect.checkClose(rs, pstmt, conn);
     }
@@ -56,56 +55,47 @@ public class HistDAO {
   //// select 끝
 
 
-  // insert 자리이동,로그인,로그아웃, 시간충전
-  public int insertHistory(String id, int seat, String status) { // 성공 시 1반환, 실패 0반환
+  // insert (로그인, 로그아웃, 자리이동)
+  public void insertHistory(String id, int seat, String status) { // 성공 시 1반환, 실패 0반환
     LocalDateTime ldt = LocalDateTime.now();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    String sql = "INSERT INTO HISTORY " + "VALUES ( (select COUNT(HISID) from history) + 1 " + ",'"
+    int result = 0;
+    String sql = "INSERT INTO HISTORY(HISID, USERID, TIME, STATUS, SEAT) " + "VALUES((select COUNT(HISID) from history) + 1 " + ",'"
         + id + "' " + ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + status + "' "
         + "," + seat + ")";
 
-    if (excuteInsert(sql) != 0)
-      return 1;
-    else
-      return 0;
-  }
-
-  public int insertChargeTime(String id, int time, String status) {
-    LocalDateTime ldt = LocalDateTime.now();
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    String sql = "INSERT INTO HISTORY " + "VALUES ( (select COUNT(HISID) from history) + 1 " + ",'"
-        + id + "' " + ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + time + status
-        + "' " + "," + null + ")";
-    
-    
-    if (excuteInsert(sql) != 0)
-      return 1;
-    else
-      return 0;
+    excuteInsert(sql);
   }
 
 
-  public int excuteInsert(String sql) {
-    // DB connection 연결
-    Connection conn = DBConnect.getConnection();
-    // 실행쿼리
-    PreparedStatement pstmt = null;
-    // return 값
-    int result = 0;
-    try {
-      // preparedstatement 객체 생성
-      pstmt = conn.prepareStatement(sql);
-      // Resultset 결과값 담기
-      result = pstmt.executeUpdate();
-    } catch (SQLException e) {
-      // e.printStackTrace();
-    } finally {
-      DBConnect.checkClose(null, pstmt, conn);
+	public void insertChargeTime(String id, int time, String status) { //시간충전로그
+		LocalDateTime ldt = LocalDateTime.now();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		int result = 0;
+		String sql = "INSERT INTO HISTORY(HISID, USERID, TIME, STATUS, SEAT) " + "VALUES((select COUNT(HISID) from history) + 1 " + ",'" + id + "' "
+				+ ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + time +status + "' " + "," + null + ")";
+
+      excuteInsert(sql);
     }
 
-    return result;
-  }
+	public void excuteInsert(String sql) {
+      // DB connection 연결
+      Connection conn = DBConnect.getConnection();
+      // 실행쿼리
+      PreparedStatement pstmt = null;
+      // return 값
+      int result = 0;
+      try {
+        // preparedstatement 객체 생성
+        pstmt = conn.prepareStatement(sql);
+        // Resultset 결과값 담기
+        result = pstmt.executeUpdate();
+      } catch (SQLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } finally {
+        DBConnect.checkClose(null, pstmt, conn);
+      }
+    }
   // insert end
 }
