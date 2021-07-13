@@ -10,7 +10,10 @@ import javax.swing.*;
 
 import client.program.ClientHandler;
 import message.Message;
+import pcuser.UserDAO;
 import pcuser.UserVO;
+import server.frame.ServerFrame;
+import server.program.Server;
 
 public class LoginFrame extends JFrame implements ActionListener {
 	
@@ -41,6 +44,8 @@ public class LoginFrame extends JFrame implements ActionListener {
 	String id;
 	int seat;
 	
+	boolean admin;
+	
 	Font fTitleLabel = new Font("굴림", Font.BOLD, 25);
 	Font fLabel = new Font("굴림", Font.PLAIN, 12);
 	Font fBt = new Font("굴림", Font.PLAIN, 12);
@@ -51,7 +56,8 @@ public class LoginFrame extends JFrame implements ActionListener {
 	String[] seatNum = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17",
 			"18", "19", "20" };
 
-	public LoginFrame() {
+	public LoginFrame(boolean admin) {
+		this.admin = admin;
 		this.setTitle("VIP LOGIN");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 300, 300);
@@ -178,26 +184,42 @@ public class LoginFrame extends JFrame implements ActionListener {
 						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-
 			Message outMsg = new Message();
-			outMsg.setUserID(userId);
-			outMsg.setPwd(password);
-			outMsg.setSeatNum(seat);
-			outMsg.setState(3); //login
 
-
-			id = idField.getText();
-			
-			try {
-				ClientHandler.oos.writeObject(outMsg);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			if (admin) {
+				if (userId.equals("admin")) {
+					UserDAO udao = new UserDAO();
+					int result = udao.getAuth(userId, password);
+					if (result != 0) {
+						JOptionPane.showMessageDialog(null, "관리자 LOGIN 성공!");
+						dispose();
+						Server.frame = new ServerFrame();
+						// 서버핸들러로 돌아가서 실행
+					}
+						else {
+						JOptionPane.showConfirmDialog(null, "관리자 계정으로 접속해 주십시오.", "경고", JOptionPane.DEFAULT_OPTION,
+								JOptionPane.WARNING_MESSAGE);
+					}
+				}else {
+					JOptionPane.showConfirmDialog(null, "관리자 계정으로 접속해 주십시오.", "경고", JOptionPane.DEFAULT_OPTION,
+							JOptionPane.WARNING_MESSAGE);
+				}
+			} else {
+				outMsg.setUserID(userId);
+				outMsg.setPwd(password);
+				outMsg.setSeatNum(seat);
+				outMsg.setState(3); // login
+				id = idField.getText();
+				try {
+					ClientHandler.oos.writeObject(outMsg);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
-			
 		}
 	}
-
+		
 	public void loginResult(int result, int remain, String name, String id) {
 		if (result != 0) {
 			if (remain == 0) {
@@ -217,7 +239,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		}
 	}
 
-	public static void main(String[] args) {
-		new LoginFrame();
-	}
+//	public static void main(String[] args) {
+//		new LoginFrame();
+//	}
 }

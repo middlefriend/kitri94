@@ -24,12 +24,12 @@ public class ServerHandler implements Runnable{
 	}
 	
 	public void run() {
-		System.out.println("서버 핸들러 시작-"+socket);
+//		System.out.println("서버 핸들러 시작-"+socket);
 		try {
 			//입출력 스트림 생성
 			this.oos = new ObjectOutputStream(socket.getOutputStream());
 			this.ois = new ObjectInputStream(socket.getInputStream());
-			System.out.println(ois+","+oos+"생성");
+//			System.out.println(ois+","+oos+"생성");
 			
 			Message inMsg = null;
 			Object obj=null;
@@ -69,12 +69,15 @@ public class ServerHandler implements Runnable{
 							outMsg.setUserID(uvo.getUserID());
 							//로그인 성공 시 좌석 배정
 							seatNum = inMsg.getSeatNum();
+							if(!Server.seatMap.containsKey(seatNum)) {
+								new Exception();
+							}
 							Server.seatMap.put(seatNum,this.oos);
 							//로그
 							HistDAO hdao = new HistDAO();
 							hdao.insertHistory(inMsg.getUserID(),inMsg.getSeatNum(),"로그인");
-							System.out.println(outMsg.getRemain());
-							frame.seatInfoRefresh(inMsg.getUserID(), inMsg.getSeatNum()); 
+//							System.out.println(outMsg.getRemain());
+							frame.seatInfoRefresh(inMsg.getUserID(),inMsg.getSeatNum(), Server.seatMap); 
 							break;
 						}
 						case 4: {	// 좌석 이동
@@ -98,7 +101,7 @@ public class ServerHandler implements Runnable{
 							//로그
 							HistDAO hdao = new HistDAO();
 							hdao.insertHistory(id, seatNum,"자리이동");
-							frame.seatInfoRefresh(inMsg.getUserID(),inMsg.getSeatNum()); 
+							frame.seatInfoRefresh(inMsg.getUserID(),inMsg.getSeatNum(), Server.seatMap); 
 							break;
 						}
 						case 5: {	// 시간충전
@@ -133,7 +136,7 @@ public class ServerHandler implements Runnable{
 //							}
 							UserVO uvo = dao.getUser(id);
 							outMsg.setRemain(uvo.getRemain());
-							frame.seatInfoRefresh(inMsg.getUserID(), inMsg.getSeatNum()); 
+							frame.seatInfoRefresh(inMsg.getUserID(),inMsg.getSeatNum(), Server.seatMap); 
 							break;
 						}
 						case 7: {	// ID 중복확인

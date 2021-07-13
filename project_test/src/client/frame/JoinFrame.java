@@ -224,7 +224,7 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 			if(nameF.getText().equals("")) {
 				JOptionPane.showConfirmDialog(null, "이름을 입력해 주세요", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 			}
-			lFrame = new LoginFrame();
+			lFrame = new LoginFrame(false);
 			
 			//받은 정보 보내기
 			Message outMsg = new Message();

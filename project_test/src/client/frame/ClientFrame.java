@@ -101,7 +101,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		noticeTimeL.setFont(fLabel);
 		noticeTimeL.setBounds(381, 39, 91, 15);
 
-		seatCB = new JComboBox();
+		seatCB = new JComboBox<String>();
 		seatCB.setMaximumRowCount(5);
 		seatCB.setModel(new DefaultComboBoxModel<String>(seatNum));
 		seatCB.setBackground(new Color(224, 224, 224));
@@ -128,6 +128,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		purchaseBt.setBorderPainted(false);
 		purchaseBt.setFocusPainted(false);
 
+		chatF.setEditable(false);
 		chatF.setLineWrap(true);
 		scrollPane.setBounds(30, 140, 430, 370);
 
@@ -153,7 +154,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		clientPanel.add(logoutBt);
 		clientPanel.add(purchaseBt);
 		clientPanel.add(seatCB);
-		clientPanel.add(chatF);
+		// clientPanel.add(textArea);
 		clientPanel.add(scrollPane);
 		clientPanel.add(textField);
 		clientPanel.add(sendBt);
@@ -192,7 +193,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		if(logoutBt == e.getSource()) {
 			dispose();
 			
-			lFrame = new LoginFrame();
+			lFrame = new LoginFrame(false);
 			
 			Message outMsg = new Message();
 			outMsg.setUserID(id);
@@ -213,29 +214,23 @@ public class ClientFrame extends JFrame implements ActionListener {
 			pFrame = new PurchaseFrame();
 		}
 
-//		 if(sendBt == e.getSource()){
-//		 	String chat = chatF.getText();
-//		 	//chatF 필드에 아무것도 입력하지 않았을때 동작하지 않음
-//		 	if(chat == "") return;
-//		 	int seat = Integer.parseInt(chat);
-//		 	//배정되지 않은 좌석일때 알림
-//		 	if(!Server.seatMap.containsKey(seat)){
-//		 		JOptionPane.showMessageDialog(null, "미사용 좌석입니다.");
-//		 		return;
-//		 	}
-//		 	Message outMsg = new Message();
-//		 	outMsg.setChat(chat);
-//		 	outMsg.setState(8);
-//		 	try {
-//		 		//채팅 해당 좌석 사용자에게 전송
-//		 		Server.seatMap.get(seat).writeObject(outMsg);
-//		 		//서버프레임에 전송한 내용 표시
-//		 		echoChat(seat,chat);
-//		 	} catch (IOException e1) {
-//		 		// TODO Auto-generated catch block
-//		 		e1.printStackTrace();
-//		 	}
-//		 }
+		if(sendBt == e.getSource()){
+			String chat = textField.getText();
+			//chatF 필드에 아무것도 입력하지 않았을때 동작하지 않음
+			if(chat == "") return;
+			Message outMsg = new Message();
+			outMsg.setChat(chat);
+			outMsg.setState(8);
+			try {
+				//채팅 해당 좌석 사용자에게 전송
+				ClientHandler.oos.writeObject(outMsg);
+				//서버프레임에 전송한 내용 표시
+				echoChat(seat,chat);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 		
 	}
 	
@@ -272,7 +267,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 					JOptionPane.WARNING_MESSAGE);
 		} else if (remain == 0) {
 			// 잔여시간이 0이 되면 종료
-			JOptionPane.showConfirmDialog(null, "종료되었습니다.", "경고", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "자동 종료되었습니다.", "경고", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.WARNING_MESSAGE);
 			task.cancel();
 			// 종료알림
@@ -286,15 +281,14 @@ public class ClientFrame extends JFrame implements ActionListener {
 	}
 
 	public void updateChat(String chat){
-		chatF.append("[관리자]: "+chat);
+		chatF.append("[관리자]: "+chat+"\n");
 		chatF.setCaretPosition(chat.length());
 	}
 
-	// public void echoChat(int seat,String chat){
-	// 	chatF.append("["+name+"]: "+chat+"\n");
-	// 	chatF.setCaretPosition(chat.length());
-	// }
-
+	public void echoChat(int seat,String chat){
+		chatF.append("["+name+"]: "+chat+"\n");
+		chatF.setCaretPosition(chat.length());
+	}
 
 //	public static void main(String[] args) {
 //		new ClientFrame();

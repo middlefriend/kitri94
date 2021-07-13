@@ -6,14 +6,14 @@ import java.net.Socket;
 import client.frame.*;
 
 public class Client {
-	
+
 	public static void main(String[] args) {
 		Socket socket = null; 
 		//서버 ip
 		final String serverIp = "localhost";
 		//서버 port
 		final int serverPort = 7777;
-		LoginFrame login = new LoginFrame();
+		LoginFrame login = new LoginFrame(false);
 
 		try {
 			//서버 소켓 연결

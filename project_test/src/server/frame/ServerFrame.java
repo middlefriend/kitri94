@@ -3,6 +3,8 @@ package server.frame;
 import javax.swing.*;
 import server.program.*;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -35,7 +37,6 @@ public class ServerFrame extends JFrame implements ActionListener {
 	JTextField chatF;
 	JLabel chatL;
 	
-	String name;
 	int seat;
 	
 	private JScrollPane scrollPane = new JScrollPane(chat);
@@ -69,11 +70,6 @@ public class ServerFrame extends JFrame implements ActionListener {
 		seatPanel.setBackground(new Color(224,224,224));
 		seatPanel.setLayout(null);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(320, 110, 300, 330);
-		scrollPane.setBackground(new Color(224,224,224));
-		scrollPane.setLayout(null);
-		
 		for(int i = 0; i < btn.length; i++) {
 			btn[i] = new JButton();	
 		}
@@ -81,29 +77,38 @@ public class ServerFrame extends JFrame implements ActionListener {
 		buttonSetting();
 
 		chatL = new JLabel();
-		chatL.setBounds(0, 0, 300, 300);
-		
+		chatL.setBounds(325, 70, 300, 30);
 		chatF = new JTextField();
-		chatF.setBounds(0, 300, 230, 30);
+		chatF.setBounds(320, 410, 230, 30);
 		
 		chatBt = new JButton("send");
-		chatBt.setBounds(230, 300, 68, 28);
+		chatBt.setBounds(551, 410, 68, 28);
 		chatBt.setBackground(Color.lightGray);
 		chatBt.setBorderPainted(true);
 		chatBt.setFocusPainted(false);
-		
+
+		chat = new JTextArea();
+		chat.setEditable(false);
+		chat.setBackground(new Color(224,224,224));
+
+		scrollPane = new JScrollPane(chat);
+		scrollPane.setBounds(320, 110, 300, 300);
+		// scrollPane.setBackground(new Color(224,224,224));
+
 		for(int i = 0; i < btn.length; i++) {
 			seatPanel.add(btn[i]);
 		}
 		
-		scrollPane.add(chatL);
-		scrollPane.add(chatBt);
-		scrollPane.add(chatF);
+		serverPanel.add(chatL);
+		serverPanel.add(chatBt);
+		serverPanel.add(chatF);
+		// serverPanel.add(chat);
 		
 		serverPanel.add(vipL);
 		serverPanel.add(seatL);
 		serverPanel.add(seatPanel);
-		serverPanel.add(scrollPane, BorderLayout.CENTER);
+		// serverPanel.add(scrollPane,BorderLayout.CENTER);
+		serverPanel.add(scrollPane);
 		
 		this.setContentPane(serverPanel);
 		eventList();
@@ -115,7 +120,7 @@ public class ServerFrame extends JFrame implements ActionListener {
 		for(int i = 0; i < btn.length; i++) {
 			btn[i].addActionListener(this);
 		}
-		
+		chatBt.addActionListener(this);	
 	}
 
 	public void buttonSetting() {
@@ -220,19 +225,18 @@ public class ServerFrame extends JFrame implements ActionListener {
 		btn[19].setBorderPainted(false);
 		btn[19].setFocusPainted(false);
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		for(int i = 0; i < btn.length; i ++) {
 			if(btn[i] == e.getSource()) {
-				System.out.println(btn[i].getText());
-				seat = i;
+				seat = i+1;
+				chatL.setText((i+1)+"번 좌석");
 			}
 		}
 		if(chatBt == e.getSource()){
 			String chat = chatF.getText();
 			//chatF 필드에 아무것도 입력하지 않았을때 동작하지 않음
-			if(chat == "") return;
+			if(chat.equals("")) return;
 			//배정되지 않은 좌석일때 알림
 			if(!Server.seatMap.containsKey(seat)){
 				JOptionPane.showMessageDialog(null, "미사용 좌석입니다.");
@@ -254,25 +258,26 @@ public class ServerFrame extends JFrame implements ActionListener {
 
 	}
 	
-	public void seatInfoRefresh(String userID, int seat) {
+	public void seatInfoRefresh(String userID, int seatNum, HashMap<Integer, ObjectOutputStream> seatMap) {
 		for (int i = 0; i < 20; i++) {
-			if(seat == i+1) {
-				btn[i].setText("<HTML><center>" + String.valueOf(i+1) + "</center><br>" + userID + "</HTML>");				
-			}else {
-				btn[i].setText("<HTML><center>" + String.valueOf(i+1) + "</center></HTML>");
+			System.out.println(seatMap.containsKey(i + 1));
+			if (seatMap.containsKey(i + 1) && (i + 1) == seatNum) {
+				btn[i].setText("<HTML><center>" + String.valueOf(i + 1) + "</center><br>" + userID + "</HTML>");
+			} else if (seatMap.containsKey(i + 1) == false) {
+				btn[i].setText("<HTML><center>" + String.valueOf(i + 1) + "</center></HTML>");
 			}
-				
+
 		}
 	}
 
 	public void updateChat(int seat,String chat){
-		System.out.println("["+seat+"번 좌석]: "+chat+"\n");
+		System.out.println("["+seat+"번 좌석]: "+chat);
 		this.chat.append("["+seat+"번 좌석]: "+chat+"\n");
 		this.chat.setCaretPosition(chat.length());
 	}
 
 	public void echoChat(int seat,String chat){
-		System.out.println("[관리자]>["+seat+"번 좌석]: "+chat+"\n");
+		System.out.println("[관리자]>["+seat+"번 좌석]: "+chat);
 		this.chat.append("[관리자]>["+seat+"번 좌석]: "+chat+"\n");
 		this.chat.setCaretPosition(chat.length());
 	}

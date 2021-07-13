@@ -12,24 +12,28 @@ import server.frame.ServerFrame;
 public class Server {
 	
 	public static HashSet<ServerHandler> serverSet = new HashSet<ServerHandler>();
-	public static ServerFrame sframe;
+	public static ServerFrame frame;
 	public static HashMap<Integer, ObjectOutputStream> seatMap = new HashMap<Integer, ObjectOutputStream>();
 	
 	public static void main(String[] args) {
 		
-		System.out.println("test");
+		
+		frame=null;
+		
+		LoginFrame lf = new LoginFrame(true);
+		
 		
 		ServerSocket serverSocket = null;
 		//서버 port
 		final int serverPort = 7777;
-		sframe = new ServerFrame();
+//		sframe = new ServerFrame();
 		try {
 			serverSocket = new ServerSocket(serverPort);
 			System.out.println("서버 시작");
 			while(true) {
 				//서버 소켓 연결
 				Socket socket = serverSocket.accept();
-				ServerHandler serverHandler= new ServerHandler(socket, sframe);
+				ServerHandler serverHandler= new ServerHandler(socket, frame);
 				serverSet.add(serverHandler);
 				System.out.println("클라이언트 접속 완료 -("+serverSet.size()+")");
 				
