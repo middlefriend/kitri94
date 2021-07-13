@@ -82,8 +82,6 @@ public class ServerFrame extends JFrame implements ActionListener {
 		chatBt.setFocusPainted(false);
 
 		chat = new JTextArea();
-		// chat.setBounds(320, 110, 300, 300);
-		// chat.setBounds(0, 0, 300, 300);
 		chat.setEditable(false);
 		chat.setBackground(new Color(224,224,224));
 

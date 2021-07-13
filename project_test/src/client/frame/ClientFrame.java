@@ -126,6 +126,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		purchaseBt.setBorderPainted(false);
 		purchaseBt.setFocusPainted(false);
 
+		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		scrollPane.setBounds(30, 140, 430, 370);
 
@@ -151,7 +152,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		clientPanel.add(logoutBt);
 		clientPanel.add(purchaseBt);
 		clientPanel.add(seatCB);
-		clientPanel.add(textArea);
+		// clientPanel.add(textArea);
 		clientPanel.add(scrollPane);
 		clientPanel.add(textField);
 		clientPanel.add(sendBt);
@@ -276,7 +277,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 	}
 
 	public void updateChat(String chat){
-		textArea.append("[관리자]: "+chat);
+		textArea.append("[관리자]: "+chat+"\n");
 		textArea.setCaretPosition(chat.length());
 	}
 
