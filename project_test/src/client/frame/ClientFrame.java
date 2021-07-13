@@ -30,6 +30,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 	JButton changeBt;
 	JButton logoutBt;
 	JButton purchaseBt;
+	JButton sendBt;
 	
 	Timer timer;
 	TimerTask task;
@@ -98,7 +99,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		noticeTimeL.setFont(fLabel);
 		noticeTimeL.setBounds(381, 39, 91, 15);
 
-		seatCB = new JComboBox<String>();
+		seatCB = new JComboBox();
 		seatCB.setMaximumRowCount(5);
 		seatCB.setModel(new DefaultComboBoxModel<String>(seatNum));
 		seatCB.setBackground(new Color(224, 224, 224));
@@ -131,8 +132,14 @@ public class ClientFrame extends JFrame implements ActionListener {
 		textField = new JTextField();
 		textField.setBackground(new Color(224, 224, 224));
 		textField.setForeground(Color.BLACK);
-		textField.setBounds(30, 509, 430, 30);
+		textField.setBounds(30, 509, 360, 30);
 		textField.setColumns(10);
+		
+		sendBt = new JButton("send");
+		sendBt.setFont(fBt);
+		sendBt.setBounds(390, 509, 69, 29);
+		sendBt.setBackground(new Color(224, 224, 224));
+		sendBt.setFocusPainted(false);
 		
 		clientPanel.add(pcroomNameL);
 		clientPanel.add(userIdL);
@@ -147,6 +154,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		clientPanel.add(textArea);
 		clientPanel.add(scrollPane);
 		clientPanel.add(textField);
+		clientPanel.add(sendBt);
 
 		this.setContentPane(clientPanel);
 		eventList();
@@ -156,6 +164,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		changeBt.addActionListener(this);
 		logoutBt.addActionListener(this);
 		purchaseBt.addActionListener(this);
+		sendBt.addActionListener(this);
 	}
 
 	@Override
@@ -198,6 +207,24 @@ public class ClientFrame extends JFrame implements ActionListener {
 		//시간구매
 		if(purchaseBt == e.getSource()) {
 			lFrame.pFrame = new PurchaseFrame();
+		}
+		
+		if(sendBt == e.getSource()){
+			String chat = textField.getText();
+			//chatF 필드에 아무것도 입력하지 않았을때 동작하지 않음
+			if(chat == "") return;
+			Message outMsg = new Message();
+			outMsg.setChat(chat);
+			outMsg.setState(8);
+			try {
+				//채팅 해당 좌석 사용자에게 전송
+				ClientHandler.oos.writeObject(outMsg);
+				//서버프레임에 전송한 내용 표시
+				echoChat(seat,chat);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 	}
@@ -250,6 +277,11 @@ public class ClientFrame extends JFrame implements ActionListener {
 
 	public void updateChat(String chat){
 		textArea.append("[관리자]: "+chat);
+		textArea.setCaretPosition(chat.length());
+	}
+
+	public void echoChat(int seat,String chat){
+		textArea.append("["+name+"]: "+chat+"\n");
 		textArea.setCaretPosition(chat.length());
 	}
 
