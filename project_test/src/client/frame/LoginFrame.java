@@ -2,21 +2,32 @@ package client.frame;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.*;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.HashMap;
 
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import client.program.ClientHandler;
 import message.Message;
 import pcuser.UserDAO;
-import pcuser.UserVO;
 import server.frame.ServerFrame;
 import server.program.Server;
 
 public class LoginFrame extends JFrame implements ActionListener {
-	
+
 	JPanel loginPanel;
 
 	JLabel loginL;
@@ -34,18 +45,18 @@ public class LoginFrame extends JFrame implements ActionListener {
 	JButton joinBt;
 	JButton purchaseBt;
 	JButton exitBt;
-	
+
 	JLabel inputLabel;
 
 	public JoinFrame jFrame;
 	public PurchaseFrame pFrame;
 	public ClientFrame cFrame;
-	
+
 	String id;
 	int seat;
-	
+
 	boolean admin;
-	
+
 	Font fTitleLabel = new Font("굴림", Font.BOLD, 25);
 	Font fLabel = new Font("굴림", Font.PLAIN, 12);
 	Font fBt = new Font("굴림", Font.PLAIN, 12);
@@ -56,14 +67,17 @@ public class LoginFrame extends JFrame implements ActionListener {
 	String[] seatNum = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17",
 			"18", "19", "20" };
 
+	Image icon = new ImageIcon("./project_test/img/icon.png").getImage();
+
 	public LoginFrame(boolean admin) {
 		this.admin = admin;
 		this.setTitle("VIP LOGIN");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setBounds(100, 100, 300, 300);
 		this.setLayout(null);
 		setComponent();
 		this.setVisible(true);
+		this.setIconImage(icon);
 	}
 
 	public void setComponent() {
@@ -172,7 +186,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 			jFrame = new JoinFrame();
 			dispose();
 		}
-				
+
 		// 로그인
 		if (loginBt == e.getSource()) {
 			seat = Integer.parseInt(seatCB.getSelectedItem().toString());
@@ -195,12 +209,11 @@ public class LoginFrame extends JFrame implements ActionListener {
 						dispose();
 						Server.frame = new ServerFrame();
 						// 서버핸들러로 돌아가서 실행
-					}
-						else {
+					} else {
 						JOptionPane.showConfirmDialog(null, "관리자 계정으로 접속해 주십시오.", "경고", JOptionPane.DEFAULT_OPTION,
 								JOptionPane.WARNING_MESSAGE);
 					}
-				}else {
+				} else {
 					JOptionPane.showConfirmDialog(null, "관리자 계정으로 접속해 주십시오.", "경고", JOptionPane.DEFAULT_OPTION,
 							JOptionPane.WARNING_MESSAGE);
 				}
@@ -219,13 +232,12 @@ public class LoginFrame extends JFrame implements ActionListener {
 			}
 		}
 	}
-		
+
 	public void loginResult(int result, int remain, String name, String id) {
-		if(result == (-1)) {
+		if (result == (-1)) {
 			JOptionPane.showConfirmDialog(null, "이미 선택된 좌석입니다.", "경고", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.WARNING_MESSAGE);
-		}
-		else if (result != 0) {
+		} else if (result != 0) {
 			if (remain == 0) {
 				JOptionPane.showConfirmDialog(null, "시간을 충전해 주세요.", "경고", JOptionPane.DEFAULT_OPTION,
 						JOptionPane.WARNING_MESSAGE);

@@ -1,86 +1,96 @@
 package server.frame;
 
-import javax.swing.*;
-import server.program.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 // import java.awt.event.MouseEvent;
 // import java.awt.event.MouseListener;
 import message.Message;
-import server.program.*;
-
+import server.program.Server;
 
 public class ServerFrame extends JFrame implements ActionListener {
 
 	JPanel serverPanel;
 	JPanel seatPanel;
 	JTextArea chat;
-	
+
 	JButton chatBt;
 
-	JButton num1,num2,num3,num4,num5,num6,num7,num8,num9,num10;
-	JButton num11,num12,num13,num14,num15,num16,num17,num18,num19,num20;
-	
-	JButton[] btn = {num1, num2,num3,num4,num5,num6,num7,num8,num9,num10,
-			num11,num12,num13,num14,num15,num16,num17,num18,num19,num20};
-	
+	JButton num1, num2, num3, num4, num5, num6, num7, num8, num9, num10;
+	JButton num11, num12, num13, num14, num15, num16, num17, num18, num19, num20;
+
+	JButton[] btn = { num1, num2, num3, num4, num5, num6, num7, num8, num9, num10, num11, num12, num13, num14, num15,
+			num16, num17, num18, num19, num20 };
+
 	JLabel vipL;
 	JLabel seatL;
 	JTextField chatF;
 	JLabel chatL;
-	
+
 	int seat;
-	
+
 	private JScrollPane scrollPane = new JScrollPane(chat);
-	
+
+	Image icon = new ImageIcon("./project_test/img/icon.png").getImage();
+
 	public ServerFrame() {
 		this.setTitle("vip pc room");
 		this.setBounds(100, 100, 650, 500);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(null);
 //		this.name = name;
 		setComponent();
 		this.setVisible(true);
+
+		this.setIconImage(icon);
+
 	}
-	
-	
+
 	public void setComponent() {
 		serverPanel = new JPanel();
 		serverPanel.setBounds(0, 0, 650, 500);
 		serverPanel.setLayout(null);
 		serverPanel.setBackground(Color.white);
-		
+
 		vipL = new JLabel("VIP PC ROOM");
-		vipL.setFont(new Font("Cambria", Font.BOLD,24));
+		vipL.setFont(new Font("Cambria", Font.BOLD, 24));
 		vipL.setBounds(10, 10, 500, 50);
-		
+
 		seatL = new JLabel("좌석현황");
 		seatL.setBounds(10, 70, 500, 30);
-		
+
 		seatPanel = new JPanel();
 		seatPanel.setBounds(10, 110, 300, 330);
-		seatPanel.setBackground(new Color(224,224,224));
+		seatPanel.setBackground(new Color(224, 224, 224));
 		seatPanel.setLayout(null);
-		
-		for(int i = 0; i < btn.length; i++) {
-			btn[i] = new JButton();	
+
+		for (int i = 0; i < btn.length; i++) {
+			btn[i] = new JButton();
 		}
-		
+
 		buttonSetting();
 
 		chatL = new JLabel();
 		chatL.setBounds(325, 70, 300, 30);
 		chatF = new JTextField();
 		chatF.setBounds(320, 410, 230, 30);
-		
+
 		chatBt = new JButton("send");
 		chatBt.setBounds(551, 410, 68, 28);
 		chatBt.setBackground(Color.lightGray);
@@ -89,38 +99,38 @@ public class ServerFrame extends JFrame implements ActionListener {
 
 		chat = new JTextArea();
 		chat.setEditable(false);
-		chat.setBackground(new Color(224,224,224));
+		chat.setBackground(new Color(224, 224, 224));
 
 		scrollPane = new JScrollPane(chat);
 		scrollPane.setBounds(320, 110, 300, 300);
 		// scrollPane.setBackground(new Color(224,224,224));
 
-		for(int i = 0; i < btn.length; i++) {
+		for (int i = 0; i < btn.length; i++) {
 			seatPanel.add(btn[i]);
 		}
-		
+
 		serverPanel.add(chatL);
 		serverPanel.add(chatBt);
 		serverPanel.add(chatF);
 		// serverPanel.add(chat);
-		
+
 		serverPanel.add(vipL);
 		serverPanel.add(seatL);
 		serverPanel.add(seatPanel);
 		// serverPanel.add(scrollPane,BorderLayout.CENTER);
 		serverPanel.add(scrollPane);
-		
+
 		this.setContentPane(serverPanel);
 		eventList();
-		
+
 	}
-	
+
 	public void eventList() {
 
-		for(int i = 0; i < btn.length; i++) {
+		for (int i = 0; i < btn.length; i++) {
 			btn[i].addActionListener(this);
 		}
-		chatBt.addActionListener(this);	
+		chatBt.addActionListener(this);
 	}
 
 	public void buttonSetting() {
@@ -164,7 +174,7 @@ public class ServerFrame extends JFrame implements ActionListener {
 		btn[7].setBackground(Color.lightGray);
 		btn[7].setBorderPainted(false);
 		btn[7].setFocusPainted(false);
-		btn[8] .setText("9");
+		btn[8].setText("9");
 		btn[8].setBounds(170, 110, 50, 50);
 		btn[8].setBackground(Color.lightGray);
 		btn[8].setBorderPainted(false);
@@ -225,20 +235,22 @@ public class ServerFrame extends JFrame implements ActionListener {
 		btn[19].setBorderPainted(false);
 		btn[19].setFocusPainted(false);
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for(int i = 0; i < btn.length; i ++) {
-			if(btn[i] == e.getSource()) {
-				seat = i+1;
-				chatL.setText((i+1)+"번 좌석");
+		for (int i = 0; i < btn.length; i++) {
+			if (btn[i] == e.getSource()) {
+				seat = i + 1;
+				chatL.setText((i + 1) + "번 좌석");
 			}
 		}
-		if(chatBt == e.getSource()){
+		if (chatBt == e.getSource()) {
 			String chat = chatF.getText();
-			//chatF 필드에 아무것도 입력하지 않았을때 동작하지 않음
-			if(chat.equals("")) return;
-			//배정되지 않은 좌석일때 알림
-			if(!Server.seatMap.containsKey(seat)){
+			// chatF 필드에 아무것도 입력하지 않았을때 동작하지 않음
+			if (chat.equals(""))
+				return;
+			// 배정되지 않은 좌석일때 알림
+			if (!Server.seatMap.containsKey(seat)) {
 				JOptionPane.showMessageDialog(null, "미사용 좌석입니다.");
 				return;
 			}
@@ -246,10 +258,10 @@ public class ServerFrame extends JFrame implements ActionListener {
 			outMsg.setChat(chat);
 			outMsg.setState(8);
 			try {
-				//채팅 해당 좌석 사용자에게 전송
+				// 채팅 해당 좌석 사용자에게 전송
 				Server.seatMap.get(seat).writeObject(outMsg);
-				//서버프레임에 전송한 내용 표시
-				echoChat(seat,chat);
+				// 서버프레임에 전송한 내용 표시
+				echoChat(seat, chat);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -257,7 +269,7 @@ public class ServerFrame extends JFrame implements ActionListener {
 		}
 
 	}
-	
+
 	public void seatInfoRefresh(String userID, int seatNum, HashMap<Integer, ObjectOutputStream> seatMap) {
 		for (int i = 0; i < 20; i++) {
 			System.out.println(seatMap.containsKey(i + 1));
@@ -270,21 +282,21 @@ public class ServerFrame extends JFrame implements ActionListener {
 		}
 	}
 
-	public void updateChat(int seat,String chat){
-		System.out.println("["+seat+"번 좌석]: "+chat);
-		this.chat.append("["+seat+"번 좌석]: "+chat+"\n");
+	public void updateChat(int seat, String chat) {
+		System.out.println("[" + seat + "번 좌석]: " + chat);
+		this.chat.append("[" + seat + "번 좌석]: " + chat + "\n");
 		this.chat.setCaretPosition(chat.length());
 	}
 
-	public void echoChat(int seat,String chat){
-		System.out.println("[관리자]>["+seat+"번 좌석]: "+chat);
-		this.chat.append("[관리자]>["+seat+"번 좌석]: "+chat+"\n");
+	public void echoChat(int seat, String chat) {
+		System.out.println("[관리자]>[" + seat + "번 좌석]: " + chat);
+		this.chat.append("[관리자]>[" + seat + "번 좌석]: " + chat + "\n");
 		this.chat.setCaretPosition(chat.length());
 	}
-	
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new ServerFrame();
-		
+
 	}
 }

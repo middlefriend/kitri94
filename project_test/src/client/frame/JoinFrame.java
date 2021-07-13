@@ -2,15 +2,26 @@ package client.frame;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.*;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.ObjectOutput;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import client.program.ClientHandler;
 import message.Message;
-import pcuser.UserVO;
 
 public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 
@@ -36,19 +47,19 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 
 	JButton joinBt;
 	JButton exitBt;
-	
-	Font fTitleLabel = new Font("굴림", Font.BOLD, 25);
-    Font fLabel = new Font("굴림", Font.PLAIN, 12);
-    Font fBt = new Font("굴림", Font.PLAIN, 12);
-    
-    Color cFrame = new Color(255, 255, 255);
-    Color cBt = new Color(224, 224, 224);
 
-    int idCheck;
-    int pwdCheck;
-    
-    public LoginFrame lFrame;
-    
+	Font fTitleLabel = new Font("굴림", Font.BOLD, 25);
+	Font fLabel = new Font("굴림", Font.PLAIN, 12);
+	Font fBt = new Font("굴림", Font.PLAIN, 12);
+
+	Color cFrame = new Color(255, 255, 255);
+	Color cBt = new Color(224, 224, 224);
+	Image icon = new ImageIcon("./project_test/img/icon.png").getImage();
+	int idCheck;
+	int pwdCheck;
+
+	public LoginFrame lFrame;
+
 	public JoinFrame() {
 		this.setTitle("회원 가입");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -56,6 +67,7 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 		this.setLayout(null);
 		setComponent();
 		this.setVisible(true);
+		this.setIconImage(icon);
 	}
 
 	public void setComponent() {
@@ -84,39 +96,39 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 		idCheckBt.setBackground(cBt);
 		idCheckBt.setBorderPainted(false);
 		idCheckBt.setFocusPainted(false);
-		
+
 		idCheckL = new JLabel();
 		idCheckL.setLabelFor(idF);
 		idCheckL.setFont(fLabel);
 		idCheckL.setForeground(Color.BLACK);
 		idCheckL.setBounds(107, 117, 239, 15);
-		
+
 		pwdL = new JLabel("비밀번호 : ");
 		pwdL.setHorizontalAlignment(SwingConstants.RIGHT);
 		pwdL.setFont(fLabel);
 		pwdL.setBounds(12, 146, 90, 15);
 		pwdL.setLabelFor(pwdF);
-		
+
 		pwdF = new JPasswordField();
 		pwdF.setColumns(10);
 		pwdF.setBounds(107, 143, 239, 21);
-		
+
 		pwdCheckL = new JLabel("비밀번호를 입력하세요");
 		pwdCheckL.setLabelFor(pwdF);
 		pwdCheckL.setForeground(Color.BLACK);
 		pwdCheckL.setFont(fLabel);
 		pwdCheckL.setBounds(107, 174, 239, 15);
-		
+
 		pwdOkL = new JLabel("비밀번호확인 : ");
 		pwdOkL.setHorizontalAlignment(SwingConstants.RIGHT);
 		pwdOkL.setFont(fLabel);
 		pwdOkL.setBounds(12, 202, 90, 15);
 		pwdOkL.setLabelFor(pwdOkF);
-		
+
 		pwdOkF = new JPasswordField();
 		pwdOkF.setColumns(10);
 		pwdOkF.setBounds(107, 199, 239, 21);
-		
+
 		pwdOkCheckL = new JLabel();
 		pwdOkCheckL.setLabelFor(pwdOkF);
 		pwdOkCheckL.setForeground(Color.BLACK);
@@ -145,7 +157,7 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 		exitBt.setBackground(cBt);
 		exitBt.setBorderPainted(false);
 		exitBt.setFocusPainted(false);
-		
+
 		joinPanel.add(joinL);
 		joinPanel.add(idL);
 		joinPanel.add(idF);
@@ -161,7 +173,7 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 		joinPanel.add(nameF);
 		joinPanel.add(joinBt);
 		joinPanel.add(exitBt);
-		
+
 		this.setContentPane(joinPanel);
 		eventList();
 	}
@@ -173,7 +185,7 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 		joinBt.addActionListener(this);
 		exitBt.addActionListener(this);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// ID확인 버튼
@@ -188,7 +200,7 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 			Message outMsg = new Message();
 			outMsg.setUserID(id);
 			outMsg.setState(1);
-			
+
 			ObjectOutput oos = ClientHandler.oos;
 			try {
 				oos.writeObject(outMsg);
@@ -198,40 +210,45 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 			}
 		}
 
-		//회원가입 버튼
-		if(joinBt == e.getSource()) {
+		// 회원가입 버튼
+		if (joinBt == e.getSource()) {
 			String id = idF.getText();
 			String pwd = pwdF.getText();
 			String name = nameF.getText();
-			if(idCheck != 0) {
-				JOptionPane.showConfirmDialog(null, "사용 가능한 ID를 입력해 주세요.", "경고", JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+			if (idCheck != 0) {
+				JOptionPane.showConfirmDialog(null, "사용 가능한 ID를 입력해 주세요.", "경고", JOptionPane.DEFAULT_OPTION,
+						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-			if(pwdF.getText().equals("") ) {
-				JOptionPane.showConfirmDialog(null, "비밀번호를 입력해 주세요.", "경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+			if (pwdF.getText().equals("")) {
+				JOptionPane.showConfirmDialog(null, "비밀번호를 입력해 주세요.", "경고", JOptionPane.DEFAULT_OPTION,
+						JOptionPane.WARNING_MESSAGE);
 				pwdF.requestFocus();
 				return;
 			}
-			if(pwdOkF.getText().equals("") ) {
-				JOptionPane.showConfirmDialog(null, "비밀번호를 확인해 주세요", "경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+			if (pwdOkF.getText().equals("")) {
+				JOptionPane.showConfirmDialog(null, "비밀번호를 확인해 주세요", "경고", JOptionPane.DEFAULT_OPTION,
+						JOptionPane.WARNING_MESSAGE);
 				pwdF.requestFocus();
 				return;
 			}
-			if(pwdCheck==0 ) {
-				JOptionPane.showConfirmDialog(null, "비밀번호가 일치하지 않습니다.", "경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+			if (pwdCheck == 0) {
+				JOptionPane.showConfirmDialog(null, "비밀번호가 일치하지 않습니다.", "경고", JOptionPane.DEFAULT_OPTION,
+						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-			if(nameF.getText().equals("")) {
-				JOptionPane.showConfirmDialog(null, "이름을 입력해 주세요", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+			if (nameF.getText().equals("")) {
+				JOptionPane.showConfirmDialog(null, "이름을 입력해 주세요", "경고", JOptionPane.DEFAULT_OPTION,
+						JOptionPane.WARNING_MESSAGE);
 			}
 			lFrame = new LoginFrame(false);
-			
-			//받은 정보 보내기
+
+			// 받은 정보 보내기
 			Message outMsg = new Message();
 			outMsg.setUserID(id);
 			outMsg.setPwd(pwd);
 			outMsg.setName(name);
-			outMsg.setState(2); //회원 정보 저장, join
+			outMsg.setState(2); // 회원 정보 저장, join
 
 			try {
 				ClientHandler.oos.writeObject(outMsg);
@@ -240,9 +257,9 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 				e1.printStackTrace();
 			}
 		}
-		
-		//취소 버튼
-		if(exitBt == e.getSource()) {
+
+		// 취소 버튼
+		if (exitBt == e.getSource()) {
 			dispose();
 		}
 	}
@@ -263,38 +280,40 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 	public void keyReleased(KeyEvent e) {
 		String pwd = pwdF.getText();
 		String pwdOk = pwdOkF.getText();
-		if(pwd.equals(pwdOk)) {
+		if (pwd.equals(pwdOk)) {
 			pwdOkCheckL.setForeground(Color.black);
 			pwdOkCheckL.setText("비밀번호가 일치합니다.");
-			pwdCheck=1;
-		}else {
+			pwdCheck = 1;
+		} else {
 			pwdOkCheckL.setForeground(Color.red);
 			pwdOkCheckL.setText("비밀번호가 일치하지 않습니다.");
-			pwdCheck=0;
+			pwdCheck = 0;
 		}
 	}
-	
+
 	public void idCheckResult(int result) {
-		if(result == 0) {
+		if (result == 0) {
 			JOptionPane.showMessageDialog(null, "사용 가능한 아이디입니다.");
-		}else {
-			JOptionPane.showConfirmDialog(null, "이미 존재하는 아이디입니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+		} else {
+			JOptionPane.showConfirmDialog(null, "이미 존재하는 아이디입니다.", "경고", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 			idF.setText("");
 			idF.requestFocus();
 			idCheck = 0;
 		}
 	}
-	
+
 	public void joinCheck(int result) {
-		if(result == 1) {
-			JOptionPane.showMessageDialog(null, "가입이 완료되었습니다.","확인",JOptionPane.DEFAULT_OPTION);
+		if (result == 1) {
+			JOptionPane.showMessageDialog(null, "가입이 완료되었습니다.", "확인", JOptionPane.DEFAULT_OPTION);
 			dispose();
-			
-		}else {
-			JOptionPane.showConfirmDialog(null, "잘못된 정보를 입력하였습니다.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+
+		} else {
+			JOptionPane.showConfirmDialog(null, "잘못된 정보를 입력하였습니다.", "경고", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		new JoinFrame();
 	}
