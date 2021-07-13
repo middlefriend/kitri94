@@ -50,7 +50,7 @@ public class ServerFrame extends JFrame implements ActionListener {
 	Image icon = new ImageIcon("./project_test/img/icon.png").getImage();
 
 	public ServerFrame() {
-		this.setTitle("vip pc room");
+		this.setTitle("VIP PC ROOM");
 		this.setBounds(100, 100, 650, 500);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(null);

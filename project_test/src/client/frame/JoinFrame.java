@@ -261,6 +261,7 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 		// 취소 버튼
 		if (exitBt == e.getSource()) {
 			dispose();
+			lFrame = new LoginFrame(true);
 		}
 	}
 
