@@ -194,20 +194,23 @@ public class LoginFrame extends JFrame implements ActionListener {
 	}
 
 	public void loginResult(int result, int remain, String name, String id) {
-		if(remain == 0) {
-			JOptionPane.showConfirmDialog(null, "시간을 충전해 주세요.", "경고", JOptionPane.DEFAULT_OPTION,
-					JOptionPane.WARNING_MESSAGE);
-			pFrame = new PurchaseFrame();
-		}else if(remain != 0) {	
-			if (result != 0) {
-				cFrame = null;
+		if (result == 1) {
+			if(remain == 0) {
+				JOptionPane.showConfirmDialog(null, "시간을 충전해 주세요.", "경고", JOptionPane.DEFAULT_OPTION,
+						JOptionPane.WARNING_MESSAGE);
+				pFrame = new PurchaseFrame();
+			}else{
 				JOptionPane.showMessageDialog(null, "LOGIN 성공!");
 				cFrame = new ClientFrame(this,remain, name, id);
 				dispose();
-			} else {
-				JOptionPane.showConfirmDialog(null, "존재하지 않는 계정입니다.", "경고", JOptionPane.DEFAULT_OPTION,
-						JOptionPane.WARNING_MESSAGE);	
 			}
+		} else if (result == 0){
+			JOptionPane.showConfirmDialog(null, "존재하지 않는 계정입니다.", "경고", JOptionPane.DEFAULT_OPTION,
+				JOptionPane.WARNING_MESSAGE);
+		} else if (result == -1){
+			JOptionPane.showConfirmDialog(null, "이미 사용중인 좌석입니다. 다른 좌석을 선택해주십시오.", "경고", JOptionPane.DEFAULT_OPTION,
+				JOptionPane.WARNING_MESSAGE);
+			seatCB.requestFocus();
 		}
 	}
 

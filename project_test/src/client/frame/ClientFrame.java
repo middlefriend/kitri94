@@ -207,6 +207,10 @@ public class ClientFrame extends JFrame implements ActionListener {
 		}
 		//시간구매
 		if(purchaseBt == e.getSource()) {
+			if(lFrame == null){
+				lFrame = new LoginFrame();
+				lFrame.setVisible(false);
+			}
 			lFrame.pFrame = new PurchaseFrame();
 		}
 		

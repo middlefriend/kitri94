@@ -42,7 +42,7 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 	
 	public PurchaseFrame() {
 		this.setTitle("시간 구매");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setBounds(200, 200, 380, 450);
 		this.setLayout(null);
 		setComponent();
@@ -256,6 +256,7 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		if(purchaseBt == e.getSource()) {
 			if(idCheck==0){
 				JOptionPane.showConfirmDialog(null, "ID를 확인해 주세요.", "경고", JOptionPane.DEFAULT_OPTION);
+				return;
 			}
 			String id = idField.getText();
 			Message outMsg = new Message();
@@ -298,7 +299,6 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		if(result == 1) {
 			JOptionPane.showMessageDialog(null, "시간 충전이 완료되었습니다.");
 			dispose();
-
 		}else {
 			JOptionPane.showConfirmDialog(null, "충전에 실패하였습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 		}
