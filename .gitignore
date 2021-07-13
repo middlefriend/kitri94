@@ -24,3 +24,9 @@ hs_err_pid*
 /bin/
 ./setting*
 #/project_test*
+bin/
+.settings/
+.project/
+
+README.md
+.classpath

@@ -11,7 +11,7 @@ import message.Message;
 public class LoginFrame extends JFrame implements ActionListener {
 	
 	JPanel loginPanel;
-
+	
 	JLabel loginL;
 
 	JLabel idL;

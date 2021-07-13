@@ -60,6 +60,7 @@ public class ClientHandler implements Runnable{
 						}
 						case 6:{
 							login.cFrame.resetTimer(inMsg.getRemain());
+							break;
 						}
 						case 7: {
 							login.pFrame.idCheckResultp(inMsg.getResult());

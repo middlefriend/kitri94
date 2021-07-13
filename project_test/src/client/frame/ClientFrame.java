@@ -99,7 +99,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		noticeTimeL.setFont(fLabel);
 		noticeTimeL.setBounds(381, 39, 91, 15);
 
-		seatCB = new JComboBox();
+		seatCB = new JComboBox<String>();
 		seatCB.setMaximumRowCount(5);
 		seatCB.setModel(new DefaultComboBoxModel<String>(seatNum));
 		seatCB.setBackground(new Color(224, 224, 224));
