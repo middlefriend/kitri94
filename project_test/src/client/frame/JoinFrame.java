@@ -2,6 +2,7 @@ package client.frame;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.ObjectOutput;
@@ -48,13 +49,16 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
     int pwdCheck;
     
     public LoginFrame lFrame;
-    
+	Image icon = new ImageIcon("./img/icon.png").getImage();
+
 	public JoinFrame() {
 		this.setTitle("회원 가입");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setBounds(100, 100, 400, 400);
 		this.setLayout(null);
 		setComponent();
+		this.setIconImage(icon);
+
 		this.setVisible(true);
 	}
 
@@ -242,8 +246,9 @@ public class JoinFrame extends JFrame implements ActionListener, KeyListener {
 		}
 		
 		//취소 버튼
-		if(exitBt == e.getSource()) {
+		if (exitBt == e.getSource()) {
 			dispose();
+			lFrame = new LoginFrame(true);
 		}
 	}
 

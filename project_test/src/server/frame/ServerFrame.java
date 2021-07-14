@@ -1,13 +1,22 @@
 package server.frame;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
+
+import client.program.ClientHandler;
+import hist.HistVO;
 import server.program.*;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -15,10 +24,11 @@ import java.awt.event.MouseListener;
 // import java.awt.event.MouseEvent;
 // import java.awt.event.MouseListener;
 import message.Message;
+import pcuser.UserVO;
 import server.program.*;
 
 
-public class ServerFrame extends JFrame implements ActionListener {
+public class ServerFrame extends JFrame implements ActionListener{
 
 	JPanel serverPanel;
 	JPanel seatPanel;
@@ -40,7 +50,8 @@ public class ServerFrame extends JFrame implements ActionListener {
 	int seat;
 	
 	private JScrollPane scrollPane = new JScrollPane(chat);
-	
+	Image icon = new ImageIcon("./img/icon.png").getImage();
+
 	public ServerFrame() {
 		this.setTitle("vip pc room");
 		this.setBounds(100, 100, 650, 500);
@@ -49,10 +60,13 @@ public class ServerFrame extends JFrame implements ActionListener {
 //		this.name = name;
 		setComponent();
 		this.setVisible(true);
+		this.setIconImage(icon);
+
+		this.setVisible(true);
 	}
 	
 	
-	public void setComponent() {
+		public void setComponent() {
 		serverPanel = new JPanel();
 		serverPanel.setBounds(0, 0, 650, 500);
 		serverPanel.setLayout(null);

@@ -83,6 +83,7 @@ public class ClientHandler implements Runnable{
 							login.cFrame.updateChat(inMsg.getChat());
 							break;
 						}
+						
 					}
 				}
 			}

@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import client.program.ClientHandler;
 import message.Message;
+import pcuser.UserDAO;
 import pcuser.UserVO;
 
 public class PurchaseFrame extends JFrame implements ActionListener {
@@ -41,13 +42,15 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 	int idCheck;
 	
 	public ClientFrame cFrame;
-	
+	Image icon = new ImageIcon("./img/icon.png").getImage();
 	public PurchaseFrame() {
 		this.setTitle("시간 구매");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(200, 200, 380, 450);
 		this.setLayout(null);
 		setComponent();
+		this.setIconImage(icon);
+
 		this.setVisible(true);
 	}
 	
@@ -118,6 +121,7 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		totlaL.setBackground(Color.lightGray);
 		
 		purchaseBt = new JButton();
+		purchaseBt.setEnabled(false);
 		purchaseBt.setText("충전");
 		purchaseBt.setBounds(70, 350, 100, 40);
 		purchaseBt.setBackground(new Color(224,224,224));
@@ -143,6 +147,13 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		purchasePanel.add(totlaL);
 		purchasePanel.add(purchaseBt);
 		purchasePanel.add(cancelBt);
+		
+		thirtyBt.setEnabled(false);
+		oneHourBt.setEnabled(false);
+		twoHourBt.setEnabled(false);
+		fiveHourBt.setEnabled(false);
+		tenHourBt.setEnabled(false);
+		twentyHourBt.setEnabled(false);
 		
 		this.setContentPane(purchasePanel);
 		eventList();
@@ -183,7 +194,7 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
-
+		
 		// 시간
 		if(thirtyBt == e.getSource()) {
 			time += 30;
@@ -251,13 +262,21 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 				totlaL.setText("<HTML><pre> ₩ " + String.valueOf(totalMoney) + "</pre></HTML>");	
 			}
 		}
+		if(
+		(idField.getText()!="") &&(timeL.getText()!="") 
+		) {
+			purchaseBt.setEnabled(true);
+		}
 
 		// 충전
 		if(purchaseBt == e.getSource()) {	
 			String id = idField.getText();
 			Message outMsg = new Message();
 			outMsg.setUserID(id);
-			outMsg.setRemain(time);
+			UserDAO dao = new UserDAO();
+			int basetime = dao.getUser(id).getRemain();
+			
+			outMsg.setRemain(basetime + time);
 			
 			outMsg.setState(5); //purchase
 			
@@ -286,11 +305,23 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		if(idCheck != 0) {
 			JOptionPane.showMessageDialog(null, "아이디가 확인되었습니다. 시간을 선택해 주세요.");
 			idField.setEditable(false);
+			thirtyBt.setEnabled(true);
+			oneHourBt.setEnabled(true);
+			twoHourBt.setEnabled(true);
+			fiveHourBt.setEnabled(true);
+			tenHourBt.setEnabled(true);
+			twentyHourBt.setEnabled(true);
 		}else {
 			JOptionPane.showConfirmDialog(null, "존재하지 않는 아이디입니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 			idField.setText("");
 			idField.requestFocus();
 			idCheck = 0;
+			thirtyBt.setEnabled(false);
+			oneHourBt.setEnabled(false);
+			twoHourBt.setEnabled(false);
+			fiveHourBt.setEnabled(false);
+			tenHourBt.setEnabled(false);
+			twentyHourBt.setEnabled(false);
 		}
 	}
 	

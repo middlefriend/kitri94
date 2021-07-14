@@ -12,11 +12,11 @@ import dbcon.DBConnect;
 
 public class HistDAO {
   // 전체 select
-  public ArrayList<HistVO> getAllHist() {
-    String sql = "SELECT * FROM HISTORY ROWNUM <= 100";
+	public ArrayList<HistVO> getUserHist(String id) {
+	    String sql = "SELECT * FROM HISTORY WHERE USERID= '" + id + "'";
 
-    return  excuteSelect(sql);
-  }
+	    return excuteSelect(sql);
+	  }
 
 
   private ArrayList<HistVO> excuteSelect(String sql) {

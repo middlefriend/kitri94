@@ -2,6 +2,7 @@ package client.frame;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.HashMap;
@@ -40,6 +41,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 	public JoinFrame jFrame;
 	public PurchaseFrame pFrame;
 	public ClientFrame cFrame;
+	public ServerFrame frame;
 	
 	String id;
 	int seat;
@@ -55,6 +57,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 
 	String[] seatNum = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17",
 			"18", "19", "20" };
+	Image icon = new ImageIcon("./img/icon.png").getImage();
 
 	public LoginFrame(boolean admin) {
 		this.admin = admin;
@@ -63,6 +66,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		this.setBounds(100, 100, 300, 300);
 		this.setLayout(null);
 		setComponent();
+		this.setIconImage(icon);
 		this.setVisible(true);
 	}
 

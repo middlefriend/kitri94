@@ -2,6 +2,7 @@ package client.frame;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.*;
 import java.util.Timer;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
 
 import client.program.ClientHandler;
 import client.program.ClientTimer;
@@ -58,16 +60,19 @@ public class ClientFrame extends JFrame implements ActionListener {
     String name;
 	
     int seat;
+	Image icon = new ImageIcon("./img/icon.png").getImage();
 
 	public ClientFrame(int remain, String name, String id) {
 		this.setTitle("VIP PC");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setBounds(100, 100, 500, 600);
 		this.setLayout(null);
 		this.name = name;
 		this.remain = remain;
 		this.id = id;
 		setComponent();
+		this.setIconImage(icon);
+
 		setTimer();
 		this.setVisible(true);
 	}
@@ -210,6 +215,8 @@ public class ClientFrame extends JFrame implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			
+			
 			//history남기기
 		}
 		//시간구매
@@ -279,6 +286,8 @@ public class ClientFrame extends JFrame implements ActionListener {
 			dispose();
 		}
 	}
+	
+
 
 	public void resetTimer(int remain) {
 		this.remain = remain;

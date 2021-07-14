@@ -2,8 +2,10 @@ package server.program;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import hist.HistDAO;
+import hist.HistVO;
 import message.Message;
 import server.frame.*;
 import pcuser.*;
@@ -14,6 +16,7 @@ public class ServerHandler implements Runnable{
 
 	public ServerFrame frame;
 	public UserDAO dao = new UserDAO();
+	public HistDAO hao = new HistDAO();
 	
 	Socket socket;
 	int seatNum = 0;	//배정 받은 좌석 번호(신규일 때 0)
@@ -155,17 +158,24 @@ public class ServerHandler implements Runnable{
 							outMsg.setState(7);
 							outMsg.setResult(result);
 							
-							UserVO uvo = dao.getUser(inMsg.getUserID());
-							outMsg.setUvo(uvo);
-							break;
+							if(result != 0) {
+								UserVO uvo = dao.getUser(inMsg.getUserID());
+								outMsg.setUvo(uvo);
+							}else {
+							outMsg.setResult(result);
+							}
 							//로그인 안하고 충전하면 에러
+							break;
 						}
 						case 8:{	// 채팅
+							if(seatNum != 0) {
 							String str = inMsg.getChat();
 							frame.updateChat(seatNum,str);
 							noNeedReply = true;
 							break;
+							}
 						}
+						
 					}
 					//회신이 필요없는 동작이면 스킵
 					if(noNeedReply) continue;

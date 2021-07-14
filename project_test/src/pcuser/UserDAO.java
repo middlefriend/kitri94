@@ -13,7 +13,7 @@ public class UserDAO {
   // select모음
 
   public int checkID(String id) { // 회원가입 id중복체크 true 1 false 0
-    String sql = "SELECT count(*) FROM PCUSER WHERE USERID = '" + id + "'";
+    String sql = "SELECT USERID FROM PCUSER WHERE USERID = '" + id + "'";
 
     return excuteSelectInt(sql);
   }
