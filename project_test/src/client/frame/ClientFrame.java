@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.*;
 import java.util.Timer;
 
@@ -13,6 +14,8 @@ import javax.swing.*;
 import client.program.ClientHandler;
 import client.program.ClientTimer;
 import message.Message;
+import server.frame.ServerFrame;
+import server.program.Server;
 
 public class ClientFrame extends JFrame implements ActionListener {
 
@@ -47,6 +50,7 @@ public class ClientFrame extends JFrame implements ActionListener {
     
     public LoginFrame lFrame;
     public PurchaseFrame pFrame;
+    public ServerFrame frame;
     // public ClientTimer cTimer;
     
     int remain;

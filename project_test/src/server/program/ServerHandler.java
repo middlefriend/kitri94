@@ -97,18 +97,22 @@ public class ServerHandler implements Runnable{
 								outMsg.setResult(0);
 								break;
 							}
-							//좌석 배정
-							Server.seatMap.put(newSeatNum,this.oos);
+							// 기존 좌석 회수
+							Server.seatMap.remove(this.seatNum);
+							// 좌석 배정
+							Server.seatMap.put(newSeatNum, this.oos);
 							this.seatNum = newSeatNum;
-							//기존 좌석 회수
-							Server.seatMap.remove(seatNum);	
-							//배정 성공 응답
+							// 배정 성공 응답
 							outMsg.setResult(1);
-							//로그
+
+							// 로그
 							HistDAO hdao = new HistDAO();
 							hdao.insertHistory(id, seatNum,"자리이동");
-							frame.seatInfoRefresh(inMsg.getUserID(),inMsg.getSeatNum(), Server.seatMap); 
-							break;
+							frame = frame.returnServerF();
+							
+							frame.seatInfoRefresh(inMsg.getUserID(), inMsg.getSeatNum(), Server.seatMap);
+							break;						
+							
 						}
 						case 5: {	// 시간충전
 							int time = inMsg.getRemain();

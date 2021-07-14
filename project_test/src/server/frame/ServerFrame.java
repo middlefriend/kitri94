@@ -260,7 +260,6 @@ public class ServerFrame extends JFrame implements ActionListener {
 	
 	public void seatInfoRefresh(String userID, int seatNum, HashMap<Integer, ObjectOutputStream> seatMap) {
 		for (int i = 0; i < 20; i++) {
-			System.out.println(seatMap.containsKey(i + 1));
 			if (seatMap.containsKey(i + 1) && (i + 1) == seatNum) {
 				btn[i].setText("<HTML><center>" + String.valueOf(i + 1) + "</center><br>" + userID + "</HTML>");
 			} else if (seatMap.containsKey(i + 1) == false) {
@@ -270,6 +269,10 @@ public class ServerFrame extends JFrame implements ActionListener {
 		}
 	}
 
+	public ServerFrame returnServerF() {
+		return this;
+	}
+	
 	public void updateChat(int seat,String chat){
 		System.out.println("["+seat+"번 좌석]: "+chat);
 		this.chat.append("["+seat+"번 좌석]: "+chat+"\n");

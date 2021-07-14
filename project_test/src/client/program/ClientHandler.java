@@ -5,6 +5,7 @@ import java.net.Socket;
 
 import client.frame.*;
 import message.Message;
+import server.program.Server;
 
 public class ClientHandler implements Runnable{
 	public static ObjectInputStream ois;
