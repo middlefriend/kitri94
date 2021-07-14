@@ -212,6 +212,7 @@ public class ClientFrame extends JFrame implements ActionListener {
 		if(purchaseBt == e.getSource()) {
 			
 			pFrame = new PurchaseFrame();
+			pFrame.getRemainTime(remain);
 		}
 
 		if(sendBt == e.getSource()){

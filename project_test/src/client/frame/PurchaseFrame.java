@@ -277,6 +277,10 @@ public class PurchaseFrame extends JFrame implements ActionListener {
 		}
 		
 	}
+	
+	public void getRemainTime(int time) {
+		this.time += time;
+	}
 
 	public void idCheckResult(int idCheck) {
 		if(idCheck != 0) {

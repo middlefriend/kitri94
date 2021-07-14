@@ -15,10 +15,7 @@ public class HistDAO {
   public ArrayList<HistVO> getAllHist() {
     String sql = "SELECT * FROM HISTORY ROWNUM <= 100";
 
-    ArrayList<HistVO> blist = new ArrayList<HistVO>();
-    blist = excuteSelect(sql);
-
-    return blist;
+    return  excuteSelect(sql);
   }
 
 
@@ -31,9 +28,9 @@ public class HistDAO {
     // return 객체
     ArrayList<HistVO> blist = new ArrayList<HistVO>();
     try {
-      pstmt = conn.prepareStatement(sql);
+      pstmt = conn != null ? conn.prepareStatement(sql) : null;
       // Resultset 결과값 담기
-      rs = pstmt.executeQuery();
+      rs = pstmt != null ? pstmt.executeQuery() : null;
       // List에 결과값 담기
 
       HistVO hvo = null;
@@ -59,7 +56,7 @@ public class HistDAO {
 
 
   // insert (로그인, 로그아웃, 자리이동)
-  public int insertHistory(String id, int seat, String status) { // 성공 시 1반환, 실패 0반환
+  public void insertHistory(String id, int seat, String status) { // 성공 시 1반환, 실패 0반환
     LocalDateTime ldt = LocalDateTime.now();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     int result = 0;
@@ -67,51 +64,38 @@ public class HistDAO {
         + id + "' " + ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + status + "' "
         + "," + seat + ")";
 
-    if (excuteInsert(sql) != 0)
-      result = 1;
-    else
-      result = 0;
-    
-    return result;
+    excuteInsert(sql);
   }
 
 
-	public int insertChargeTime(String id, int time, String status) { //시간충전로그
-		LocalDateTime ldt = LocalDateTime.now();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		int result = 0;
-		String sql = "INSERT INTO HISTORY(HISID, USERID, TIME, STATUS, SEAT) " + "VALUES((select COUNT(HISID) from history) + 1 " + ",'" + id + "' "
-				+ ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + time +status + "' " + "," + null + ")";
+   public void insertChargeTime(String id, int time, String status) { //시간충전로그
+      LocalDateTime ldt = LocalDateTime.now();
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      int result = 0;
+      String sql = "INSERT INTO HISTORY(HISID, USERID, TIME, STATUS, SEAT) " + "VALUES((select COUNT(HISID) from history) + 1 " + ",'" + id + "' "
+            + ",'" + sdf.format(System.currentTimeMillis()) + "' " + ",'" + time +status + "' " + "," + null + ")";
 
-		
-		if (excuteInsert(sql) != 0)
-			result = 1;
-		else
-			result = 0;
-		
-		return result;
-	}
-
-	public int excuteInsert(String sql) {
-    // DB connection 연결
-    Connection conn = DBConnect.getConnection();
-    // 실행쿼리
-    PreparedStatement pstmt = null;
-    // return 값
-    int result = 0;
-    try {
-      // preparedstatement 객체 생성
-      pstmt = conn.prepareStatement(sql);
-      // Resultset 결과값 담기
-      result = pstmt.executeUpdate();
-    } catch (SQLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } finally {
-      DBConnect.checkClose(null, pstmt, conn);
+      excuteInsert(sql);
     }
 
-    return result;
-  }
+   public void excuteInsert(String sql) {
+      // DB connection 연결
+      Connection conn = DBConnect.getConnection();
+      // 실행쿼리
+      PreparedStatement pstmt = null;
+      // return 값
+      int result = 0;
+      try {
+        // preparedstatement 객체 생성
+        pstmt = conn.prepareStatement(sql);
+        // Resultset 결과값 담기
+        result = pstmt.executeUpdate();
+      } catch (SQLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } finally {
+        DBConnect.checkClose(null, pstmt, conn);
+      }
+    }
   // insert end
 }
